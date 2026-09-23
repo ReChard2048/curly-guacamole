@@ -132,6 +132,9 @@ select{background:var(--card2);color:var(--text);border:1px solid var(--line);bo
   font-size:13px;transition:.25s;z-index:50;max-width:80vw
 }
 #toast.show{opacity:1;transform:translate(-50%,0)}
+.searchIn{background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:5px 10px;font-size:13px;width:170px;outline:none}
+.searchIn:focus{border-color:var(--accent)}
+.tw{font-size:11px;color:var(--muted);padding:0 6px;user-select:none}
 </style>
 </head>
 <body>
@@ -143,6 +146,7 @@ select{background:var(--card2);color:var(--text);border:1px solid var(--line);bo
     <span class="chip">平均掌握 <b id="statAvg">0%</b></span>
   </div>
   <div class="tools">
+    <input id="search" class="searchIn" placeholder="搜知识点…" autocomplete="off" />
     <button class="btn" id="btnReload" title="重新读取 tree.json 与所有题库">重新加载</button>
     <button class="btn" id="btnExport">导出进度</button>
     <button class="btn" id="btnImport">导入进度</button>
@@ -175,6 +179,8 @@ const SCAN = { done: 0, total: 0 };
 let P = loadProgress();
 let exam = null;      // { node, bank, qs, i, ans, mode, t0 }
 let selId = null;
+let collapsedSet = new Set();   // 折叠的分类节点 id（点分类行切换）
+let searchActive = false;       // 搜索时空着折叠不管，直接显示匹配链
 
 /* ---------------- progress ---------------- */
 function loadProgress() {
@@ -400,12 +406,43 @@ function renderTree() {
     updateStats();
     return;
   }
+  const matched = computeShow();
   const root = FLAT[0];
   const li = el("li");
   li.appendChild(nodeRow(root));
-  if (root.children.length) { const ul = el("ul"); root.children.forEach(c => appendChildNode(ul, c)); li.appendChild(ul); }
+  if (root.children.length && root._show) {
+    const ul = el("ul");
+    root.children.forEach(c => { if (c._show) appendChildNode(ul, c); });
+    if (ul.children.length) li.appendChild(ul);
+  }
   host.appendChild(li);
+  if (!matched) {
+    const mi = el("li");
+    const mrow = el("div", "node");
+    mrow.appendChild(el("span", "nname", "没有匹配的知识点"));
+    mi.appendChild(mrow);
+    host.appendChild(mi);
+  }
   updateStats();
+}
+// 搜索过滤：节点名字匹配、或有后代匹配，就显示；匹配的链一路到根都可见。
+function computeShow() {
+  const q = String($("#search").value || "").trim().toLowerCase();
+  searchActive = !!q;
+  let matched = !q;
+  (function mark(n) {
+    const selfMatch = !!q && n.name.toLowerCase().includes(q);
+    n._selfMatch = selfMatch;
+    n._subMatch = false;
+    // 不能用 .some 包递归：碰到第一个命中就短路，兄弟节点会漏标
+    for (const c of (n.children || [])) {
+      mark(c);
+      if (c._show) n._subMatch = true;
+    }
+    n._show = !q || selfMatch || n._subMatch;
+    if (selfMatch) matched = true;
+  })(FLAT[0]);
+  return matched;
 }
 // tree.json 里 children 是原始对象（没有 parentId），渲染时一律换成展开后的那份
 function appendChildNode(ul, raw) {
@@ -415,10 +452,11 @@ function appendChildNode(ul, raw) {
 function subTree(node) {
   const li = el("li");
   li.appendChild(nodeRow(node));
-  if (node.children.length) {
+  // 折叠只对分类节点有意义；搜索时忽略折叠，直接显示匹配出来的链
+  if (node.children.length && (searchActive || !collapsedSet.has(node.id))) {
     const ul = el("ul");
-    node.children.forEach(c => appendChildNode(ul, c));
-    li.appendChild(ul);
+    node.children.forEach(c => { if (c._show) appendChildNode(ul, c); });
+    if (ul.children.length) li.appendChild(ul);
   }
   return li;
 }
@@ -439,12 +477,19 @@ function nodeRow(node) {
   }
   row.appendChild(el("span", "nw", w + "%"));
   const bar = el("span", "bar"); const fill = el("i"); fill.style.width = w + "%"; bar.appendChild(fill); row.appendChild(bar);
+  if (isGroup) row.appendChild(el("span", "tw", collapsedSet.has(node.id) ? "▸" : "▾"));
   const gateName = (gate || {}).name || "父节点";
   row.title = !unlocked
     ? (node.name + "：需先通过「" + gateName + "」")
-    : isGroup ? (node.name + "：分类节点，不挡路")
+    : isGroup ? (node.name + "：分类节点，点一下折叠/展开，不挡路")
       : (node.name + "：" + (passed ? "已通过" : "可考核（" + w + "%）"));
-  row.onclick = () => { if (!unlocked) { toast("先通过「" + gateName + "」"); return; } selectNode(node.id); };
+  row.onclick = () => {
+    if (!unlocked) { toast("先通过「" + gateName + "」"); return; }
+    if (isGroup) {
+      if (collapsedSet.has(node.id)) collapsedSet.delete(node.id); else collapsedSet.add(node.id);
+    }
+    selectNode(node.id);
+  };
   return row;
 }
 function updateStats() {
@@ -721,6 +766,7 @@ async function boot(force) {
   }
 }
 
+$("#search").oninput = () => renderTree();
 $("#btnReload").onclick = () => { selId = null; exam = null; boot(true).then(() => toast("已重新加载 tree.json 与题库")); };
 $("#btnReset").onclick = () => { if (confirm("清空所有进度？题目库不会动。")) { P = { nodes: {}, hidden: {}, updated: null }; saveProgress(); selId = null; exam = null; renderTree(); renderDetail(); toast("进度已清空"); } };
 $("#btnExport").onclick = () => {
