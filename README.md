@@ -1,0 +1,141 @@
+# CSP-J 知识树
+
+一个纯前端的知识树考核程序。父节点考到 100% 才解锁子节点，题库按知识点分文件放，加知识点不用改代码。
+
+## 怎么跑
+
+必须起个本地服务（浏览器不允许 `file://` 页面读 json，双击 index.html 是白屏 + 红字提示）。
+
+最简单：双击 `start.bat`。
+
+或者手动：
+
+```bat
+cd /d D:\工作使用\AI工作\knowledge-tree
+python -m http.server 8099
+```
+
+不想用 Python 也行（跑到上一级目录）：
+
+```bat
+cd /d D:\工作使用\AI工作
+node tools/serve.mjs 8099
+```
+
+然后浏览器开 <http://localhost:8099/> 。
+
+## 改完题库怎么查错
+
+```bat
+cd /d D:\工作使用\AI工作
+node tools/check-bank.mjs
+```
+
+它会扫 tree.json 和所有题库，报出：json 语法错误、answer 下标越界、判断题写成数组、multi 的 answer 不是数组、选项重复、题目数不够等。改题库后跑一下，比在页面上踩坑快。
+
+## 文件结构
+
+```
+knowledge-tree/
+├── index.html                 # 程序本体，不用改
+├── tree.json                  # 知识树结构（谁来定？就这里定）
+├── README.md
+└── bank/
+    ├── basics-variables.json  # 变量与数据类型（样板：12 公开 + 6 隐藏）
+    └── basics-operators.json  # 运算符与表达式（样板：10 公开 + 4 隐藏）
+```
+
+## 规则（已确认的那套）
+
+- 权值 = 本次答对题数 / 本次题数，**全对才是 100%**。
+- 一个节点 100% 后，**永久**保持 100%，子节点永久解锁（父子门槛，方案 A）。
+- 通过一次后，该节点的**隐藏题库永久启用**，之后可以抽「公开 + 隐藏」或「仅隐藏」，防止背题。
+- 每次抽题优先挑「最近三轮没考过的题」，和上一次不会完全一样。选项顺序也每次打乱（判断题固定「正确 / 错误」）。
+- 重考不限次数。重考没考到 100% 不会把已通过的节点降回去。
+- 进度存在浏览器 localStorage 里，可以「导出进度 / 导入进度」搬走或备份。
+
+### 分类节点怎么办（gateMode）
+
+像「编程基础」「控制结构」这种只是分类、没打算出题的节点，如果也算门槛，整棵树就锁死了。所以 tree.json 里有个开关：
+
+- `"gateMode": "transparent"`（默认）：**没有题库的节点不挡路**，门槛交给一路往上最近的有题库的祖先。分类节点在树里标「分类」。
+- `"gateMode": "strict"`：严格父子，每一层都得考过 —— 那就得给分类节点也配题库。
+
+改成 strict 只需要动 tree.json 里这一个词，代码不用碰。
+
+## tree.json
+
+```jsonc
+{
+  "version": 1,
+  "title": "CSP-J 知识树",
+  "examSize": 10,          // 每次考几题（节点里可以单独覆盖）
+  "passScore": 100,        // 通过线，固定 100
+  "gateMode": "transparent",  // 见上面「分类节点怎么办」
+  "root": {
+    "id": "basics-variables",
+    "name": "变量与数据类型",
+    "desc": "随便写点介绍",
+    "bank": "bank/basics-variables.json",   // 可省略，默认 bank/<id>.json
+    "examSize": 10,                          // 可省略，继承顶层
+    "children": [ /* 同样是节点对象，随便套几层 */ ]
+  }
+}
+```
+
+加一个知识点：在 `children` 里加个对象，`id` 起个唯一名，再建 `bank/<id>.json`。刷新页面就出来了，代码一行不用动。
+
+## bank/<id>.json
+
+```jsonc
+{
+  "id": "basics-variables",
+  "name": "变量与数据类型",
+  "visible": [ /* 公开题，考核默认从这里抽 */ ],
+  "hidden":  [ /* 隐藏题，通过一次后永久解锁 */ ]
+}
+```
+
+### 四种题型
+
+```jsonc
+// 单选
+{ "type": "single", "q": "题干", "options": ["A", "B", "C"], "answer": 1 }
+
+// 多选（answer 是下标数组，全对才算对）
+{ "type": "multi", "q": "题干", "options": ["A", "B", "C"], "answer": [0, 2] }
+
+// 判断（answer 写 true / false，也可以用 "T"/"F"/"对"）
+{ "type": "judge", "q": "题干", "answer": true }
+
+// 程序阅读：用 code 字段放代码，题干里也能直接写 ```cpp 围栏
+{
+  "type": "single",
+  "q": "阅读以下程序，输出是？",
+  "code": "int a = 7, b = 2;\ncout << a / b;",
+  "options": ["3.5", "3", "4", "3.0"],
+  "answer": 1,
+  "explain": "两个 int 相除是整除。"
+}
+```
+
+可选字段：`id`（题号，用于「别重复出上次那套」）、`explain`（结算时显示的解析）、`code`。
+
+`type` 也认中文别名：`单选` / `多选` / `判断`。
+
+### 写题时的两个提醒
+
+- json 里换行要写 `\n`，代码建议放 `code` 字段，省得转义。
+- 每个知识点建议 **公开 ≥ 30 题、隐藏 ≥ 30 题**（题量够了「每次都不一样」才真的不一样）。现在只有 10 题左右是样板，够了自然会轮换。
+
+## 后面想扩展
+
+- **题型**：想加新题型（比如填空、程序改错），在 `index.html` 里的 `qType` / `normalize` / 渲染那三处加分支就行；未知 `type` 目前会退回单选。
+- **通过线 / 题数**：顶层 `passScore`、`examSize` 改一下；单节点也能覆盖。
+- **多棵树**：把 `tree.json` 换个名字，改 `index.html` 里 `loadTree()` 的路径即可。
+- **进度后端化**：现在存 localStorage，想同步到服务器就替换 `loadProgress` / `saveProgress` 两个函数。
+
+## 配套工具（在上一级 tools/ 里）
+
+- `tools/check-bank.mjs` —— 题库校验器，改完 json 跑一下。
+- `tools/serve.mjs` —— 不用 Python 的本地静态服务。

@@ -1,0 +1,326 @@
+{
+  "version": 1,
+  "title": "CSP-J 知识树",
+  "examSize": 10,
+  "passScore": 100,
+  "gateMode": "transparent",
+  "notes": [
+    "节点字段：id（唯一，也是题库文件名）、name、desc、children、可选 bank（默认 bank/<id>.json）、可选 examSize。",
+    "解锁规则（方案 A 父子门槛）：知识点考到 100% 后，子节点永久解锁。",
+    "gateMode: transparent（默认）= 分类节点（没有自己的题库）不挡路，门槛交给一路往上最近的有题库的祖先；strict = 严格父子，每一层都得考过，分类节点也得配题库。",
+    "权值 = 本次答对题数 / 本次题数，全对才 100%。通过一次后永久保持 100%，隐藏题永久启用。",
+    "题库格式见同目录 README.md。加知识点 = 往 children 里塞一个对象 + 建对应题库文件，不用改 index.html。"
+  ],
+  "root": {
+    "id": "cspj",
+    "name": "CSP-J 知识树",
+    "desc": "以 CSP-J 为根，按「通过父节点才解锁子节点」的方式一层层推。",
+    "children": [
+      {
+        "id": "basics",
+        "name": "编程基础",
+        "desc": "变量、输入输出、表达式 —— 一切的地基。",
+        "children": [
+          {
+            "id": "basics-variables",
+            "name": "变量与数据类型",
+            "desc": "int / char / bool / double / long long 的范围与用法，变量命名与声明。",
+            "children": [
+              {
+                "id": "basics-const",
+                "name": "常量与 const",
+                "desc": "const、字面量、#define 的区别与使用场景。",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "basics-io",
+            "name": "输入输出",
+            "desc": "cin / cout 与 scanf / printf，读入格式、换行处理。",
+            "children": [
+              {
+                "id": "basics-io-format",
+                "name": "格式化输出与精度",
+                "desc": "%d %lld %f %.2f、setprecision、宽度与对齐，浮点输出的坑。",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "basics-operators",
+            "name": "运算符与表达式",
+            "desc": "算术、关系、逻辑、赋值、自增自减、整除与取模。",
+            "children": [
+              {
+                "id": "basics-op-priority",
+                "name": "优先级与类型转换",
+                "desc": "运算符优先级、结合性、隐式类型转换与强制转换带来的坑。",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "control",
+        "name": "控制结构",
+        "desc": "分支和循环，程序开始「会思考」的地方。",
+        "children": [
+          {
+            "id": "control-branch",
+            "name": "分支结构",
+            "desc": "if / else if / else、嵌套分支、switch 与 break。",
+            "children": []
+          },
+          {
+            "id": "control-loop",
+            "name": "循环结构",
+            "desc": "for、while、do-while 的写法与选择。",
+            "children": [
+              {
+                "id": "control-nested",
+                "name": "循环嵌套与 break/continue",
+                "desc": "多层循环、跳出哪一层、continue 的边界。",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "array",
+        "name": "数组与字符串",
+        "desc": "批量存数据，从「一个变量」到「一排变量」。",
+        "children": [
+          {
+            "id": "array-1d",
+            "name": "一维数组",
+            "desc": "声明、下标、遍历、越界、数组大小与常量。",
+            "children": []
+          },
+          {
+            "id": "array-2d",
+            "name": "二维数组",
+            "desc": "矩阵的存法与遍历，行优先的理解。",
+            "children": []
+          },
+          {
+            "id": "array-cstring",
+            "name": "字符数组与 C 字符串",
+            "desc": "char[]、'\\0' 结尾、strlen / strcmp / strcpy。",
+            "children": [
+              {
+                "id": "array-stdstring",
+                "name": "std::string",
+                "desc": "C++ string 的拼接、查找、子串、长度与遍历。",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "function",
+        "name": "函数与递归",
+        "desc": "把代码切成块，再让它自己调用自己。",
+        "children": [
+          {
+            "id": "function-basic",
+            "name": "函数定义与调用",
+            "desc": "返回值、参数、函数原型、值传递。",
+            "children": [
+              {
+                "id": "function-scope",
+                "name": "作用域与生命周期",
+                "desc": "局部 / 全局变量、static、变量遮蔽。",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "function-recursion",
+            "name": "递归",
+            "desc": "递归三要素、边界条件、递归转循环。",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "struct",
+        "name": "结构体与指针",
+        "desc": "自定义类型，和「地址」这个概念。",
+        "children": [
+          {
+            "id": "struct-basic",
+            "name": "结构体",
+            "desc": "struct 定义、成员访问、结构体数组与排序。",
+            "children": []
+          },
+          {
+            "id": "pointer-basic",
+            "name": "指针与引用",
+            "desc": "取地址、解引用、引用传参、空指针。",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "algorithm",
+        "name": "基础算法",
+        "desc": "CSP-J 的核心得分区。",
+        "children": [
+          {
+            "id": "algo-enum",
+            "name": "枚举",
+            "desc": "穷举所有可能、范围估计、优化剪枝的直觉。",
+            "children": []
+          },
+          {
+            "id": "algo-sim",
+            "name": "模拟",
+            "desc": "照题意一步步走，边界与状态维护。",
+            "children": []
+          },
+          {
+            "id": "algo-sort",
+            "name": "排序",
+            "desc": "冒泡 / 选择 / 插入、计数排序、稳定性。",
+            "children": [
+              {
+                "id": "algo-sort-std",
+                "name": "sort 与自定义比较",
+                "desc": "std::sort、cmp 函数、结构体多关键字排序。",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "algo-binary",
+            "name": "二分查找",
+            "desc": "有序数组二分、边界处理、二分答案的思想。",
+            "children": []
+          },
+          {
+            "id": "algo-greedy",
+            "name": "贪心初步",
+            "desc": "局部最优到全局最优的判断与常见模型。",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "math",
+        "name": "数学基础",
+        "desc": "数论、进制、高精度、位运算。",
+        "children": [
+          {
+            "id": "math-base",
+            "name": "进制转换",
+            "desc": "二进制 / 八进制 / 十六进制与十进制的互转。",
+            "children": []
+          },
+          {
+            "id": "math-number",
+            "name": "数论基础",
+            "desc": "质数判定、埃氏筛、gcd / lcm、同余与取模。",
+            "children": []
+          },
+          {
+            "id": "math-bigint",
+            "name": "高精度",
+            "desc": "大整数加减乘除的数组模拟。",
+            "children": []
+          },
+          {
+            "id": "math-bit",
+            "name": "位运算",
+            "desc": "与或非异或、左右移、lowbit、状态压缩入门。",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "ds",
+        "name": "数据结构初步",
+        "desc": "把数据组织起来，让操作变快。",
+        "children": [
+          {
+            "id": "ds-stack",
+            "name": "栈",
+            "desc": "后进先出、括号匹配、表达式求值、单调栈入门。",
+            "children": []
+          },
+          {
+            "id": "ds-queue",
+            "name": "队列",
+            "desc": "先进先出、循环队列、优先队列入门。",
+            "children": []
+          },
+          {
+            "id": "ds-linked",
+            "name": "链表",
+            "desc": "单链表 / 双链表的插入删除与遍历。",
+            "children": []
+          },
+          {
+            "id": "ds-tree",
+            "name": "树与二叉树",
+            "desc": "树的术语、二叉树的遍历、完全二叉树与堆。",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "stl",
+        "name": "STL 与常用库",
+        "desc": "能用现成的就别手写。",
+        "children": [
+          {
+            "id": "stl-vector",
+            "name": "vector 动态数组",
+            "desc": "push_back / size / 遍历 / 二维 vector。",
+            "children": []
+          },
+          {
+            "id": "stl-setmap",
+            "name": "set 与 map",
+            "desc": "去重、自动排序、计数映射与遍历。",
+            "children": []
+          },
+          {
+            "id": "stl-algo",
+            "name": "algorithm 常用函数",
+            "desc": "sort / reverse / unique / lower_bound / max_element。",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "search-dp",
+        "name": "搜索与 DP 入门",
+        "desc": "CSP-J 拉开差距的最后一层。",
+        "children": [
+          {
+            "id": "search-dfs",
+            "name": "深度优先搜索 DFS",
+            "desc": "回溯框架、剪枝、全排列与迷宫。",
+            "children": []
+          },
+          {
+            "id": "search-bfs",
+            "name": "广度优先搜索 BFS",
+            "desc": "队列实现、最短路步数、状态去重。",
+            "children": []
+          },
+          {
+            "id": "dp-basic",
+            "name": "动态规划入门",
+            "desc": "状态定义、转移方程、01 背包与线性 DP。",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

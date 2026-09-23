@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CSP-J 知识树</title>
+<style>
+:root{
+  --bg:#0b1020; --card:#161f3d; --card2:#1d2750; --line:#2a3765;
+  --text:#e8ecf8; --muted:#8e9ac4; --accent:#5ee7ff; --accent2:#ff7ac8;
+  --ok:#4ade80; --bad:#ff6b81; --warn:#ffd166;
+  --radius:14px;
+  --font:"Microsoft YaHei","PingFang SC",system-ui,-apple-system,sans-serif;
+  --mono:"Cascadia Code",Consolas,"JetBrains Mono",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  background:radial-gradient(1200px 620px at 8% -12%,#1b2755 0%,var(--bg) 58%) fixed,var(--bg);
+  color:var(--text);font-family:var(--font);line-height:1.6;
+  display:flex;flex-direction:column;
+}
+button{font-family:inherit;cursor:pointer}
+header{
+  padding:14px 18px;border-bottom:1px solid var(--line);
+  background:rgba(11,16,32,.72);backdrop-filter:blur(8px);
+  position:sticky;top:0;z-index:20;
+  display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;
+}
+h1{font-size:17px;margin:0;letter-spacing:.5px}
+h1 small{color:var(--muted);font-weight:400;font-size:12px;margin-left:8px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.chip{
+  background:var(--card);border:1px solid var(--line);border-radius:999px;
+  padding:3px 11px;font-size:12px;color:var(--muted);white-space:nowrap;
+}
+.chip b{color:var(--accent);font-weight:600}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  background:var(--card);border:1px solid var(--line);color:var(--text);
+  border-radius:9px;padding:5px 11px;font-size:12.5px;transition:.15s;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:linear-gradient(135deg,#2a6df5,#5ee7ff);border-color:transparent;color:#04121f;font-weight:700}
+.btn.primary:hover{filter:brightness(1.1);color:#04121f}
+.btn.ghost{background:transparent}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+main{display:grid;grid-template-columns:minmax(280px,1fr) minmax(320px,1.15fr);gap:16px;padding:16px;flex:1;align-items:start}
+@media(max-width:820px){main{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+.panel h2{font-size:14px;margin:0 0 10px;color:var(--muted);font-weight:600;letter-spacing:.5px}
+
+/* ---------- tree ---------- */
+#treeWrap{max-height:calc(100vh - 150px);overflow:auto}
+ul.tree,ul.tree ul{list-style:none;margin:0;padding:0}
+ul.tree ul{margin-left:13px;padding-left:13px;border-left:1px dashed var(--line)}
+li{margin:2px 0}
+.node{
+  display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:9px;
+  border:1px solid transparent;cursor:pointer;transition:.15s;
+}
+.node:hover{background:var(--card2)}
+.node.active{border-color:var(--accent);background:var(--card2)}
+.node.locked{opacity:.45;cursor:not-allowed}
+.node.locked:hover{background:transparent}
+.dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;background:#3a4470}
+.dot.ok{background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.dot.part{background:var(--warn)}
+.dot.ready{background:var(--accent)}
+.nname{font-size:13.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nw{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;flex:0 0 auto}
+.bar{width:44px;height:5px;border-radius:3px;background:#2a3459;overflow:hidden;flex:0 0 auto}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--ok));width:0}
+.tag{font-size:10px;padding:1px 6px;border-radius:999px;border:1px solid var(--line);color:var(--muted);flex:0 0 auto}
+.tag.h{color:var(--accent2);border-color:#5a2a53}
+.tag.nobank{color:var(--warn);border-color:#5a4a2a}
+
+/* ---------- detail ---------- */
+.crumb{font-size:11.5px;color:var(--muted);margin-bottom:6px}
+#detailTitle{font-size:19px;margin:0 0 4px}
+.desc{color:var(--muted);font-size:13px;margin:0 0 12px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px;margin-bottom:12px}
+.kv span:nth-child(odd){color:var(--muted)}
+.meter{height:9px;border-radius:5px;background:#2a3459;overflow:hidden;margin:6px 0 12px}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--ok));width:0;transition:.35s}
+.rowbtn{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.hint{font-size:12px;color:var(--muted);border-left:2px solid var(--line);padding-left:10px}
+.hint.warn{border-color:var(--warn);color:var(--warn)}
+.hint.bad{border-color:var(--bad);color:var(--bad)}
+.radio{display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--muted);margin:8px 0 0}
+select{background:var(--card2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:4px 8px;font-family:inherit;font-size:12.5px}
+
+/* ---------- exam ---------- */
+.examTop{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.examTop b{color:var(--accent)}
+.stem{font-size:14.5px;margin:10px 0}
+.code{
+  font-family:var(--mono);font-size:12.5px;background:#080d1c;border:1px solid var(--line);
+  border-radius:10px;padding:10px 12px;overflow:auto;white-space:pre;margin:10px 0;color:#c8e1ff;
+}
+.opt{
+  display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;
+  padding:9px 12px;margin:7px 0;font-size:13.5px;transition:.13s;background:#131c38;
+}
+.opt:hover{border-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:#16294d}
+.opt.right{border-color:var(--ok);background:#122a1f}
+.opt.wrong{border-color:var(--bad);background:#2c1520}
+.opt .k{
+  flex:0 0 20px;height:20px;border-radius:6px;background:#26325c;color:var(--muted);
+  font-size:11.5px;display:grid;place-items:center;font-family:var(--mono)
+}
+.opt.sel .k{background:var(--accent);color:#04121f}
+.examActions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.score{font-size:34px;font-weight:800;letter-spacing:1px}
+.score.ok{color:var(--ok)}
+.score.bad{color:var(--bad)}
+.reviewItem{border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin:9px 0;background:#131c38}
+.reviewItem .rh{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.pill{font-size:10.5px;padding:1px 7px;border-radius:999px;border:1px solid var(--line)}
+.pill.ok{color:var(--ok);border-color:#245c39}
+.pill.bad{color:var(--bad);border-color:#5c2431}
+.ans{font-size:13px;margin-top:5px}
+.ans b{color:var(--accent)}
+.exp{font-size:12.5px;color:var(--muted);margin-top:6px;border-left:2px solid var(--line);padding-left:9px}
+
+.banner{margin:0;padding:10px 18px;background:#3a2a12;color:var(--warn);font-size:13px;border-bottom:1px solid #5a4a2a}
+#toast{
+  position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  background:var(--card2);border:1px solid var(--line);padding:9px 16px;border-radius:11px;
+  font-size:13px;transition:.25s;z-index:50;max-width:80vw
+}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="title">CSP-J 知识树<small id="subtitle"></small></h1>
+  <div class="chips">
+    <span class="chip">已通过 <b id="statPassed">0/0</b></span>
+    <span class="chip">平均掌握 <b id="statAvg">0%</b></span>
+  </div>
+  <div class="tools">
+    <button class="btn" id="btnReload" title="重新读取 tree.json 与所有题库">重新加载</button>
+    <button class="btn" id="btnExport">导出进度</button>
+    <button class="btn" id="btnImport">导入进度</button>
+    <button class="btn" id="btnReset">重置进度</button>
+    <input type="file" id="fileImport" accept="application/json" hidden />
+  </div>
+</header>
+
+<div id="banner" class="banner" hidden></div>
+
+<main>
+  <section class="panel">
+    <h2>知识树</h2>
+    <div id="treeWrap"><ul class="tree" id="tree"></ul></div>
+  </section>
+  <section class="panel" id="detail"></section>
+</main>
+
+<div id="toast"></div>
+
+<script>
+const STORE_KEY = "cspj-knowledge-tree/v1";
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; };
+
+let TREE = null, FLAT = [], BY_ID = new Map();
+let bankCache = new Map(), bankFails = new Map();
+let P = loadProgress();
+let exam = null;      // { node, bank, qs, i, ans, mode, t0 }
+let selId = null;
+
+/* ---------------- progress ---------------- */
+function loadProgress() {
+  try {
+    const o = JSON.parse(localStorage.getItem(STORE_KEY));
+    if (o && typeof o === "object") return { nodes: o.nodes || {}, hidden: o.hidden || {}, updated: o.updated || null };
+  } catch (e) { /* 忽略损坏的存档 */ }
+  return { nodes: {}, hidden: {}, updated: null };
+}
+function saveProgress() {
+  P.updated = new Date().toISOString();
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(P)); } catch (e) { toast("进度写入失败：" + e.message); }
+}
+function peek(id) { return P.nodes[id] || null; }
+function ensure(id) {
+  if (!P.nodes[id]) P.nodes[id] = { passed: false, last: null, best: 0, attempts: 0, lastIds: [], recent: [], passedAt: null };
+  return P.nodes[id];
+}
+function weightOf(id) { const r = peek(id); if (!r) return 0; return r.passed ? 100 : (r.last || 0); }
+function isPassed(id) { const r = peek(id); return !!(r && r.passed); }
+function hasBank(node) { return !!(node && node._pool && node._pool.v + node._pool.h > 0); }
+// 门槛：strict = 父节点（含分类）也得考过；transparent（默认）= 一路往上找最近的有题库的祖先当门槛
+function gateOf(node) {
+  if (TREE && TREE.gateMode === "strict") return node.parentId ? BY_ID.get(node.parentId) : null;
+  let p = node.parentId ? BY_ID.get(node.parentId) : null;
+  while (p) { if (hasBank(p)) return p; p = p.parentId ? BY_ID.get(p.parentId) : null; }
+  return null;
+}
+function isUnlocked(node) { const g = gateOf(node); return !g || isPassed(g.id); }
+
+/* ---------------- 载入 ---------------- */
+async function bust(path) { return path + (path.includes("?") ? "&" : "?") + "t=" + Date.now(); }
+
+async function getBank(node, force) {
+  const path = node.bank || ("bank/" + node.id + ".json");
+  if (!force && bankCache.has(path)) return bankCache.get(path);
+  if (!force && bankFails.has(path)) throw new Error(bankFails.get(path));
+  const res = await fetch(await bust(path));
+  if (!res.ok) throw new Error("题库缺失：" + path + "（HTTP " + res.status + "）");
+  const data = await res.json();
+  data.visible = Array.isArray(data.visible) ? data.visible : [];
+  data.hidden = Array.isArray(data.hidden) ? data.hidden : [];
+  bankCache.set(path, data);
+  bankFails.delete(path);
+  return data;
+}
+
+async function loadTree(force) {
+  const res = await fetch(await bust("tree.json"));
+  if (!res.ok) throw new Error("读不到 tree.json（HTTP " + res.status + "）");
+  TREE = await res.json();
+  FLAT = []; BY_ID = new Map();
+  const root = TREE.root || (TREE.nodes && TREE.nodes[0]);
+  if (!root) throw new Error("tree.json 里没有 root 节点");
+  (function walk(n, parentId, depth) {
+    const node = Object.assign({}, n, { parentId: parentId || null, depth: depth });
+    node.children = Array.isArray(n.children) ? n.children : [];
+    BY_ID.set(node.id, node); FLAT.push(node);
+    node.children.forEach(c => walk(c, node.id, depth + 1));
+  })(root, null, 0);
+  if (force) { bankCache = new Map(); bankFails = new Map(); }
+}
+
+async function scanBanks() {
+  for (const n of FLAT) {
+    try {
+      const b = await getBank(n);
+      n._pool = { v: b.visible.length, h: b.hidden.length };
+    } catch (e) { n._pool = null; n._err = e.message; }
+  }
+}
+
+/* ---------------- 题目类型与规范化 ---------------- */
+function qType(q) {
+  const t = String(q.type || "single").trim().toLowerCase();
+  if (["single", "单选", "choice", "radio"].includes(t)) return "single";
+  if (["multi", "多选", "multiple", "checkbox"].includes(t)) return "multi";
+  if (["judge", "判断", "bool", "truefalse", "tf", "对错"].includes(t)) return "judge";
+  return "single";
+}
+function toIdx(v) {
+  if (typeof v === "number" && Number.isInteger(v)) return v;
+  const s = String(v == null ? "" : v).trim().toUpperCase();
+  if (/^[A-Z]$/.test(s)) return s.charCodeAt(0) - 65;
+  const n = Number(s);
+  return Number.isFinite(n) ? n : -1;
+}
+function toBool(v) {
+  if (typeof v === "boolean") return v;
+  if (typeof v === "number") return v !== 0;
+  const s = String(v == null ? "" : v).trim().toUpperCase();
+  return ["T", "TRUE", "Y", "YES", "1", "对", "正确"].includes(s);
+}
+function normalize(q) {
+  const t = qType(q);
+  const out = { type: t, q: String(q.q || ""), code: q.code ? String(q.code) : "", explain: q.explain ? String(q.explain) : "", raw: q };
+  if (t === "judge") {
+    out.options = ["正确", "错误"];
+    out.answer = toBool(q.answer);
+    return out;
+  }
+  if (!Array.isArray(q.options) || q.options.length < 2) return null;
+  out.options = q.options.map(String);
+  if (t === "single") {
+    const i = toIdx(q.answer);
+    if (i < 0 || i >= out.options.length) return null;
+    out.answer = i;
+  } else {
+    const arr = (Array.isArray(q.answer) ? q.answer : [q.answer]).map(toIdx).filter(i => i >= 0 && i < out.options.length);
+    if (!arr.length) return null;
+    out.answer = [...new Set(arr)].sort((a, b) => a - b);
+  }
+  return out;
+}
+
+/* ---------------- 抽题 ---------------- */
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function buildExam(node, bank, mode) {
+  const entries = [];
+  if (mode !== "hidden") bank.visible.forEach((q, i) => entries.push({ id: "v" + i, q }));
+  if (mode !== "visible") bank.hidden.forEach((q, i) => entries.push({ id: "h" + i, q }));
+  const valid = entries.map(e => ({ id: e.id, q: normalize(e.q) })).filter(e => e.q);
+  const rec = peek(node.id);
+  const recent = new Set(rec && rec.recent ? rec.recent.flat() : []);
+  const size = Math.min(node.examSize || TREE.examSize || 10, valid.length);
+  const fresh = shuffle(valid.filter(e => !recent.has(e.id)));
+  const used = shuffle(valid.filter(e => recent.has(e.id)));
+  let picked = fresh.concat(used).slice(0, size);
+  // 兜底：和上一次完全一样就错开一位
+  if (rec && picked.length > 1 && picked.length === rec.lastIds.length) {
+    const a = picked.map(e => e.id).sort().join(","), b = rec.lastIds.slice().sort().join(",");
+    if (a === b) picked = picked.slice(1).concat(picked.slice(0, 1));
+  }
+  return picked.map(e => {
+    const q = e.q;
+    const item = { id: e.id, type: q.type, q: q.q, code: q.code, explain: q.explain, options: q.options.slice(), answer: q.answer };
+    // 判断题统一成选项下标（0=正确 / 1=错误），判分和展示都少一种特例
+    if (q.type === "judge") { item.answer = q.answer ? 0 : 1; return item; }
+    const order = shuffle(q.options.map((_, i) => i));
+    item.options = order.map(i => q.options[i]);
+    if (q.type === "single") item.answer = order.indexOf(q.answer);
+    else item.answer = q.answer.map(a => order.indexOf(a)).sort((x, y) => x - y);
+    return item;
+  });
+}
+
+/* ---------------- 树渲染 ---------------- */
+function renderTree() {
+  const host = $("#tree"); host.innerHTML = "";
+  const root = FLAT[0];
+  const li = el("li");
+  li.appendChild(nodeRow(root));
+  if (root.children.length) { const ul = el("ul"); root.children.forEach(c => appendChildNode(ul, c)); li.appendChild(ul); }
+  host.appendChild(li);
+  updateStats();
+}
+// tree.json 里 children 是原始对象（没有 parentId），渲染时一律换成展开后的那份
+function appendChildNode(ul, raw) {
+  const child = BY_ID.get(raw.id);
+  if (child) ul.appendChild(subTree(child));
+}
+function subTree(node) {
+  const li = el("li");
+  li.appendChild(nodeRow(node));
+  if (node.children.length) {
+    const ul = el("ul");
+    node.children.forEach(c => appendChildNode(ul, c));
+    li.appendChild(ul);
+  }
+  return li;
+}
+function nodeRow(node) {
+  const unlocked = isUnlocked(node);
+  const passed = isPassed(node.id);
+  const gate = gateOf(node);
+  const isGroup = !hasBank(node) && node.children.length > 0;
+  const w = weightOf(node.id);
+  const row = el("div", "node" + (unlocked ? "" : " locked") + (selId === node.id ? " active" : ""));
+  const dot = el("span", "dot " + (passed ? "ok" : w > 0 ? "part" : (unlocked && !isGroup) ? "ready" : ""));
+  row.appendChild(dot);
+  row.appendChild(el("span", "nname", node.name));
+  if (isGroup) row.appendChild(el("span", "tag", "分类"));
+  else if (passed) row.appendChild(el("span", "tag h", "隐藏已启"));
+  if (!isGroup && !hasBank(node)) row.appendChild(el("span", "tag nobank", "题库待补"));
+  row.appendChild(el("span", "nw", w + "%"));
+  const bar = el("span", "bar"); const fill = el("i"); fill.style.width = w + "%"; bar.appendChild(fill); row.appendChild(bar);
+  const gateName = (gate || {}).name || "父节点";
+  row.title = !unlocked
+    ? (node.name + "：需先通过「" + gateName + "」")
+    : isGroup ? (node.name + "：分类节点，不挡路")
+      : (node.name + "：" + (passed ? "已通过" : "可考核（" + w + "%）"));
+  row.onclick = () => { if (!unlocked) { toast("先通过「" + gateName + "」"); return; } selectNode(node.id); };
+  return row;
+}
+function updateStats() {
+  const total = FLAT.length;
+  let passed = 0, sum = 0;
+  FLAT.forEach(n => { if (isPassed(n.id)) passed++; sum += weightOf(n.id); });
+  $("#statPassed").textContent = passed + "/" + total;
+  $("#statAvg").textContent = total ? Math.round(sum / total) + "%" : "0%";
+}
+
+/* ---------------- 详情面板 ---------------- */
+function selectNode(id) {
+  selId = id; exam = null;
+  renderTree(); renderDetail();
+}
+function renderDetail() {
+  const box = $("#detail");
+  box.innerHTML = "";
+  if (exam) return renderExam();
+  const node = selId ? BY_ID.get(selId) : null;
+  if (!node) {
+    box.appendChild(el("h2", null, "选个知识点"));
+    const h = el("p", "hint", "左边是 CSP-J 知识树。考到 100% 才能解锁下一层。点一下节点看详情。");
+    box.appendChild(h);
+    return;
+  }
+  const crumb = [];
+  let cur = node; while (cur) { crumb.unshift(cur.name); cur = cur.parentId ? BY_ID.get(cur.parentId) : null; }
+  box.appendChild(el("div", "crumb", crumb.join(" ›  ")));
+  box.appendChild(el("h3", null, node.name)).id = "detailTitle";
+  if (node.desc) box.appendChild(el("p", "desc", node.desc));
+
+  const r = peek(node.id);
+  const w = weightOf(node.id);
+  const meter = el("div", "meter"); const mi = el("i"); mi.style.width = w + "%"; meter.appendChild(mi); box.appendChild(meter);
+
+  const kv = el("div", "kv");
+  const add = (k, v) => { kv.appendChild(el("span", null, k)); kv.appendChild(el("span", null, v)); };
+  add("当前权值", w + "%（通过线 100%）");
+  add("最近一次", r && r.last != null ? r.last + "%" : "还没考过");
+  add("历史最好", (r ? r.best : 0) + "%");
+  add("考核次数", String(r ? r.attempts : 0));
+  add("状态", isPassed(node.id) ? "已通过，子节点已解锁" : "未通过");
+  add("隐藏题", P.hidden[node.id] ? "已启用（通过一次后永久开启）" : "未启用（通过一次后开启）");
+  const isGroup = !hasBank(node) && node.children.length > 0;
+  if (node._pool) add("题库", "公开 " + node._pool.v + " 题 · 隐藏 " + node._pool.h + " 题");
+  else if (isGroup) add("题库", "无（分类节点，不挡路）");
+  else if (node._err) add("题库", node._err);
+  box.appendChild(kv);
+
+  const rowb = el("div", "rowbtn");
+  const canExam = hasBank(node);
+  const startBtn = el("button", "btn primary", isPassed(node.id) ? "重考" : "开始考核");
+  startBtn.disabled = !canExam;
+  startBtn.onclick = () => startExam(node);
+  rowb.appendChild(startBtn);
+  if (isPassed(node.id)) {
+    const rb = el("button", "btn ghost", "重置本节点");
+    rb.onclick = () => { delete P.nodes[node.id]; delete P.hidden[node.id]; saveProgress(); renderTree(); renderDetail(); toast("已重置「" + node.name + "」"); };
+    rowb.appendChild(rb);
+  }
+  box.appendChild(rowb);
+
+  const mode = el("div", "radio");
+  mode.appendChild(el("span", null, "抽题范围"));
+  const sel = el("select");
+  const opts = [["visible", "仅公开题"], ["mixed", "公开 + 隐藏"]];
+  if (P.hidden[node.id]) opts.push(["hidden", "仅隐藏题"]);
+  opts.forEach(([v, t]) => { const o = el("option", null, t); o.value = v; sel.appendChild(o); });
+  sel.value = "visible";
+  mode.appendChild(sel);
+  mode.dataset.role = "mode";
+  box.appendChild(mode);
+  box._modeSel = sel;
+
+  if (isGroup) box.appendChild(el("p", "hint", "这是分类节点（没有自己的题库），不挡路 —— 子节点由更上一层有题库的知识点把关。想让它也考，就给它建个 bank/" + node.id + ".json。"));
+  else if (!canExam) box.appendChild(el("p", "hint warn", "这个知识点还没有题库。照 bank/" + node.id + ".json 建一个就行，格式见 README。"));
+  const nextGate = node.children.filter(c => hasBank(c)).map(c => c.name);
+  if (nextGate.length) {
+    const h = el("p", "hint", "过了它才能直接考：" + nextGate.join("、"));
+    box.appendChild(h);
+  }
+}
+
+/* ---------------- 考试 ---------------- */
+function startExam(node) {
+  const mode = ($("#detail")._modeSel || {}).value || "visible";
+  getBank(node).then(bank => {
+    const qs = buildExam(node, bank, mode);
+    if (!qs.length) { toast("这个范围里没有可用题目"); return; }
+    exam = { node, qs, i: 0, ans: qs.map(() => null), mode, t0: Date.now() };
+    renderDetail();
+  }).catch(e => toast(e.message));
+}
+function renderExam() {
+  const box = $("#detail");
+  box.innerHTML = "";
+  const { node, qs, i } = exam;
+  const back = el("div", "rowbtn");
+  const bb = el("button", "btn ghost", "← 退出考核");
+  bb.onclick = () => { if (confirm("退出后本次作答不记分，确定？")) { exam = null; renderDetail(); } };
+  back.appendChild(bb); box.appendChild(back);
+
+  const top = el("div", "examTop");
+  top.appendChild(el("span", null, node.name));
+  top.appendChild(el("b", null, "第 " + (i + 1) + " / " + qs.length + " 题"));
+  const t = el("span", null, "· 范围：" + ({ visible: "仅公开", mixed: "公开+隐藏", hidden: "仅隐藏" }[exam.mode]));
+  top.appendChild(t); box.appendChild(top);
+  const bar = el("div", "meter"); const bi = el("i"); bi.style.width = ((i) / qs.length * 100) + "%"; bar.appendChild(bi); box.appendChild(bar);
+
+  const q = qs[i];
+  renderStem(box, q);
+  const wrap = el("div");
+  q.options.forEach((opt, oi) => {
+    const chosen = q.type === "multi" ? (exam.ans[i] || []).includes(oi) : exam.ans[i] === oi;
+    const line = el("div", "opt" + (chosen ? " sel" : ""));
+    line.appendChild(el("span", "k", String.fromCharCode(65 + oi)));
+    line.appendChild(el("span", null, opt));
+    line.onclick = () => {
+      if (q.type === "multi") {
+        const cur = new Set(exam.ans[i] || []);
+        cur.has(oi) ? cur.delete(oi) : cur.add(oi);
+        exam.ans[i] = [...cur].sort((a, b) => a - b);
+      } else exam.ans[i] = oi;
+      renderDetail();
+    };
+    wrap.appendChild(line);
+  });
+  box.appendChild(wrap);
+
+  const acts = el("div", "examActions");
+  const prev = el("button", "btn", "上一题"); prev.disabled = i === 0;
+  prev.onclick = () => { exam.i--; renderDetail(); };
+  acts.appendChild(prev);
+  const next = el("button", "btn primary", i === qs.length - 1 ? "交卷" : "下一题");
+  next.onclick = () => {
+    if (exam.ans[i] == null || (Array.isArray(exam.ans[i]) && !exam.ans[i].length)) { toast("先选一个再走"); return; }
+    if (i < qs.length - 1) { exam.i++; renderDetail(); } else submitExam();
+  };
+  acts.appendChild(next);
+  box.appendChild(acts);
+
+  const done = exam.ans.filter((a, k) => k < i && a != null).length;
+  box.appendChild(el("p", "hint", "已作答 " + done + " / " + qs.length + " 题。多选全部选对才算对。"));
+}
+function renderStem(box, q) {
+  const parts = String(q.q || "").split("```");
+  parts.forEach((seg, k) => {
+    if (k % 2 === 1) {
+      const m = seg.match(/^[a-zA-Z0-9+#]*\r?\n([\s\S]*)$/);
+      box.appendChild(el("pre", "code", m ? m[1] : seg));
+    } else if (seg.trim()) box.appendChild(el("div", "stem", seg.trim()));
+  });
+  if (q.code) box.appendChild(el("pre", "code", q.code));
+}
+function sameAns(q, a, b) {
+  if (q.type === "multi") {
+    if (!Array.isArray(a) || !Array.isArray(b)) return false;
+    return a.length === b.length && a.every((v, i) => v === b[i]);
+  }
+  return a === b;
+}
+function submitExam() {
+  const { node, qs, ans } = exam;
+  const flags = qs.map((q, i) => sameAns(q, ans[i], q.answer));
+  const correct = flags.filter(Boolean).length;
+  const score = Math.round(correct / qs.length * 100);
+  const rec = ensure(node.id);
+  rec.attempts++;
+  rec.last = score;
+  rec.best = Math.max(rec.best || 0, score);
+  rec.lastIds = qs.map(q => q.id);
+  rec.recent = (rec.recent || []).concat([qs.map(q => q.id)]).slice(-3);
+  const justPassed = score === 100 && !rec.passed;
+  if (score === 100) {
+    rec.passed = true;
+    rec.passedAt = rec.passedAt || new Date().toISOString();
+    P.hidden[node.id] = true;
+  }
+  saveProgress();
+  const result = { node, qs, ans, flags, correct, score, justPassed };
+  exam = null;
+  renderTree();
+  renderResult(result);
+  if (justPassed) toast("通过！「" + node.name + "」权值 100%，子节点已解锁，隐藏题已启用");
+}
+function renderResult(res) {
+  const box = $("#detail"); box.innerHTML = "";
+  const { node, qs, ans, flags, correct, score, justPassed } = res;
+  box.appendChild(el("div", "crumb", node.name + " · 本次结算"));
+  const sc = el("div", "score " + (score === 100 ? "ok" : "bad"), score + "%");
+  box.appendChild(sc);
+  box.appendChild(el("p", "desc", "答对 " + correct + " / " + qs.length + " 题 · 权值 " + score + "%" + (score === 100 ? " · 已解锁" : " · 全对才解锁")));
+  if (justPassed) box.appendChild(el("p", "hint", "隐藏题已永久启用，下次可以抽「公开 + 隐藏」或者「仅隐藏」。"));
+  else if (score < 100) box.appendChild(el("p", "hint", "错的题在下面，看完再考一遍。"));
+
+  const acts = el("div", "rowbtn");
+  const again = el("button", "btn primary", "再考一次");
+  again.onclick = () => startExam(node);
+  acts.appendChild(again);
+  const bk = el("button", "btn", "回知识点");
+  bk.onclick = () => renderDetail();
+  acts.appendChild(bk);
+  box.appendChild(acts);
+
+  const list = el("div");
+  qs.forEach((q, i) => {
+    const item = el("div", "reviewItem");
+    const rh = el("div", "rh");
+    rh.appendChild(el("span", null, "#" + (i + 1) + " · " + ({ single: "单选", multi: "多选", judge: "判断" }[q.type])));
+    rh.appendChild(el("span", "pill " + (flags[i] ? "ok" : "bad"), flags[i] ? "对" : "错"));
+    if (q.id && q.id[0] === "h") rh.appendChild(el("span", "pill", "隐藏"));
+    item.appendChild(rh);
+    renderStem(item, q);
+    const fmt = v => {
+      if (v === null || v === undefined) return "（未答）";
+      if (q.type === "judge") return v === 0 ? "正确" : "错误";
+      if (Array.isArray(v) && !v.length) return "（未答）";
+      return (Array.isArray(v) ? v : [v]).map(x => String.fromCharCode(65 + x)).join("、");
+    };
+    const a1 = el("div", "ans"); a1.innerHTML = "你选：<b>" + fmt(ans[i]) + "</b>"; item.appendChild(a1);
+    if (!flags[i]) { const a2 = el("div", "ans"); a2.innerHTML = "正确：<b>" + fmt(q.answer) + "</b>"; item.appendChild(a2); }
+    if (q.explain) item.appendChild(el("div", "exp", q.explain));
+    list.appendChild(item);
+  });
+  box.appendChild(list);
+}
+
+/* ---------------- 杂项 ---------------- */
+let toastTimer = null;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2600);
+}
+function banner(msg, kind) {
+  const b = $("#banner");
+  if (!msg) { b.hidden = true; return; }
+  b.textContent = msg; b.hidden = false;
+  b.style.background = kind === "bad" ? "#3a1218" : "#3a2a12";
+  b.style.color = kind === "bad" ? "#ff6b81" : "#ffd166";
+}
+
+async function boot(force) {
+  try {
+    await loadTree(force);
+    $("#title").childNodes[0].nodeValue = (TREE.title || "知识树") + " ";
+    $("#subtitle").textContent = TREE.version ? "v" + TREE.version : "";
+    if (location.protocol === "file:") {
+      banner("浏览器禁止 file:// 页面读取 json。请在 knowledge-tree 目录下起个服务：python -m http.server 8099，然后开 http://localhost:8099/", "bad");
+    } else banner(null);
+    renderTree();
+    if (!selId) renderDetail();
+    await scanBanks();
+    renderTree();
+    if (selId) renderDetail();
+    const missing = FLAT.filter(n => !hasBank(n) && n.children.length === 0).length;
+    if (missing) toast("有 " + missing + " 个知识点还没有题库（bank/<id>.json）");
+  } catch (e) {
+    banner("加载失败：" + e.message + "（记得用 http:// 打开，别直接双击 html）", "bad");
+  }
+}
+
+$("#btnReload").onclick = () => { selId = null; exam = null; boot(true).then(() => toast("已重新加载 tree.json 与题库")); };
+$("#btnReset").onclick = () => { if (confirm("清空所有进度？题目库不会动。")) { P = { nodes: {}, hidden: {}, updated: null }; saveProgress(); selId = null; exam = null; renderTree(); renderDetail(); toast("进度已清空"); } };
+$("#btnExport").onclick = () => {
+  const blob = new Blob([JSON.stringify(P, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "cspj-progress.json"; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast("进度已导出");
+};
+$("#btnImport").onclick = () => $("#fileImport").click();
+$("#fileImport").onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  const fr = new FileReader();
+  fr.onload = () => {
+    try {
+      const o = JSON.parse(fr.result);
+      P = { nodes: o.nodes || {}, hidden: o.hidden || {}, updated: o.updated || null };
+      saveProgress(); renderTree(); renderDetail(); toast("进度已导入");
+    } catch (err) { toast("导入失败：" + err.message); }
+  };
+  fr.readAsText(f); e.target.value = "";
+};
+
+window.KT = {
+  reload: () => boot(true),
+  state: () => ({ tree: TREE, flat: FLAT, progress: P, exam: exam }),
+  reset: () => { P = { nodes: {}, hidden: {}, updated: null }; saveProgress(); renderTree(); renderDetail(); },
+};
+
+boot(false);
+</script>
+</body>
+</html>

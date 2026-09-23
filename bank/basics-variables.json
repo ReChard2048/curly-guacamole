@@ -1,0 +1,152 @@
+{
+  "id": "basics-variables",
+  "name": "变量与数据类型",
+  "desc": "样板题库：12 道公开题 + 6 道隐藏题，四种题型都覆盖了。",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "在主流 32/64 位平台上，int 一般占几个字节？",
+      "options": ["1", "2", "4", "8"],
+      "answer": 2,
+      "explain": "int 通常 4 字节，范围约 -2147483648 ~ 2147483647。"
+    },
+    {
+      "id": "v02",
+      "type": "single",
+      "q": "下面哪个是合法的 C++ 变量名？",
+      "options": ["2sum", "_sum", "sum-1", "int"],
+      "answer": 1,
+      "explain": "变量名由字母、数字、下划线组成，不能以数字开头，也不能用关键字。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "char 类型占几个字节？",
+      "options": ["1", "2", "4", "8"],
+      "answer": 0,
+      "explain": "sizeof(char) 按标准恒为 1，其他类型都是它的整数倍。"
+    },
+    {
+      "id": "v04",
+      "type": "multi",
+      "q": "下列哪些属于 C++ 的内置数值类型？",
+      "options": ["int", "char", "float", "string"],
+      "answer": [0, 1, 2],
+      "explain": "string 是标准库里的类类型，不是内置的。"
+    },
+    {
+      "id": "v05",
+      "type": "judge",
+      "q": "C++ 里变量必须先声明（定义）之后才能使用。",
+      "answer": true,
+      "explain": "C++ 是静态类型语言，编译器得先知道类型才能分配空间、检查运算。"
+    },
+    {
+      "id": "v06",
+      "type": "single",
+      "q": "大多数实现里 bool 占几个字节？",
+      "options": ["1", "2", "4", "8"],
+      "answer": 0,
+      "explain": "sizeof(bool) 一般是 1，取值只有 true / false。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "32 位的 unsigned int 能表示的最大整数是？",
+      "options": ["2^31-1", "2^31", "2^32-1", "2^32"],
+      "answer": 2,
+      "explain": "32 位全 1 就是 2^32-1 = 4294967295。带符号的才是 2^31-1。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "const 修饰的变量在初始化之后不能再被赋值。",
+      "answer": true,
+      "explain": "const 就是「只读」，再赋值编译器直接报错。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "字符字面量 'A' 在 C++ 中的类型是什么？",
+      "options": ["char", "int", "string", "bool"],
+      "answer": 0,
+      "explain": "C++ 里普通字符字面量的类型是 char；C 里是 int，别记混。"
+    },
+    {
+      "id": "v10",
+      "type": "single",
+      "q": "阅读以下程序，输出的结果是？",
+      "code": "int a = 7, b = 2;\ncout << a / b;",
+      "options": ["3.5", "3", "4", "3.0"],
+      "answer": 1,
+      "explain": "两个 int 相除是整除，小数部分直接丢掉，结果是 3。"
+    },
+    {
+      "id": "v11",
+      "type": "single",
+      "q": "阅读以下程序，输出的结果是？",
+      "code": "int a = 5;\na += 3;\na *= 2;\ncout << a;",
+      "options": ["11", "16", "13", "10"],
+      "answer": 1,
+      "explain": "a = 5+3 = 8，再 a = 8*2 = 16。"
+    },
+    {
+      "id": "v12",
+      "type": "multi",
+      "q": "下列哪些声明是合法的？",
+      "options": ["int a;", "int 1a;", "double b = 3;", "char c = 'x';"],
+      "answer": [0, 2, 3],
+      "explain": "标识符不能以数字开头，所以 int 1a; 非法。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "judge",
+      "q": "long long 至少和 int 一样大，在 64 位平台上通常占 8 字节。",
+      "answer": true,
+      "explain": "C++ 标准保证 long long 不小于 int，主流平台上都是 8 字节。"
+    },
+    {
+      "id": "h02",
+      "type": "single",
+      "q": "下面哪个值可以直接赋值给 int 变量而不发生溢出？",
+      "options": ["3.14", "2147483648", "2147483647", "12345678901234"],
+      "answer": 2,
+      "explain": "int 上限是 2147483647；再加 1 就溢出，更大的整数得用 long long。"
+    },
+    {
+      "id": "h03",
+      "type": "single",
+      "q": "C++ 标准规定 sizeof(char) 的值是多少？",
+      "options": ["1", "2", "取决于平台", "标准未规定"],
+      "answer": 0,
+      "explain": "字节数本来就是按 char 定义的，所以 sizeof(char) 恒为 1。"
+    },
+    {
+      "id": "h04",
+      "type": "judge",
+      "q": "C++ 标准保证 short 不大于 int，int 不大于 long long。",
+      "answer": true,
+      "explain": "这是标准的顺序保证，具体字节数才是平台相关的。"
+    },
+    {
+      "id": "h05",
+      "type": "multi",
+      "q": "下列哪些是 C++ 的关键字？",
+      "options": ["int", "main", "const", "while"],
+      "answer": [0, 2, 3],
+      "explain": "main 是函数名，只是被规定为程序入口，不是关键字。"
+    },
+    {
+      "id": "h06",
+      "type": "single",
+      "q": "阅读以下程序，输出的结果是？",
+      "code": "char c = 'a' + 1;\ncout << c;",
+      "options": ["a", "b", "98", "'a'+1"],
+      "answer": 1,
+      "explain": "字符按 ASCII 参与运算，'a' 是 97，加 1 得 98，存回 char 输出就是 b。"
+    }
+  ]
+}
