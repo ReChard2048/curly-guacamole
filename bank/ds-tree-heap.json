@@ -1,0 +1,147 @@
+{
+  "id": "ds-tree-heap",
+  "name": "堆与优先队列",
+  "desc": "大根堆 / 小根堆、数组存储、上浮下沉、priority_queue。",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "judge",
+      "q": "小根堆中每个节点的值都不大于它的孩子。",
+      "answer": true,
+      "explain": "注意只要求「节点 ≤ 孩子」这个偏序关系，不要求整棵树有序。左右孩子之间的大小没有规定。"
+    },
+    {
+      "id": "v02",
+      "type": "single",
+      "q": "大根堆用数组存储、下标从 1 开始，节点 i（i>1）的父节点下标是？",
+      "options": ["floor(i / 2)", "i - 1", "2i", "i / 2 取整后再减一"],
+      "answer": 0,
+      "explain": "和完全二叉树编号一样：孩子是 2i、2i+1，父亲是 floor(i/2)。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "往一个 n 个元素的堆里插入一个新元素，时间复杂度是？",
+      "options": ["O(log n)", "O(1)", "O(n)", "O(n log n)"],
+      "answer": 0,
+      "explain": "把新元素放到数组末尾，然后不停和父亲比较、交换（上浮），最多走树高 log n 层。"
+    },
+    {
+      "id": "v04",
+      "type": "single",
+      "q": "把一个无序数组直接自底向上调整成堆（建堆），时间复杂度是？",
+      "options": ["O(n)", "O(n log n)", "O(log n)", "O(n^2)"],
+      "answer": 0,
+      "explain": "从最后一个非叶节点往前逐个下沉。越靠底的节点下沉越浅，加权求和收敛到 O(n)，不是 O(n log n)。"
+    },
+    {
+      "id": "v05",
+      "type": "single",
+      "q": "C++ 中 priority_queue<int> pq; 默认是什么堆？",
+      "options": ["大根堆，pq.top() 是最大值", "小根堆", "既不是大根堆也不是小根堆", "取决于编译器"],
+      "answer": 0,
+      "explain": "默认用 less<int> 比较，堆顶最大。小根堆要写 priority_queue<int, vector<int>, greater<int>>。"
+    },
+    {
+      "id": "v06",
+      "type": "single",
+      "q": "要建一个小根堆的 priority_queue，正确写法是？",
+      "options": [
+        "priority_queue<int, vector<int>, greater<int>> pq;",
+        "priority_queue<int, less<int>> pq;",
+        "priority_queue<int, small> pq;",
+        "priority_queue<int> pq(small);"
+      ],
+      "answer": 0,
+      "explain": "三个模板参数依次是比较类型、底层容器、比较器。greater<int> 让「更大」的排更后，所以堆顶最小。"
+    },
+    {
+      "id": "v07",
+      "type": "multi",
+      "q": "堆能高效支持的操作有？",
+      "options": ["取出当前最大/最小值（堆顶）", "插入新元素", "弹出堆顶", "查询第 k 小（单个堆）"],
+      "answer": [0, 1, 2],
+      "explain": "堆只保证堆顶是极值，内部并不有序，所以查询任意第 k 小要另外的手段（对顶堆、可持久化等）。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "堆一定是一棵完全二叉树。",
+      "answer": true,
+      "explain": "只有这样才可以用连续数组存储、直接用下标算父子关系，这也是堆高效的原因。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "取堆顶元素和弹出堆顶元素的时间复杂度分别是？",
+      "options": ["O(1) 和 O(log n)", "O(log n) 和 O(log n)", "O(1) 和 O(1)", "O(n) 和 O(n)"],
+      "answer": 0,
+      "explain": "堆顶就在数组第一个位置，直接读是 O(1)。弹出要拿末尾元素补位再下沉，是 O(log n)。"
+    },
+    {
+      "id": "v10",
+      "type": "single",
+      "q": "阅读以下描述，大根堆 {9,7,8,3,5} 插入 10 后，堆顶是？",
+      "code": "堆（数组）: 9 7 8 3 5\n插入: 10",
+      "options": ["10", "9", "8", "5"],
+      "answer": 0,
+      "explain": "10 放到末尾后一直上浮到根：10 比 9 大就交换，最终 10 成为堆顶。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "为什么自底向上建堆是 O(n)，而「不断插入」建堆是 O(n log n)？",
+      "options": [
+        "因为大部分节点靠近底层，下沉的距离很短，总的代价求和收敛到 O(n)",
+        "因为自底向上不需要比较",
+        "因为插入建堆错了",
+        "因为数组访问比指针快"
+      ],
+      "answer": 0,
+      "explain": "高度为 h 的节点最多下沉 h 层，而高度 h 的节点数量约 n/2^(h+1)。Σ h · n/2^h 收敛到常数倍 n。"
+    },
+    {
+      "id": "h02",
+      "type": "judge",
+      "q": "堆的中序遍历一定是递增序列。",
+      "answer": false,
+      "explain": "那是 BST 的性质。堆只保证父子之间的偏序，中序结果是乱七八糟的。"
+    },
+    {
+      "id": "h03",
+      "type": "single",
+      "q": "堆的「下沉」（sift down / 向下调整）操作是做什么？",
+      "options": [
+        "把当前节点和较大的孩子交换，直到满足堆性质",
+        "把当前节点和父亲交换",
+        "把整个数组排序",
+        "把末尾元素移到开头"
+      ],
+      "answer": 0,
+      "explain": "用在删除堆顶、建堆时。和父亲交换的那个叫「上浮」，用在插入时。"
+    },
+    {
+      "id": "h04",
+      "type": "multi",
+      "q": "关于堆，下列说法正确的有？",
+      "options": [
+        "大根堆的堆顶是整个堆的最大值",
+        "堆的左右孩子之间没有大小要求",
+        "用堆可以实现优先队列",
+        "堆的查找任意元素是 O(1)"
+      ],
+      "answer": [0, 1, 2],
+      "explain": "堆里找任意元素要遍历，是 O(n)。它只对「极值」高效。"
+    },
+    {
+      "id": "h05",
+      "type": "single",
+      "q": "Dijkstra 用优先队列（堆）优化后，复杂度是？",
+      "options": ["O((V + E) log V)", "O(V^2)", "O(VE)", "O(E)"],
+      "answer": 0,
+      "explain": "每条边最多触发一次堆操作，每次 O(log V)。这个和前面 SPFA 那节的对比是常考点。"
+    }
+  ]
+}

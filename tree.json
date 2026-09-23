@@ -266,8 +266,52 @@
           {
             "id": "ds-tree",
             "name": "树与二叉树",
-            "desc": "树的术语、二叉树的遍历、完全二叉树与堆。",
-            "children": []
+            "desc": "树的结构与遍历，以及 BST、堆、LCA、直径 —— 往上走会反复用到的工具。",
+            "children": [
+              {
+                "id": "ds-tree-basic",
+                "name": "树的基本概念与存储",
+                "desc": "度数、深度、叶子；双亲 / 孩子 / 孩子兄弟表示法；二叉树的性质与编号。",
+                "children": []
+              },
+              {
+                "id": "ds-tree-traverse",
+                "name": "二叉树的遍历",
+                "desc": "先序、中序、后序、层序，以及由遍历序列还原树。",
+                "children": [
+                  {
+                    "id": "ds-tree-restore",
+                    "name": "由遍历序列还原树",
+                    "desc": "先序+中序、中序+后序还原；为什么先序+后序不够。",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "ds-tree-bst",
+                "name": "二叉搜索树 BST",
+                "desc": "查找、插入、删除，以及退化问题和平衡的意义。",
+                "children": []
+              },
+              {
+                "id": "ds-tree-heap",
+                "name": "堆与优先队列",
+                "desc": "大根堆 / 小根堆、数组存储、上浮下沉、priority_queue。",
+                "children": []
+              },
+              {
+                "id": "ds-tree-lca",
+                "name": "最近公共祖先 LCA",
+                "desc": "朴素跳、倍增预处理，以及它在树上倍增问题里的位置。",
+                "children": []
+              },
+              {
+                "id": "ds-tree-diameter",
+                "name": "树的直径与重心",
+                "desc": "两次 DFS 求直径、树形 DP 求直径，重心的性质。",
+                "children": []
+              }
+            ]
           }
         ]
       },
