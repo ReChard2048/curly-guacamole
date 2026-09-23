@@ -170,6 +170,8 @@ const el = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) 
 
 let TREE = null, FLAT = [], BY_ID = new Map();
 let bankCache = new Map(), bankFails = new Map();
+let BANKS_READY = false;              // 题库扫完之前不渲染树，免得先画出一份错的
+const SCAN = { done: 0, total: 0 };
 let P = loadProgress();
 let exam = null;      // { node, bank, qs, i, ans, mode, t0 }
 let selId = null;
@@ -206,18 +208,42 @@ function isUnlocked(node) { const g = gateOf(node); return !g || isPassed(g.id);
 /* ---------------- 载入 ---------------- */
 async function bust(path) { return path + (path.includes("?") ? "&" : "?") + "t=" + Date.now(); }
 
+// 拉一个题库，最多试 3 次。返回 {path, data} / {path, missing} / {path, error}
+// 404 = 「这个知识点还没建题库」，属正常；超时、解析失败才算错。
+async function fetchBank(node) {
+  const path = node.bank || ("bank/" + node.id + ".json");
+  let lastErr = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 6000);
+    try {
+      const res = await fetch(await bust(path), { signal: ctrl.signal });
+      if (res.status === 404) return { path: path, missing: true };
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      data.visible = Array.isArray(data.visible) ? data.visible : [];
+      data.hidden = Array.isArray(data.hidden) ? data.hidden : [];
+      return { path: path, data: data };
+    } catch (e) {
+      lastErr = e;
+      await new Promise(r => setTimeout(r, 120 * (attempt + 1)));
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  const why = lastErr && lastErr.name === "AbortError" ? "超时" : (lastErr && lastErr.message) || "读取失败";
+  return { path: path, error: why };
+}
+
 async function getBank(node, force) {
   const path = node.bank || ("bank/" + node.id + ".json");
   if (!force && bankCache.has(path)) return bankCache.get(path);
   if (!force && bankFails.has(path)) throw new Error(bankFails.get(path));
-  const res = await fetch(await bust(path));
-  if (!res.ok) throw new Error("题库缺失：" + path + "（HTTP " + res.status + "）");
-  const data = await res.json();
-  data.visible = Array.isArray(data.visible) ? data.visible : [];
-  data.hidden = Array.isArray(data.hidden) ? data.hidden : [];
-  bankCache.set(path, data);
-  bankFails.delete(path);
-  return data;
+  const r = await fetchBank(node);
+  if (r.data) { bankCache.set(path, r.data); bankFails.delete(path); return r.data; }
+  const msg = r.missing ? ("题库缺失：" + path + "（HTTP 404）") : ("题库读不出来：" + path + " —— " + r.error);
+  bankFails.set(path, msg);
+  throw new Error(msg);
 }
 
 async function loadTree(force) {
@@ -236,13 +262,34 @@ async function loadTree(force) {
   if (force) { bankCache = new Map(); bankFails = new Map(); }
 }
 
-async function scanBanks() {
-  for (const n of FLAT) {
-    try {
-      const b = await getBank(n);
-      n._pool = { v: b.visible.length, h: b.hidden.length };
-    } catch (e) { n._pool = null; n._err = e.message; }
-  }
+// 并发扫题库。原来是 for + await 串行打 81 个请求，慢到树先渲染出一份错的。
+async function scanBanks(onProgress) {
+  BANKS_READY = false;
+  const queue = FLAT.slice();
+  SCAN.done = 0;
+  SCAN.total = queue.length;
+  const worker = async () => {
+    while (queue.length) {
+      const n = queue.shift();
+      const path = n.bank || ("bank/" + n.id + ".json");
+      const r = await fetchBank(n);
+      if (r.data) {
+        bankCache.set(path, r.data);
+        bankFails.delete(path);
+        n._pool = { v: r.data.visible.length, h: r.data.hidden.length };
+        n._bankErr = null;
+      } else {
+        n._pool = null;
+        n._bankErr = r.missing ? null : r.error;
+        if (!r.missing) bankFails.set(path, "题库读不出来：" + path + " —— " + r.error);
+      }
+      SCAN.done++;
+      if (onProgress) onProgress(SCAN);
+    }
+  };
+  const lanes = Math.max(1, Math.min(8, queue.length));
+  await Promise.all(Array.from({ length: lanes }, worker));
+  BANKS_READY = true;
 }
 
 /* ---------------- 题目类型与规范化 ---------------- */
@@ -325,6 +372,16 @@ function buildExam(node, bank, mode) {
 /* ---------------- 树渲染 ---------------- */
 function renderTree() {
   const host = $("#tree"); host.innerHTML = "";
+  if (!BANKS_READY) {
+    const li = el("li");
+    const row = el("div", "node locked");
+    row.appendChild(el("span", "dot"));
+    row.appendChild(el("span", "nname", "正在读取题库… " + SCAN.done + " / " + SCAN.total));
+    li.appendChild(row);
+    host.appendChild(li);
+    updateStats();
+    return;
+  }
   const root = FLAT[0];
   const li = el("li");
   li.appendChild(nodeRow(root));
@@ -359,7 +416,9 @@ function nodeRow(node) {
   row.appendChild(el("span", "nname", node.name));
   if (isGroup) row.appendChild(el("span", "tag", "分类"));
   else if (passed) row.appendChild(el("span", "tag h", "隐藏已启"));
-  if (!isGroup && !hasBank(node)) row.appendChild(el("span", "tag nobank", "题库待补"));
+  if (!isGroup && !hasBank(node)) {
+    row.appendChild(el("span", "tag nobank", node._bankErr ? "题库读取失败" : "题库待补"));
+  }
   row.appendChild(el("span", "nw", w + "%"));
   const bar = el("span", "bar"); const fill = el("i"); fill.style.width = w + "%"; bar.appendChild(fill); row.appendChild(bar);
   const gateName = (gate || {}).name || "父节点";
@@ -387,6 +446,11 @@ function renderDetail() {
   const box = $("#detail");
   box.innerHTML = "";
   if (exam) return renderExam();
+  if (!BANKS_READY) {
+    box.appendChild(el("h2", null, "正在读取题库…"));
+    box.appendChild(el("p", "hint", "读完才能考核。当前 " + SCAN.done + " / " + SCAN.total + " 个知识点。"));
+    return;
+  }
   const node = selId ? BY_ID.get(selId) : null;
   if (!node) {
     box.appendChild(el("h2", null, "选个知识点"));
@@ -415,7 +479,7 @@ function renderDetail() {
   const isGroup = !hasBank(node) && node.children.length > 0;
   if (node._pool) add("题库", "公开 " + node._pool.v + " 题 · 隐藏 " + node._pool.h + " 题");
   else if (isGroup) add("题库", "无（分类节点，不挡路）");
-  else if (node._err) add("题库", node._err);
+  else if (node._bankErr) add("题库", "读取失败：" + node._bankErr);
   box.appendChild(kv);
 
   const rowb = el("div", "rowbtn");
@@ -444,7 +508,9 @@ function renderDetail() {
   box._modeSel = sel;
 
   if (isGroup) box.appendChild(el("p", "hint", "这是分类节点（没有自己的题库），不挡路 —— 子节点由更上一层有题库的知识点把关。想让它也考，就给它建个 bank/" + node.id + ".json。"));
-  else if (!canExam) box.appendChild(el("p", "hint warn", "这个知识点还没有题库。照 bank/" + node.id + ".json 建一个就行，格式见 README。"));
+  else if (!canExam) box.appendChild(el("p", "hint warn", node._bankErr
+    ? ("题库读不出来（" + node._bankErr + "）。点上面「重新加载」再试，或者跑 node tools/check-bank.mjs 查一下。")
+    : ("这个知识点还没有题库。照 bank/" + node.id + ".json 建一个就行，格式见 README。")));
   const nextGate = node.children.filter(c => hasBank(c)).map(c => c.name);
   if (nextGate.length) {
     const h = el("p", "hint", "过了它才能直接考：" + nextGate.join("、"));
@@ -618,13 +684,20 @@ async function boot(force) {
     if (location.protocol === "file:") {
       banner("浏览器禁止 file:// 页面读取 json。请在 knowledge-tree 目录下起个服务：python -m http.server 8099，然后开 http://localhost:8099/", "bad");
     } else banner(null);
+    BANKS_READY = false;
+    SCAN.done = 0; SCAN.total = FLAT.length;
     renderTree();
-    if (!selId) renderDetail();
-    await scanBanks();
+    renderDetail();
+    let shown = 0;
+    await scanBanks(function (s) {
+      if (s.done === s.total || s.done - shown >= 8) { shown = s.done; renderTree(); renderDetail(); }
+    });
     renderTree();
-    if (selId) renderDetail();
-    const missing = FLAT.filter(n => !hasBank(n) && n.children.length === 0).length;
+    renderDetail();
+    const missing = FLAT.filter(n => !hasBank(n) && n.children.length === 0 && !n._bankErr).length;
     if (missing) toast("有 " + missing + " 个知识点还没有题库（bank/<id>.json）");
+    const failed = FLAT.filter(n => n._bankErr).length;
+    if (failed) banner("有 " + failed + " 个题库读取失败（不是 404，是超时或格式问题）。点「重新加载」再试，或者跑 node tools/check-bank.mjs 查。", "bad");
   } catch (e) {
     banner("加载失败：" + e.message + "（记得用 http:// 打开，别直接双击 html）", "bad");
   }
