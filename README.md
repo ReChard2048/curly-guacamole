@@ -28,9 +28,22 @@ start.bat lan
 - 只在自己家的网络里这么干，别在公共 WiFi 上开。
 - 不加 `lan` 就是默认的「只听本机」，别人的电脑连不上。
 
-### 办法二：要一份单文件版
+### 办法二：单文件版（推荐给别人）
 
-把 tree.json 和所有题库都嵌进一个 html 里，双击就能开，不用装 Node/Python、不用起服务。适合长期发给别人。缺点：题库更新了要重新打一份。
+`知识树-单文件版.html` —— 整个知识树和 28 个题库都嵌在这一个文件里。
+**双击就能开，不用装 Node/Python，不用起服务，不用管防火墙。** 直接发这个文件给别人就行。
+
+要重新打一份（改完题库/tree.json 之后）：
+
+```bat
+cd /d D:\工作使用\AI工作
+node tools/build-single.mjs
+node tools/test-single.mjs
+```
+
+第二个命令会顺便查「是不是忘了重新打包」—— 忘了它会报出来，并告诉你跑哪个命令。
+
+两个注意：文件 200 KB 左右，微信/QQ 传没问题；进度存在浏览器里，换台电脑就是从头开始。
 
 ### 为什么不是你猜的那个做法
 
@@ -78,7 +91,9 @@ node tools/test-tree.mjs
 knowledge-tree/
 ├── index.html                 # 程序本体，不用改
 ├── tree.json                  # 知识树结构（谁来定？就这里定）
-├── start.bat                  # 双击启动（start.bat lan = 局域网模式）
+├── 知识树-单文件版.html        # 打包产物：所有东西嵌在一起，双击就能开
+├── start.bat                  # 双击启动（本机用）
+├── start-lan.bat              # 双击启动（同一个 WiFi 给别人用）
 ├── README.md
 └── bank/
     ├── two-pointers.json      # 文件名 = 节点 id
@@ -184,6 +199,9 @@ knowledge-tree/
 
 - `tools/check-bank.mjs` —— 题库校验器，改完 json 跑一下。
 - `tools/test-tree.mjs` —— 程序本体的自测（桩 DOM 跑真实脚本）。
+- `tools/build-single.mjs` —— 打包单文件版。
+- `tools/test-single.mjs` —— 单文件版离线自测 + 查过期。
+- `tools/_kt-harness.mjs` —— 上面几个测试共用的桩 DOM，不当命令行工具用。
 - `tools/serve.mjs` —— 不用 Python 的本地静态服务。
   - `node tools/serve.mjs 8099` = 只听本机
   - `node tools/serve.mjs 8099 --lan` = 局域网可访问，并打印别人该输入的网址

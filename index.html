@@ -206,7 +206,25 @@ function gateOf(node) {
 function isUnlocked(node) { const g = gateOf(node); return !g || isPassed(g.id); }
 
 /* ---------------- 载入 ---------------- */
+// 单文件版：整个知识树和所有题库都嵌在页面里（window.KT_EMBED），不走网络。
+// 这一层存在的意义就一个：双击 html 也能用，不用起服务。
+const KT_EMBED = (typeof window !== "undefined" && window.KT_EMBED) || null;
+const STANDALONE = !!(KT_EMBED && KT_EMBED.data);
+
 async function bust(path) { return path + (path.includes("?") ? "&" : "?") + "t=" + Date.now(); }
+
+// 取一个 json。单文件版走内存，联网版走 fetch。
+async function httpGet(path, signal) {
+  if (STANDALONE) {
+    const key = String(path).split("?")[0];
+    if (Object.prototype.hasOwnProperty.call(KT_EMBED.data, key)) {
+      const raw = KT_EMBED.data[key];
+      return { ok: true, status: 200, json: async () => JSON.parse(raw) };
+    }
+    return { ok: false, status: 404, json: async () => { throw new Error("404"); } };
+  }
+  return fetch(await bust(path), { signal: signal });
+}
 
 // 拉一个题库，最多试 3 次。返回 {path, data} / {path, missing} / {path, error}
 // 404 = 「这个知识点还没建题库」，属正常；超时、解析失败才算错。
@@ -217,7 +235,7 @@ async function fetchBank(node) {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 6000);
     try {
-      const res = await fetch(await bust(path), { signal: ctrl.signal });
+      const res = await httpGet(path, ctrl.signal);
       if (res.status === 404) return { path: path, missing: true };
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
@@ -247,7 +265,7 @@ async function getBank(node, force) {
 }
 
 async function loadTree(force) {
-  const res = await fetch(await bust("tree.json"));
+  const res = await httpGet("tree.json");
   if (!res.ok) throw new Error("读不到 tree.json（HTTP " + res.status + "）");
   TREE = await res.json();
   FLAT = []; BY_ID = new Map();
@@ -681,7 +699,7 @@ async function boot(force) {
     await loadTree(force);
     $("#title").childNodes[0].nodeValue = (TREE.title || "知识树") + " ";
     $("#subtitle").textContent = TREE.version ? "v" + TREE.version : "";
-    if (location.protocol === "file:") {
+    if (location.protocol === "file:" && !STANDALONE) {
       banner("浏览器禁止 file:// 页面读取 json。请在 knowledge-tree 目录下起个服务：python -m http.server 8099，然后开 http://localhost:8099/", "bad");
     } else banner(null);
     BANKS_READY = false;
@@ -699,7 +717,7 @@ async function boot(force) {
     const failed = FLAT.filter(n => n._bankErr).length;
     if (failed) banner("有 " + failed + " 个题库读取失败（不是 404，是超时或格式问题）。点「重新加载」再试，或者跑 node tools/check-bank.mjs 查。", "bad");
   } catch (e) {
-    banner("加载失败：" + e.message + "（记得用 http:// 打开，别直接双击 html）", "bad");
+    banner("加载失败：" + e.message + (STANDALONE ? "（单文件版的数据嵌在页面里，按理不该失败 —— 可能文件没下完整，重新拿一份）" : "（记得用 http:// 打开，别直接双击 html；双击的话用单文件版）"), "bad");
   }
 }
 
