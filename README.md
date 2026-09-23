@@ -33,6 +33,14 @@ node tools/check-bank.mjs
 
 它会扫 tree.json 和所有题库，报出：json 语法错误、answer 下标越界、判断题写成数组、multi 的 answer 不是数组、选项重复、题目数不够等。改题库后跑一下，比在页面上踩坑快。
 
+## 程序本体有没有被改坏
+
+```bat
+node tools/test-tree.mjs
+```
+
+用桩 DOM 把 `index.html` 里真正的脚本跑一遍，测抽题不重复、判分、1̶0̶0% 解锁、隐藏题启用、存档。退出码 0 = 全过。改了 index.html 就跑一下。
+
 ## 文件结构
 
 ```
@@ -138,4 +146,5 @@ knowledge-tree/
 ## 配套工具（在上一级 tools/ 里）
 
 - `tools/check-bank.mjs` —— 题库校验器，改完 json 跑一下。
+- `tools/test-tree.mjs` —— 程序本体的自测（桩 DOM 跑真实脚本）。
 - `tools/serve.mjs` —— 不用 Python 的本地静态服务。

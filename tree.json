@@ -320,6 +320,25 @@
             "children": []
           }
         ]
+      },
+      {
+        "id": "graph",
+        "name": "图论",
+        "desc": "CSP-J 往上到 NOIP 的主战场：存图、最短路、连通性。",
+        "children": [
+          {
+            "id": "graph-spfa",
+            "name": "最短路 SPFA",
+            "desc": "Bellman-Ford 的队列优化，能带负权、能判负环，也会被卡。",
+            "children": []
+          },
+          {
+            "id": "graph-tarjan",
+            "name": "Tarjan 与连通性",
+            "desc": "强连通分量、割点、桥、双连通。一套 dfs 框架打好几个问题。",
+            "children": []
+          }
+        ]
       }
     ]
   }
