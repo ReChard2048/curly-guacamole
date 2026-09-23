@@ -1,0 +1,162 @@
+{
+  "id": "bidirectional-search",
+  "name": "双向搜索",
+  "desc": "Meet in the Middle、双向 BFS。",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "双向 BFS 的核心思想是？",
+      "options": [
+        "从起点和终点同时搜索",
+        "只从起点搜索",
+        "只从终点搜索",
+        "随机搜索"
+      ],
+      "answer": 0,
+      "explain": "两边扩展，相遇时得到最短路径。"
+    },
+    {
+      "id": "v02",
+      "type": "judge",
+      "q": "Meet in the Middle 常用于缩小指数级枚举规模。",
+      "answer": true,
+      "explain": "把问题分成两半，分别枚举后合并。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "双向 BFS 相比单向 BFS，通常能？",
+      "options": [
+        "减少搜索状态数",
+        "增加状态数",
+        "降低正确性",
+        "增加边权"
+      ],
+      "answer": 0,
+      "explain": "两边扩展，分支因子降低。"
+    },
+    {
+      "id": "v04",
+      "type": "judge",
+      "q": "双向 BFS 要求边权相同。",
+      "answer": true,
+      "explain": "BFS 求最短路一般用于无权图或边权相等。"
+    },
+    {
+      "id": "v05",
+      "type": "single",
+      "q": "Meet in the Middle 通常把数据分成？",
+      "options": [
+        "两半",
+        "三份",
+        "四份",
+        "任意份"
+      ],
+      "answer": 0,
+      "explain": "分成两半后分别枚举。"
+    },
+    {
+      "id": "v06",
+      "type": "judge",
+      "q": "双向搜索一定比单向搜索快。",
+      "answer": false,
+      "explain": "取决于问题结构和实现，通常有优势但不绝对。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "双向 BFS 中，如何判断相遇？",
+      "options": [
+        "某状态被两边都访问过",
+        "队列为空",
+        "到达终点",
+        "起点出队"
+      ],
+      "answer": 0,
+      "explain": "两边访问集合有交集即相遇。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "Meet in the Middle 可以用于子集和问题。",
+      "answer": true,
+      "explain": "枚举前一半和后一半子集和，再合并。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "双向 BFS 中，通常每次扩展？",
+      "options": [
+        "较少的一边",
+        "较多的一边",
+        "固定左边",
+        "固定右边"
+      ],
+      "answer": 0,
+      "explain": "优先扩展状态少的一侧，控制规模。"
+    },
+    {
+      "id": "v10",
+      "type": "judge",
+      "q": "双向搜索只能用于图论。",
+      "answer": false,
+      "explain": "Meet in the Middle 也用于组合枚举。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "Meet in the Middle 将复杂度从 O(2^n) 降到大约？",
+      "options": [
+        "O(2^(n/2))",
+        "O(n^2)",
+        "O(n log n)",
+        "O(2^n)"
+      ],
+      "answer": 0,
+      "explain": "分成两半后分别枚举。"
+    },
+    {
+      "id": "h02",
+      "type": "judge",
+      "q": "双向 BFS 适合状态空间大但目标明确的最短路问题。",
+      "answer": true,
+      "explain": "从两端同时搜索，减少扩展量。"
+    },
+    {
+      "id": "h03",
+      "type": "single",
+      "q": "双向 BFS 中，两个队列通常分别存储？",
+      "options": [
+        "起点侧和终点侧扩展状态",
+        "所有状态",
+        "边",
+        "权值"
+      ],
+      "answer": 0,
+      "explain": "两边各自维护访问层。"
+    },
+    {
+      "id": "h04",
+      "type": "single",
+      "q": "Meet in the Middle 合并两半结果时，常使用？",
+      "options": [
+        "排序 + 二分/双指针",
+        "最短路",
+        "拓扑排序",
+        "并查集"
+      ],
+      "answer": 0,
+      "explain": "枚举一半后排序，另一半查询匹配。"
+    },
+    {
+      "id": "h05",
+      "type": "judge",
+      "q": "双向搜索可以降低时间复杂度的指数底数。",
+      "answer": true,
+      "explain": "例如 2^n 变成 2^(n/2)。"
+    }
+  ]
+}

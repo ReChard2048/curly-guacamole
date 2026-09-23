@@ -1,0 +1,162 @@
+{
+  "id": "prefix-diff-2d",
+  "name": "二维前缀和与差分",
+  "desc": "二维前缀和公式、二维差分、树上差分入门。",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "二维前缀和 sum[i][j] 的递推式是？",
+      "options": [
+        "sum[i][j] = sum[i-1][j] + sum[i][j-1] - sum[i-1][j-1] + a[i][j]",
+        "sum[i][j] = sum[i-1][j] + sum[i][j-1] + a[i][j]",
+        "sum[i][j] = sum[i-1][j-1] + a[i][j]",
+        "sum[i][j] = a[i][j]"
+      ],
+      "answer": 0,
+      "explain": "两个前缀和相加，重复的左上角减掉，再加当前格。"
+    },
+    {
+      "id": "v02",
+      "type": "judge",
+      "q": "二维差分可以在 O(1) 时间内完成一次矩形区域的加值。",
+      "answer": true,
+      "explain": "矩形四个角打标记，最后做一次前缀和还原。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "二维前缀和求子矩阵 (x1,y1) 到 (x2,y2) 的和，公式是？",
+      "options": [
+        "sum[x2][y2] - sum[x1-1][y2] - sum[x2][y1-1] + sum[x1-1][y1-1]",
+        "sum[x2][y2] - sum[x1-1][y2] - sum[x2][y1-1]",
+        "sum[x2][y2] + sum[x1-1][y1-1]",
+        "sum[x2][y2] - sum[x1][y1]"
+      ],
+      "answer": 0,
+      "explain": "容斥原理：大矩形减两个边条，加回重复减去的角。"
+    },
+    {
+      "id": "v04",
+      "type": "judge",
+      "q": "二维差分还原时，需要对差分数组做一次二维前缀和。",
+      "answer": true,
+      "explain": "差分标记累加后，通过前缀和得到最终值。"
+    },
+    {
+      "id": "v05",
+      "type": "single",
+      "q": "一维差分中，对区间 [l, r] 加 v，通常怎么做？",
+      "options": [
+        "diff[l] += v, diff[r+1] -= v",
+        "diff[l] -= v, diff[r+1] += v",
+        "diff[l] += v",
+        "diff[r] += v"
+      ],
+      "answer": 0,
+      "explain": "差分标记后做前缀和即可还原区间加。"
+    },
+    {
+      "id": "v06",
+      "type": "judge",
+      "q": "二维前缀和可以用于快速查询任意子矩阵和。",
+      "answer": true,
+      "explain": "预处理后每次查询 O(1)。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "树上差分常用于处理？",
+      "options": [
+        "路径加、子树加",
+        "最短路",
+        "拓扑排序",
+        "最大流"
+      ],
+      "answer": 0,
+      "explain": "把路径或子树修改转化为差分标记，最后 DFS 还原。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "二维差分打标记时，矩形四个角都要修改。",
+      "answer": true,
+      "explain": "通过四个角的加减实现矩形区域影响。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "若 diff 是差分数组，还原原数组通常使用？",
+      "options": [
+        "前缀和",
+        "后缀和",
+        "差分再差分",
+        "排序"
+      ],
+      "answer": 0,
+      "explain": "差分的前缀和就是原数组。"
+    },
+    {
+      "id": "v10",
+      "type": "judge",
+      "q": "二维前缀和预处理的时间复杂度是 O(nm)。",
+      "answer": true,
+      "explain": "每个格子由左、上、左上转移而来。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "树上差分通常用来解决什么问题？",
+      "options": [
+        "路径加、子树加",
+        "最短路",
+        "最小生成树",
+        "拓扑排序"
+      ],
+      "answer": 0,
+      "explain": "把路径或子树的修改转化为差分标记，最后一遍 DFS 还原。"
+    },
+    {
+      "id": "h02",
+      "type": "single",
+      "q": "二维差分中，对矩形 (x1,y1)-(x2,y2) 加 v，通常需要修改几个位置？",
+      "options": [
+        "4 个",
+        "2 个",
+        "1 个",
+        "8 个"
+      ],
+      "answer": 0,
+      "explain": "四个角分别加减，做前缀和后得到矩形加。"
+    },
+    {
+      "id": "h03",
+      "type": "judge",
+      "q": "差分数组适合处理多次区间修改、最后统一查询的问题。",
+      "answer": true,
+      "explain": "多次修改 O(1)，最后前缀和还原。"
+    },
+    {
+      "id": "h04",
+      "type": "single",
+      "q": "树上点差分中，路径 u-v 加 v 值，通常在哪几个位置打标记？",
+      "options": [
+        "u, v, lca, parent(lca)",
+        "u, v",
+        "lca 及其儿子",
+        "根节点"
+      ],
+      "answer": 0,
+      "explain": "路径差分常用 u、v、lca、fa[lca] 四个位置。"
+    },
+    {
+      "id": "h05",
+      "type": "judge",
+      "q": "二维前缀和与二维差分都依赖容斥思想。",
+      "answer": true,
+      "explain": "重复部分需要加减抵消。"
+    }
+  ]
+}

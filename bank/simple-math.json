@@ -1,0 +1,162 @@
+{
+  "id": "simple-math",
+  "name": "简单数学",
+  "desc": "快速幂、GCD / LCM、埃氏筛、简单组合计数。",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "快速幂计算 a^b 的时间复杂度是？",
+      "options": [
+        "O(log b)",
+        "O(b)",
+        "O(b log b)",
+        "O(1)"
+      ],
+      "answer": 0,
+      "explain": "把 b 按二进制拆开，每次平方，共 log b 次。"
+    },
+    {
+      "id": "v02",
+      "type": "judge",
+      "q": "gcd(a, b) = gcd(b, a % b) 是欧几里得算法的核心。",
+      "answer": true,
+      "explain": "辗转相除，直到 b = 0，a 就是最大公约数。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "lcm(a, b) 与 gcd(a, b) 的关系是？",
+      "options": [
+        "a * b / gcd(a, b)",
+        "a + b",
+        "a * b",
+        "gcd(a, b) / a"
+      ],
+      "answer": 0,
+      "explain": "lcm(a,b) * gcd(a,b) = a * b。"
+    },
+    {
+      "id": "v04",
+      "type": "judge",
+      "q": "埃氏筛可以筛出 1 到 n 的所有质数。",
+      "answer": true,
+      "explain": "从小到大，用质数筛掉其倍数。"
+    },
+    {
+      "id": "v05",
+      "type": "single",
+      "q": "组合数 C(n, m) 表示？",
+      "options": [
+        "从 n 个不同元素中选 m 个的方案数",
+        "n 的 m 次方",
+        "n 个元素排列数",
+        "n 与 m 的公约数"
+      ],
+      "answer": 0,
+      "explain": "组合数只关心选取，不关心顺序。"
+    },
+    {
+      "id": "v06",
+      "type": "judge",
+      "q": "快速幂只能用于整数，不能用于矩阵。",
+      "answer": false,
+      "explain": "矩阵快速幂也常用，把乘法换成矩阵乘法即可。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "计算 gcd 时，若 b == 0，则答案是？",
+      "options": [
+        "a",
+        "b",
+        "0",
+        "1"
+      ],
+      "answer": 0,
+      "explain": "辗转相除终止条件，gcd(a,0)=a。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "埃氏筛中，一个合数可能被多次筛掉。",
+      "answer": true,
+      "explain": "普通埃氏筛中合数可能被多个质因子筛，但复杂度仍可接受。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "C(n, 0) 的值是？",
+      "options": [
+        "1",
+        "0",
+        "n",
+        "n!"
+      ],
+      "answer": 0,
+      "explain": "从 n 个里选 0 个，只有一种方案。"
+    },
+    {
+      "id": "v10",
+      "type": "judge",
+      "q": "gcd(a, b) 一定整除 lcm(a, b)。",
+      "answer": true,
+      "explain": "lcm 是 gcd 的倍数。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "埃氏筛筛出 1 到 n 的所有质数，时间复杂度是？",
+      "options": [
+        "O(n log log n)",
+        "O(n)",
+        "O(n log n)",
+        "O(n^2)"
+      ],
+      "answer": 0,
+      "explain": "每个合数被它的最小质因子筛掉一次，总复杂度 O(n log log n)。"
+    },
+    {
+      "id": "h02",
+      "type": "single",
+      "q": "快速幂中，若指数 b 为 0，则 a^b 通常返回？",
+      "options": [
+        "1",
+        "0",
+        "a",
+        "b"
+      ],
+      "answer": 0,
+      "explain": "任何非零数的 0 次幂为 1。"
+    },
+    {
+      "id": "h03",
+      "type": "judge",
+      "q": "欧几里得算法求 gcd 的时间复杂度约为 O(log min(a,b))。",
+      "answer": true,
+      "explain": "每次取模规模至少减半。"
+    },
+    {
+      "id": "h04",
+      "type": "single",
+      "q": "若 C(n, m) 中 m > n，则值为？",
+      "options": [
+        "0",
+        "1",
+        "n",
+        "m"
+      ],
+      "answer": 0,
+      "explain": "无法从 n 个元素中选超过 n 个。"
+    },
+    {
+      "id": "h05",
+      "type": "judge",
+      "q": "线性筛可以在 O(n) 时间内筛出所有质数。",
+      "answer": true,
+      "explain": "每个合数只被最小质因子筛一次。"
+    }
+  ]
+}

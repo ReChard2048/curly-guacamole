@@ -383,7 +383,144 @@
             "children": []
           }
         ]
+      },
+      {
+  "id": "advanced-basic",
+  "name": "进阶基础",
+  "desc": "CSP-J 到 CSP-S 之间的过渡：双指针、倍增、简单数论。",
+  "children": [
+    {
+      "id": "two-pointers",
+      "name": "双指针",
+      "desc": "同向 / 相向双指针，单调性利用，尺取法。",
+      "children": []
+    },
+    {
+      "id": "binary-lifting",
+      "name": "倍增",
+      "desc": "倍增思想，ST 表求 RMQ，快速幂的倍增视角。",
+      "children": []
+    },
+    {
+      "id": "prefix-diff-2d",
+      "name": "二维前缀和与差分",
+      "desc": "二维前缀和公式、二维差分、树上差分入门。",
+      "children": []
+    },
+    {
+      "id": "simple-math",
+      "name": "简单数学",
+      "desc": "快速幂、GCD / LCM、埃氏筛、简单组合计数。",
+      "children": []
+    }
+  ]
+},
+{
+  "id": "string",
+  "name": "字符串",
+  "desc": "从字符数组到字符串算法，CSP-J 也会考。",
+  "children": [
+    {
+      "id": "string-hash",
+      "name": "字符串哈希",
+      "desc": "滚动哈希、双模哈希、判等与子串匹配。",
+      "children": []
+    },
+    {
+      "id": "kmp",
+      "name": "KMP 算法",
+      "desc": "前缀函数、失配指针、周期与 Border 性质。",
+      "children": []
+    },
+    {
+      "id": "trie",
+      "name": "Trie 字典树",
+      "desc": "字符串存储与查询、01 Trie 入门。",
+      "children": []
+    }
+  ]
+},
+{
+  "id": "graph-more",
+  "name": "图论进阶",
+  "desc": "在简单图的基础上，往并查集、最小生成树、拓扑排序走。",
+  "children": [
+    {
+      "id": "dsu",
+      "name": "并查集",
+      "desc": "路径压缩、按秩合并、连通性判定、Kruskal 的基础。",
+      "children": []
+    },
+    {
+      "id": "topo-sort",
+      "name": "拓扑排序",
+      "desc": "DAG 上的顺序、入度统计、判环。",
+      "children": []
+    },
+    {
+      "id": "mst",
+      "name": "最小生成树",
+      "desc": "Kruskal、Prim、并查集判连通。",
+      "children": []
+    }
+  ]
+},
+{
+  "id": "search-more",
+  "name": "搜索进阶",
+  "desc": "在 DFS / BFS 之上，学剪枝、双向搜索、记忆化。",
+  "children": [
+      {
+        "id": "dfs-pruning",
+        "name": "DFS 剪枝",
+        "desc": "可行性剪枝、最优性剪枝、搜索顺序优化。",
+        "children": []
+      },
+      {
+        "id": "bidirectional-search",
+        "name": "双向搜索",
+        "desc": "Meet in the Middle、双向 BFS。",
+        "children": []
+      },
+      {
+        "id": "memo-search",
+        "name": "记忆化搜索",
+        "desc": "搜索与 DP 的桥接，状态定义与转移。",
+        "children": []
       }
+    ]
+  },
+  {
+    "id": "dp-more",
+    "name": "动态规划进阶",
+    "desc": "背包、线性 DP、区间 DP、树形 DP 入门。",
+    "children": [
+      {
+        "id": "knapsack",
+        "name": "背包问题",
+        "desc": "01 背包、完全背包、多重背包、分组背包。",
+        "children": []
+      },
+      {
+        "id": "linear-dp",
+        "name": "线性 DP",
+        "desc": "最长上升子序列、最大子段和、数字三角形。",
+        "children": []
+      },
+      {
+        "id": "interval-dp",
+        "name": "区间 DP",
+        "desc": "区间合并、石子合并、括号匹配。",
+        "children": []
+      },
+      {
+        "id": "tree-dp",
+        "name": "树形 DP 入门",
+        "desc": "树上背包、树的直径与重心、换根 DP 入门。",
+        "children": []
+      }
+    ]
+  }
     ]
   }
 }

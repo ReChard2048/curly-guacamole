@@ -95,6 +95,11 @@ knowledge-tree/
 
 ## bank/<id>.json
 
+> **文件名必须是 `<节点 id>.json`，不要带父分类前缀。**
+> 节点 id 是 `two-pointers`，文件就叫 `bank/two-pointers.json`。
+> 写成 `bank/advanced-basic-two-pointers.json` 的话，页面上会显示「题库待补」—— 程序只按节点 id 找。
+> 起错了先跑一下 `node tools/check-bank.mjs`，它会直接把该叫什么名字告诉你。
+
 ```jsonc
 {
   "id": "basics-variables",

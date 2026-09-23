@@ -1,0 +1,162 @@
+{
+  "id": "kmp",
+  "name": "KMP 算法",
+  "desc": "前缀函数、失配指针、周期与 Border 性质。",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "KMP 算法主要解决什么问题？",
+      "options": [
+        "字符串模式匹配",
+        "最短路",
+        "排序",
+        "最小生成树"
+      ],
+      "answer": 0,
+      "explain": "KMP 在线性时间内完成模式串匹配。"
+    },
+    {
+      "id": "v02",
+      "type": "judge",
+      "q": "KMP 的 next 数组也称为失配指针。",
+      "answer": true,
+      "explain": "失配时根据 next 数组跳转，避免主串指针回退。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "前缀函数 pi[i] 表示？",
+      "options": [
+        "子串 s[0..i] 的最长真前后缀相等长度",
+        "字符串长度",
+        "字符个数",
+        "哈希值"
+      ],
+      "answer": 0,
+      "explain": "即最长的 border 长度。"
+    },
+    {
+      "id": "v04",
+      "type": "judge",
+      "q": "KMP 匹配的时间复杂度是 O(n + m)。",
+      "answer": true,
+      "explain": "预处理 O(m)，匹配 O(n)。"
+    },
+    {
+      "id": "v05",
+      "type": "single",
+      "q": "失配时，KMP 通常将模式串指针移动到？",
+      "options": [
+        "next[j-1]",
+        "0",
+        "j+1",
+        "n"
+      ],
+      "answer": 0,
+      "explain": "根据已匹配前缀的最长 border 跳转。"
+    },
+    {
+      "id": "v06",
+      "type": "judge",
+      "q": "KMP 中主串指针不会回退。",
+      "answer": true,
+      "explain": "主串指针一直向前，模式串指针根据 next 跳转。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "若字符串长度为 n，最小循环节长度为？",
+      "options": [
+        "n - pi[n-1]",
+        "pi[n-1]",
+        "n / 2",
+        "n"
+      ],
+      "answer": 0,
+      "explain": "若 n % (n - pi[n-1]) == 0，则为循环节长度。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "Border 是指既是前缀又是后缀的子串。",
+      "answer": true,
+      "explain": "真 Border 不包含自身。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "KMP 预处理 next 数组的时间复杂度是？",
+      "options": [
+        "O(m)",
+        "O(n)",
+        "O(nm)",
+        "O(log m)"
+      ],
+      "answer": 0,
+      "explain": "m 为模式串长度，线性预处理。"
+    },
+    {
+      "id": "v10",
+      "type": "judge",
+      "q": "KMP 可以用于求字符串的周期。",
+      "answer": true,
+      "explain": "利用前缀函数可判断周期和循环节。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "KMP 中 next 数组的核心作用是？",
+      "options": [
+        "失配时快速跳转",
+        "排序",
+        "哈希",
+        "建图"
+      ],
+      "answer": 0,
+      "explain": "利用已匹配信息避免重复比较。"
+    },
+    {
+      "id": "h02",
+      "type": "judge",
+      "q": "KMP 可以求出模式串在文本串中所有出现位置。",
+      "answer": true,
+      "explain": "匹配成功后继续按 next 跳转即可。"
+    },
+    {
+      "id": "h03",
+      "type": "single",
+      "q": "若 pi[n-1] = k，则字符串长度为 n 的前缀函数含义是？",
+      "options": [
+        "最长 border 长度为 k",
+        "最小周期为 k",
+        "字符数为 k",
+        "哈希为 k"
+      ],
+      "answer": 0,
+      "explain": "pi 值就是最长真前后缀相等长度。"
+    },
+    {
+      "id": "h04",
+      "type": "single",
+      "q": "字符串 s 的最小周期为 p，则 s[i] = s[i+p] 对哪些 i 成立？",
+      "options": [
+        "所有 i + p < n",
+        "所有 i",
+        "只有 i=0",
+        "只有 i=n-1"
+      ],
+      "answer": 0,
+      "explain": "周期性质在范围内成立。"
+    },
+    {
+      "id": "h05",
+      "type": "judge",
+      "q": "KMP 也可以用于 AC 自动机的 fail 树基础。",
+      "answer": true,
+      "explain": "AC 自动机的 fail 指针思想与 KMP 的 next 类似。"
+    }
+  ]
+}
