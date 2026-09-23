@@ -4,25 +4,37 @@
 
 ## 怎么跑
 
-必须起个本地服务（浏览器不允许 `file://` 页面读 json，双击 index.html 是白屏 + 红字提示）。
+自己用：双击 `start.bat`。只有你这台电脑能开。
 
-最简单：双击 `start.bat`。
+## 分享给别人
 
-或者手动：
+**先说清楚为什么别人打不开：`localhost` 的意思是「我自己这台机器」。**
+你把文件夹发给别人，他打开的是**他自己**的 localhost —— 那儿当然什么都没。
+直接双击 `index.html` 也不行：浏览器不让 `file://` 页面读 json。
+
+### 办法一：同一个局域网里一起用（推荐，不用改代码）
 
 ```bat
 cd /d D:\工作使用\AI工作\knowledge-tree
-python -m http.server 8099
+start.bat lan
 ```
 
-不想用 Python 也行（跑到上一级目录）：
+窗口里会打印一个类似 `http://192.168.90.63:8099/` 的地址，把这个地址发给别人（同一个 WiFi 下），他们用浏览器打开就能用。
 
-```bat
-cd /d D:\工作使用\AI工作
-node tools/serve.mjs 8099
-```
+几个注意：
 
-然后浏览器开 <http://localhost:8099/> 。
+- 只有你这台电脑开着这个窗口的时候才有效，窗口一关就断。
+- Windows 防火墙第一次可能会弹窗，要选「允许访问」。选错了就去防火墙里放行 8099。
+- 只在自己家的网络里这么干，别在公共 WiFi 上开。
+- 不加 `lan` 就是默认的「只听本机」，别人的电脑连不上。
+
+### 办法二：要一份单文件版
+
+把 tree.json 和所有题库都嵌进一个 html 里，双击就能开，不用装 Node/Python、不用起服务。适合长期发给别人。缺点：题库更新了要重新打一份。
+
+### 为什么不是你猜的那个做法
+
+你说的「向 windows 发送打开浏览器的请求」—— 那个思路是对的，`start.bat` 干的就是这个（起服务 + 自动开浏览器）。但它只能解决**自己这台机器**的事：别人双击你发的 bat，起的是他自己的服务，而他要的是能读到你那份题库。所以要么让他也拿到全部文件（办法二），要么你自己起服务、把地址给他（办法一）。
 
 ## 改完题库怎么查错
 
@@ -56,10 +68,11 @@ node tools/test-tree.mjs
 knowledge-tree/
 ├── index.html                 # 程序本体，不用改
 ├── tree.json                  # 知识树结构（谁来定？就这里定）
+├── start.bat                  # 双击启动（start.bat lan = 局域网模式）
 ├── README.md
 └── bank/
-    ├── basics-variables.json  # 变量与数据类型（样板：12 公开 + 6 隐藏）
-    └── basics-operators.json  # 运算符与表达式（样板：10 公开 + 4 隐藏）
+    ├── two-pointers.json      # 文件名 = 节点 id
+    └── ...
 ```
 
 ## 规则（已确认的那套）
@@ -162,3 +175,5 @@ knowledge-tree/
 - `tools/check-bank.mjs` —— 题库校验器，改完 json 跑一下。
 - `tools/test-tree.mjs` —— 程序本体的自测（桩 DOM 跑真实脚本）。
 - `tools/serve.mjs` —— 不用 Python 的本地静态服务。
+  - `node tools/serve.mjs 8099` = 只听本机
+  - `node tools/serve.mjs 8099 --lan` = 局域网可访问，并打印别人该输入的网址
