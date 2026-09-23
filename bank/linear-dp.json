@@ -93,8 +93,8 @@
         "找最后一个位置",
         "不二分"
       ],
-      "answer": 0,
-      "explain": "严格递增用 lower_bound，非严格用 upper_bound。"
+      "answer": 1,
+      "explain": "严格递增用 lower_bound（找第一个大于等于的）；非严格递增（不下降）用 upper_bound（找第一个大于的）。这样相等的元素不会把彼此顶掉。"
     },
     {
       "id": "v10",
