@@ -53,7 +53,7 @@
         "priority_queue<int> pq(small);"
       ],
       "answer": 0,
-      "explain": "三个模板参数依次是比较类型、底层容器、比较器。greater<int> 让「更大」的排更后，所以堆顶最小。"
+      "explain": "三个模板参数依次是：元素类型、底层容器、比较器。greater<int> 让「更大」的排更后，所以堆顶最小。"
     },
     {
       "id": "v07",
