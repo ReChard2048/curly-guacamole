@@ -13,7 +13,7 @@ if not errorlevel 1 goto useNode
 goto noNode
 
 :useNode
-node "%SERVE%" 8099 "%HERE%" --open
+node "%SERVE%" 8099 "%HERE%" --lan --open
 goto stopped
 
 :stopped

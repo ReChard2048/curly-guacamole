@@ -36,6 +36,16 @@ start.bat lan
 
 你说的「向 windows 发送打开浏览器的请求」—— 那个思路是对的，`start.bat` 干的就是这个（起服务 + 自动开浏览器）。但它只能解决**自己这台机器**的事：别人双击你发的 bat，起的是他自己的服务，而他要的是能读到你那份题库。所以要么让他也拿到全部文件（办法二），要么你自己起服务、把地址给他（办法一）。
 
+## 启动脚本（start.bat / start-lan.bat）
+
+双击就行：`start.bat` 本机用，`start-lan.bat` 给别人用。
+
+> **改这两个文件时注意：里面只能写纯 ASCII，一个中文都不能出现。**
+> cmd.exe 读 UTF-8 批处理里的多字节汉字会按字节错位，把行从中间截断，报
+> `'xxx' is not recognized as an internal or external command`。
+> 这不是换行符的问题，加 BOM 也不可靠。所以中文提示全交给 `serve.mjs` 打。
+> 另外文件必须是 CRLF 换行（LF-only 会让 `goto` 找不到标签）。
+
 ## 改完题库怎么查错
 
 ```bat
@@ -177,3 +187,4 @@ knowledge-tree/
 - `tools/serve.mjs` —— 不用 Python 的本地静态服务。
   - `node tools/serve.mjs 8099` = 只听本机
   - `node tools/serve.mjs 8099 --lan` = 局域网可访问，并打印别人该输入的网址
+  - `--open` = 起完自动开浏览器（双击 bat 用的）
