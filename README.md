@@ -235,5 +235,9 @@ knowledge-tree/
 
 按 **PolyForm Noncommercial License 1.0.0** 发布，全文见同目录的 `LICENSE`。
 
-- **非商业用途免费**：自己学、拿去教课、非营利组织用，都行；也可以改、可以再分发 —— 保留版权声明（`LICENSE` 里那行 `Required Notice`）就可以。
+Required Notice: Copyright 2026 林灿 (ReChard2048)
+
+- **非商业用途免费**：自己学、拿去教课、非营利组织用，都行；也可以改、可以再分发 —— 保留上面那行 `Required Notice` 就可以。
 - **商业用途要单独授权**：公司内部培训、做成付费课程、打包进商业产品这类，先发邮件到 <Himuro_Sena@outlook.com> 谈。
+
+> `LICENSE` 里只放官方条款原文，别往里加自己的说明 —— GitHub 靠文本匹配识别协议，多出来的段落会让它认不出来（会显示成 "Other"）。版权声明和联系方式写在这儿就行。
