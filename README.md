@@ -117,6 +117,7 @@ knowledge-tree/
 ├── start-lan.bat              # 双击启动（同一个 WiFi 给别人用）
 ├── serve.mjs                  # 静态服务（tools/serve.mjs 的副本，让这文件夹能单独发出去）
 ├── README.md
+├── LICENSE                    # PolyForm Noncommercial 1.0.0（非商业免费，商业要单独授权）
 ├── new/                       # 历史素材：并入前的题库和那份树，别再当数据源用
 └── bank/
     ├── ds-tree-lca.json       # 文件名 = 节点 id
@@ -229,3 +230,10 @@ knowledge-tree/
   - `node tools/serve.mjs 8099` = 只听本机
   - `node tools/serve.mjs 8099 --lan` = 局域网可访问，并打印别人该输入的网址
   - `--open` = 起完自动开浏览器（双击 bat 用的）
+
+## 授权
+
+按 **PolyForm Noncommercial License 1.0.0** 发布，全文见同目录的 `LICENSE`。
+
+- **非商业用途免费**：自己学、拿去教课、非营利组织用，都行；也可以改、可以再分发 —— 保留版权声明（`LICENSE` 里那行 `Required Notice`）就可以。
+- **商业用途要单独授权**：公司内部培训、做成付费课程、打包进商业产品这类，先发邮件到 <Himuro_Sena@outlook.com> 谈。
