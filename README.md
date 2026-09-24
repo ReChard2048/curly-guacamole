@@ -1,191 +1,209 @@
-AI的readme写的依托答辩，还是我来写吧
-本项目为OI的知识树，后续更新维护，内容应该会在GESP-1~NOIP的知识点，现今处于早期版本
-类似知识树。前置知识点考到 100% 才解锁拓展知识点，类似学完二叉树才能学二叉排序树。
+前置知识点考核通过后解锁后继知识点，形如「二叉树 → 二叉排序树」。
+当前为早期版本，知识点覆盖范围规划为 GESP-1 ～ NOIP。
 
+当前版本：v3。版本号显示在页面左上角。变更知识点后请同步更新 tree.json 的 version 字段。
 
-#运行指南#
-本地运行就用start.bat，会自己开的，记得要有node.js
-！！！运行start.bat或者start_lan.bat，不要开index.html！！！
-！！！运行start.bat或者start_lan.bat，不要开index.html！！！
-！！！运行start.bat或者start_lan.bat，不要开index.html！！！
-版本号在左上角（当前 v3），更新了内容记着同步改 `tree.json` 里的 `version`，好区分自己手上是哪一份。
+部署
+本地： 执行 start.bat，依赖 Node.js。
 
+不要直接打开 index.html。
 
-#错误簿#
-别人的localhost和你的不是一个东西，别在别人电脑上输localhost通不到自己的程序就来说程序有问题
-lan版本：
+无 Node 环境： 使用 知识树-单文件版.html，知识树与 45 个题库已全部内联，双击即可运行，可直接分发。
+
+修改题库后需重新打包：
+
 ```bat
-cd /d <你的目录>\knowledge-tree
-start.bat lan
-```
-窗口里会打印一个类似 `http://192.168.x.x:8099/` 的地址，把这个地址发给别人（同一个 WiFi 下），他们用浏览器打开就能用。
-几个注意：
-  - 只有你这台电脑开着这个窗口的时候才有效，窗口一关就断。
-  - Windows 防火墙第一次可能会弹窗，要选「允许访问」。选错了就去防火墙里放行 8099。
-  - 只在自己家的网络里这么干，别在公共 WiFi 上开。
-  - 不加 `lan` 就是默认的「只听本机」，别人的电脑连不上。
-
-或者也可以单文件版本：
-`知识树-单文件版.html` —— 整个知识树和 45 个题库都嵌在这一个文件里。
-！！双击就能开，不用装 Node/Python，不用起服务，不用管防火墙。！！直接发这个文件给别人就行。
-！！！改完题库/tree.json 之后要重新打一份！！！
-```bat
-cd /d <你的目录>
 node tools/build-single.mjs
 node tools/test-single.mjs
+test-single.mjs 会校验单文件版是否为最新产物，过期会直接报错并给出命令。
 ```
-第二个命令会顺便查「是不是忘了重新打包」—— 忘了它会报出来，并告诉你跑哪个命令。
-两个注意：文件 300 KB 左右，进度存在浏览器里，换台电脑就是从头开始。
 
-发knowledge也可以：
-对方要自己起服务（需要有 Node.js）。把 **`knowledge-tree` 整个文件夹**发过去，他双击 `start.bat` 就能在自己机器上打开。
-- 这个文件夹里**自带一份 `serve.mjs`**，所以单独发它就够，不需要连上一级的 `tools/`。
-  （早先版本没有这一份，只拷文件夹会报 `Cannot find module ...\knowledge-tree\tools\serve.mjs`。）
-- 对方没装 Node 的话，`start.bat` 会直接提示他去装，或者改用办法二（单文件版）。
-- 文件夹里 `new/` 是历史素材、`bank/` 才是生效题库，一起带着没关系，程序只读 `bank/`。
+单文件版约 300 KB，进度存储于浏览器 localStorage，跨设备不共享。
 
-## 启动脚本（start.bat / start-lan.bat）
-双击就行：`start.bat` 本机用，`start-lan.bat` 局域网一起用。
-两个脚本都先找**跟自己在同一个文件夹里的 `serve.mjs`**，找不到才回退到上一级的 `tools/serve.mjs`。前一份是为了让这个文件夹能单独发给别人（见「办法三」）。
-
-> **`serve.mjs` 有两份**：`tools/serve.mjs`（工作区工具）和 `knowledge-tree/serve.mjs`（随文件夹发的副本）。
-> 改了一个记得把另一个也同步过去，`diff tools/serve.mjs knowledge-tree/serve.mjs` 一眼就能看出有没有漏。
-
-> **改这两个 bat 时注意：里面只能写纯 ASCII，一个中文都不能出现。**
-> cmd.exe 读 UTF-8 批处理里的多字节汉字会按字节错位，把行从中间截断，报
-> `'xxx' is not recognized as an internal or external command`。
-> 这不是换行符的问题，加 BOM 也不可靠。所以中文提示全交给 `serve.mjs` 打。
-> 另外文件必须是 CRLF 换行（LF-only 会让 `goto` 找不到标签）。
-                                                                        ！！！后面就是AI的了！！！
-## 改完题库怎么查错
-
+局域网访问
 ```bat
-cd /d <你的目录>
-node tools/check-bank.mjs
+cd /d <你的目录>\knowledge-tree
+start-lan.bat
 ```
-它会扫 tree.json 和所有题库，报出：json 语法错误、answer 下标越界、判断题写成数组、multi 的 answer 不是数组、选项重复、题目数不够等。改题库后跑一下，比在页面上踩坑快。
+控制台会输出 http://192.168.x.x:8099/ 形式的地址，同一子网内可直接访问。
 
-## 程序本体有没有被改坏
-```bat
-node tools/test-tree.mjs
-```
-用桩 DOM 把 `index.html` 里真正的脚本跑一遍，测加载中的状态、抽题不重复、判分、100% 解锁、隐藏题启用、存档。它给每次请求加了 20ms 人工延迟，所以还能看出加载顺序对不对。退出码 0 = 全过。改了 index.html 就跑一下。
+仅在进程存活期间有效。
 
-## 启动时发生了什么（为什么不能边加载边画树）
-程序启动会扫一遍所有节点的题库，才知道哪个节点真有题库、哪个是分类节点 —— 解锁门槛靠这个判断。
-所以顺序是「先扫完，再画树」，扫的过程中只显示「正在读取题库…」。
-**别把这个顺序改回去**：先画树的话，扫完之前每个节点都以为没题库 —— 整棵树会显示成「题库待补」而且全都不上锁。
-请求是并发拉的（同时 8 个）。本机实测：93 个请求串行 1154ms，并发 8 只要 32ms。
+首次运行需在 Windows 防火墙放行 8099 端口。
 
-## 文件结构
-```
-knowledge-tree/
-├── index.html                 # 程序本体，不用改
-├── tree.json                  # 知识树结构（谁来定？就这里定）
-├── 知识树-单文件版.html        # 打包产物：所有东西嵌在一起，双击就能开
-├── start.bat                  # 双击启动（本机用）
-├── start-lan.bat              # 双击启动（同一个 WiFi 给别人用）
-├── serve.mjs                  # 静态服务（tools/serve.mjs 的副本，让这文件夹能单独发出去）
-├── README.md
-├── LICENSE                    # PolyForm Noncommercial 1.0.0（非商业免费，商业要单独授权）
-├── new/                       # 历史素材：并入前的题库和那份树，别再当数据源用
-└── bank/
-    ├── ds-tree-lca.json       # 文件名 = 节点 id
-    └── ...
-```
+不建议在公共网络下开启。
 
-## 规则（已确认的那套）
-- 权值 = 本次答对题数 / 本次题数，**全对才是 100%**。
-- 一个节点 100% 后，**永久**保持 100%，子节点永久解锁（父子门槛，方案 A）。
-- 通过一次后，该节点的**隐藏题库永久启用**，之后可以抽「公开 + 隐藏」或「仅隐藏」，防止背题。
-- 每次抽题优先挑「最近三轮没考过的题」，和上一次不会完全一样。选项顺序也每次打乱（判断题固定「正确 / 错误」）。
-- 重考不限次数。重考没考到 100% 不会把已通过的节点降回去。
-- 进度存在浏览器 localStorage 里，可以「导出进度 / 导入进度」搬走或备份。
+不加 lan 参数时仅监听 127.0.0.1。
 
-### 分类节点怎么办（gateMode）
-像「编程基础」「控制结构」这种只是分类、没打算出题的节点，如果也算门槛，整棵树就锁死了。所以 tree.json 里有个开关：
-- `"gateMode": "transparent"`（默认）：**没有题库的节点不挡路**，门槛交给一路往上最近的有题库的祖先。分类节点在树里标「分类」。
-- `"gateMode": "strict"`：严格父子，每一层都得考过 —— 那就得给分类节点也配题库。
-改成 strict 只需要动 tree.json 里这一个词，代码不用碰。
+分发文件夹： 直接发送 knowledge-tree 目录，对方双击 start.bat 即可运行，需对方具备 Node.js 环境。
 
-## tree.json
+该目录自带 serve.mjs 副本，无需上一级 tools/。
+
+无 Node 环境时，start.bat 会给出提示，或改用单文件版。
+
+new/ 为历史素材，bank/ 为生效题库，程序只读 bank/。
+
+规则
+权重 = 本次答对题数 / 本次题数，全对才记 100%。
+
+节点达到 100% 后永久保持，子节点永久解锁（父子门槛，方案 A）。
+
+通过一次后，该节点的 hidden 题库永久启用，后续可抽「visible + hidden」或「仅 hidden」，用于防止背题。
+
+抽题优先选取「最近三轮未出现」的题目，与上一次不重复；选项顺序每次打乱（判断题固定为「正确 / 错误」）。
+
+重考不限次数。重考未达 100% 不会回退已通过节点的权重。
+
+进度存储于 localStorage，支持导出 / 导入。
+
+gateMode
+分类节点（如「编程基础」「控制结构」）若也计入门槛，会导致整棵树死锁。tree.json 中的 gateMode 控制该行为：
+
+"transparent"（默认）：无题库节点不参与门槛判定，门禁上溯至最近的有题库祖先。分类节点在树中标记为「分类」。
+
+"strict"：严格父子，每层均需考核，分类节点也需配置题库。
+
+切换仅需修改 tree.json 中该字段，无需改动代码。
+
+添加知识点
+在 tree.json 的 children 中追加节点对象，id 全局唯一，并创建 bank/<id>.json。刷新页面即可生效，无需改动代码。
+
 ```jsonc
 {
   "version": 1,
   "title": "CSP-J 知识树",
-  "examSize": 10,          // 每次考几题（节点里可以单独覆盖）
-  "passScore": 100,        // 通过线，固定 100
-  "gateMode": "transparent",  // 见上面「分类节点怎么办」
+  "examSize": 10,          // 每次抽题数，节点可覆盖
+  "passScore": 100,        // 通过线
+  "gateMode": "transparent",
   "root": {
     "id": "basics-variables",
     "name": "变量与数据类型",
-    "desc": "随便写点介绍",
+    "desc": "简介",
     "bank": "bank/basics-variables.json",   // 可省略，默认 bank/<id>.json
     "examSize": 10,                          // 可省略，继承顶层
-    "children": [ /* 同样是节点对象，随便套几层 */ ]
+    "children": [ /* 节点对象，可嵌套 */ ]
   }
 }
 ```
-加一个知识点：在 `children` 里加个对象，`id` 起个唯一名，再建 `bank/<id>.json`。刷新页面就出来了，代码一行不用动。
+题库格式
+文件名必须严格等于 <节点 id>.json。
+节点 id 为 ds-tree-lca，文件必须为 bank/ds-tree-lca.json。
+命名不符时页面显示「题库待补」—— 程序仅按节点 id 检索。
+node tools/check-bank.mjs 会直接报出正确文件名。
 
-## bank/<id>.json
-> **文件名必须精确等于 `<节点 id>.json`，一个字都不能差。**
-> 节点 id 是 `ds-tree-lca`，文件就得叫 `bank/ds-tree-lca.json`；节点 id 是 `math-combin`，就叫 `bank/math-combin.json`。
-> 写成别的（比如只写 `lca.json`）页面会显示「题库待补」—— 程序只按节点 id 找。
-> 起错了先跑一下 `node tools/check-bank.mjs`，它会直接把该叫什么名字告诉你。
 ```jsonc
 {
   "id": "basics-variables",
   "name": "变量与数据类型",
-  "visible": [ /* 公开题，考核默认从这里抽 */ ],
-  "hidden":  [ /* 隐藏题，通过一次后永久解锁 */ ]
+  "visible": [ /* 公开题，默认抽题范围 */ ],
+  "hidden":  [ /* 隐藏题，通过后永久启用 */ ]
 }
-```
-
-### 四种题型
-```jsonc
+题型
+jsonc
 // 单选
 { "type": "single", "q": "题干", "options": ["A", "B", "C"], "answer": 1 }
 
-// 多选（answer 是下标数组，全对才算对）
+// 多选，answer 为下标数组，全对才计分
 { "type": "multi", "q": "题干", "options": ["A", "B", "C"], "answer": [0, 2] }
 
-// 判断（answer 写 true / false，也可以用 "T"/"F"/"对"）
+// 判断，answer 支持 true / false / "T" / "F" / "对"
 { "type": "judge", "q": "题干", "answer": true }
 
-// 程序阅读：用 code 字段放代码，题干里也能直接写 ```cpp 围栏
+// 程序阅读，代码放 code 字段，题干内也可写 ```cpp 围栏
 {
   "type": "single",
   "q": "阅读以下程序，输出是？",
   "code": "int a = 7, b = 2;\ncout << a / b;",
   "options": ["3.5", "3", "4", "3.0"],
   "answer": 1,
-  "explain": "两个 int 相除是整除。"
+  "explain": "两个 int 相除为整除。"
 }
 ```
-可选字段：`id`（题号，用于「别重复出上次那套」）、`explain`（结算时显示的解析）、`code`。
-`type` 也认中文别名：`单选` / `多选` / `判断`。
+可选字段：id（用于「最近三轮未出现」的去重）、explain（结算解析）、code。
+type 支持中文别名：单选 / 多选 / 判断。
 
-### 写题时的两个提醒
-- json 里换行要写 `\n`，代码建议放 `code` 字段，省得转义。
-- 每个知识点建议 **公开 ≥ 30 题、隐藏 ≥ 30 题**（题量够了「每次都不一样」才真的不一样）。现在多数知识点是公开 10~20 题、隐藏 5~10 题，离「每次都不一样」还差一截，题多的时候优先往这里补。
-- 
-## 后面想扩展
-- **题型**：想加新题型（比如填空、程序改错），在 `index.html` 里的 `qType` / `normalize` / 渲染那三处加分支就行；未知 `type` 目前会退回单选。
-- **通过线 / 题数**：顶层 `passScore`、`examSize` 改一下；单节点也能覆盖。
-- **多棵树**：把 `tree.json` 换个名字，改 `index.html` 里 `loadTree()` 的路径即可。
-- **进度后端化**：现在存 localStorage，想同步到服务器就替换 `loadProgress` / `saveProgress` 两个函数。
+出题建议
+JSON 内换行写 \n，代码放 code 字段，避免转义。
 
-## 配套工具（在上一级 tools/ 里）
-- `tools/check-bank.mjs` —— 题库校验器，改完 json 跑一下。
-- `tools/test-tree.mjs` —— 程序本体的自测（桩 DOM 跑真实脚本）。
-- `tools/build-single.mjs` —— 打包单文件版。
-- `tools/test-single.mjs` —— 单文件版离线自测 + 查过期。
-- `tools/_kt-harness.mjs` —— 上面几个测试共用的桩 DOM，不当命令行工具用。
-- `tools/serve.mjs` —— 不用 Python 的本地静态服务。
-  - `node tools/serve.mjs 8099` = 只听本机
-  - `node tools/serve.mjs 8099 --lan` = 局域网可访问，并打印别人该输入的网址
-  - `--open` = 起完自动开浏览器（双击 bat 用的）
+每个知识点建议 visible ≥ 30、hidden ≥ 30。当前多数节点为 visible 10～20、hidden 5～10，「每次不重复」尚无法完全保证，优先补齐题量。
 
-## 授权
-按 **PolyForm Noncommercial License 1.0.0** 发布，全文见同目录的 `LICENSE`。
+校验
+题库：
+
+bat
+node tools/check-bank.mjs
+扫描 tree.json 与全部题库，报告 JSON 语法错误、answer 下标越界、判断题 answer 类型错误、multi 的 answer 非数组、选项重复、题量不足等。改题库后建议执行。
+
+程序本体：
+
+bat
+node tools/test-tree.mjs
+以桩 DOM 执行 index.html 内实际脚本，覆盖加载态、抽题去重、判分、100% 解锁、hidden 启用、存档。每次请求注入 20ms 人工延迟，可检测加载顺序。退出码 0 为全过。改动 index.html 后执行。
+
+启动流程
+启动时扫描全部节点题库，判定哪些节点持有题库、哪些为分类节点 —— 门槛判定依赖该结果。
+
+因此流程为「先扫描，后渲染」，扫描期间显示「正在读取题库…」。
+
+不要改回先渲染：否则扫描完成前所有节点均被视为无题库，整棵树显示为「题库待补」且不上锁。
+
+请求并发数为 8。本机实测：93 个请求串行 1154ms，并发 8 为 32ms。
+
+常见问题
+localhost 指向错误主机
+localhost 指向本机。跨设备访问必须使用 start-lan.bat 输出的 192.168.x.x 地址。
+
+Cannot find module ...\knowledge-tree\tools\serve.mjs
+旧版缺少 knowledge-tree/serve.mjs。新版已内置该副本，文件夹可独立分发。
+
+修改 start.bat / start-lan.bat
+脚本内仅允许 ASCII 字符。cmd.exe 读取 UTF-8 批处理中的多字节字符时会按字节错位，截断命令行。中文提示统一由 serve.mjs 输出。换行必须为 CRLF，LF-only 会导致 goto 找不到标签。
+
+目录结构
+```text
+knowledge-tree/
+├── index.html                 # 程序本体
+├── tree.json                  # 知识树结构
+├── 知识树-单文件版.html        # 单文件产物
+├── start.bat                  # 本机启动
+├── start-lan.bat              # 局域网启动
+├── serve.mjs                  # 静态服务（tools/serve.mjs 副本）
+├── README.md
+├── LICENSE                    # PolyForm Noncommercial 1.0.0
+├── new/                       # 历史素材，非数据源
+└── bank/
+    ├── ds-tree-lca.json       # 文件名 = 节点 id
+    └── ...
+```
+serve.mjs 存在两份：tools/serve.mjs 与 knowledge-tree/serve.mjs。修改其一后需同步另一份，diff tools/serve.mjs knowledge-tree/serve.mjs 可检查差异。
+
+扩展
+新增题型：在 index.html 的 qType / normalize / 渲染三处添加分支；未知 type 回退为单选。
+
+通过线 / 题数：修改顶层 passScore、examSize，单节点可覆盖。
+
+多棵树：重命名 tree.json，修改 index.html 中 loadTree() 的路径。
+
+进度后端化：替换 loadProgress / saveProgress 两个函数。
+
+tools/
+check-bank.mjs —— 题库校验。
+
+test-tree.mjs —— 程序本体自测（桩 DOM）。
+
+build-single.mjs —— 单文件打包。
+
+test-single.mjs —— 单文件离线自测 + 过期检查。
+
+_kt-harness.mjs —— 测试共用桩 DOM，非命令行工具。
+
+serve.mjs —— 本地静态服务。
+
+node tools/serve.mjs 8099：仅本机
+
+node tools/serve.mjs 8099 --lan：局域网，并输出可访问地址
+
+--open：启动后自动打开浏览器
+
+授权
+PolyForm Noncommercial License 1.0.0，全文见 LICENSE。
