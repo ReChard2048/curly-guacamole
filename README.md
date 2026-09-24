@@ -50,7 +50,16 @@ node tools/test-single.mjs
 
 第二个命令会顺便查「是不是忘了重新打包」—— 忘了它会报出来，并告诉你跑哪个命令。
 
-两个注意：文件 200 KB 左右，微信/QQ 传没问题；进度存在浏览器里，换台电脑就是从头开始。
+两个注意：文件 300 KB 左右，微信/QQ 传没问题；进度存在浏览器里，换台电脑就是从头开始。
+
+### 办法三：把整个 knowledge-tree 文件夹发过去
+
+对方要自己起服务（需要有 Node.js）。把 **`knowledge-tree` 整个文件夹**发过去，他双击 `start.bat` 就能在自己机器上打开。
+
+- 这个文件夹里**自带一份 `serve.mjs`**，所以单独发它就够，不需要连上一级的 `tools/`。
+  （早先版本没有这一份，只拷文件夹会报 `Cannot find module ...\knowledge-tree\tools\serve.mjs`。）
+- 对方没装 Node 的话，`start.bat` 会直接提示他去装，或者改用办法二（单文件版）。
+- 文件夹里 `new/` 是历史素材、`bank/` 才是生效题库，一起带着没关系，程序只读 `bank/`。
 
 ### 为什么不是你猜的那个做法
 
@@ -60,7 +69,12 @@ node tools/test-single.mjs
 
 双击就行：`start.bat` 本机用，`start-lan.bat` 给别人用。
 
-> **改这两个文件时注意：里面只能写纯 ASCII，一个中文都不能出现。**
+两个脚本都先找**跟自己在同一个文件夹里的 `serve.mjs`**，找不到才回退到上一级的 `tools/serve.mjs`。前一份是为了让这个文件夹能单独发给别人（见「办法三」）。
+
+> **`serve.mjs` 有两份**：`tools/serve.mjs`（工作区工具）和 `knowledge-tree/serve.mjs`（随文件夹发的副本）。
+> 改了一个记得把另一个也同步过去，`diff tools/serve.mjs knowledge-tree/serve.mjs` 一眼就能看出有没有漏。
+
+> **改这两个 bat 时注意：里面只能写纯 ASCII，一个中文都不能出现。**
 > cmd.exe 读 UTF-8 批处理里的多字节汉字会按字节错位，把行从中间截断，报
 > `'xxx' is not recognized as an internal or external command`。
 > 这不是换行符的问题，加 BOM 也不可靠。所以中文提示全交给 `serve.mjs` 打。
@@ -101,6 +115,7 @@ knowledge-tree/
 ├── 知识树-单文件版.html        # 打包产物：所有东西嵌在一起，双击就能开
 ├── start.bat                  # 双击启动（本机用）
 ├── start-lan.bat              # 双击启动（同一个 WiFi 给别人用）
+├── serve.mjs                  # 静态服务（tools/serve.mjs 的副本，让这文件夹能单独发出去）
 ├── README.md
 ├── new/                       # 历史素材：并入前的题库和那份树，别再当数据源用
 └── bank/
