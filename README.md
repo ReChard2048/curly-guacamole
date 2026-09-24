@@ -22,11 +22,11 @@
 ### 办法一：同一个局域网里一起用（推荐，不用改代码）
 
 ```bat
-cd /d D:\工作使用\AI工作\knowledge-tree
+cd /d <你的目录>\knowledge-tree
 start.bat lan
 ```
 
-窗口里会打印一个类似 `http://192.168.90.63:8099/` 的地址，把这个地址发给别人（同一个 WiFi 下），他们用浏览器打开就能用。
+窗口里会打印一个类似 `http://192.168.x.x:8099/` 的地址，把这个地址发给别人（同一个 WiFi 下），他们用浏览器打开就能用。
 
 几个注意：
 
@@ -43,7 +43,7 @@ start.bat lan
 要重新打一份（改完题库/tree.json 之后）：
 
 ```bat
-cd /d D:\工作使用\AI工作
+cd /d <你的目录>
 node tools/build-single.mjs
 node tools/test-single.mjs
 ```
@@ -83,7 +83,7 @@ node tools/test-single.mjs
 ## 改完题库怎么查错
 
 ```bat
-cd /d D:\工作使用\AI工作
+cd /d <你的目录>
 node tools/check-bank.mjs
 ```
 
