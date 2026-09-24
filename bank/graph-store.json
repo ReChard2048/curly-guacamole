@@ -1,0 +1,174 @@
+{
+  "id": "graph-store",
+  "name": "图的存储与遍历",
+  "desc": "",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "邻接矩阵适合存储什么图？",
+      "options": [
+        "稠密图",
+        "稀疏图",
+        "树",
+        "链表"
+      ],
+      "answer": 0,
+      "explain": "空间 O(n²)，稠密图划算。"
+    },
+    {
+      "id": "v02",
+      "type": "judge",
+      "q": "邻接表适合存储稀疏图。",
+      "answer": true,
+      "explain": "空间 O(n+m)。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "链式前向星中，head[u] 存的是？",
+      "options": [
+        "u 的第一条边的编号",
+        "u 的度数",
+        "u 的父节点",
+        "u 的值"
+      ],
+      "answer": 0,
+      "explain": "边链表头。"
+    },
+    {
+      "id": "v04",
+      "type": "single",
+      "q": "图的 DFS 遍历通常用什么实现？",
+      "options": [
+        "递归或栈",
+        "队列",
+        "堆",
+        "并查集"
+      ],
+      "answer": 0,
+      "explain": "深度优先。"
+    },
+    {
+      "id": "v05",
+      "type": "single",
+      "q": "图的 BFS 遍历通常用什么实现？",
+      "options": [
+        "队列",
+        "栈",
+        "堆",
+        "递归"
+      ],
+      "answer": 0,
+      "explain": "层序遍历。"
+    },
+    {
+      "id": "v06",
+      "type": "judge",
+      "q": "无向图的邻接矩阵是对称的。",
+      "answer": true,
+      "explain": "边 (u,v) 和 (v,u) 都存在。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "遍历图时需要用 visited 数组防止？",
+      "options": [
+        "重复访问",
+        "越界",
+        "溢出",
+        "死循环"
+      ],
+      "answer": 0,
+      "explain": "避免环导致重复。"
+    },
+    {
+      "id": "v08",
+      "type": "single",
+      "q": "链式前向星中，next 数组存的是？",
+      "options": [
+        "下一条边的编号",
+        "下一个节点",
+        "边的权值",
+        "节点度数"
+      ],
+      "answer": 0,
+      "explain": "边链表指针。"
+    },
+    {
+      "id": "v09",
+      "type": "judge",
+      "q": "邻接表的空间复杂度是 O(n+m)。",
+      "answer": true,
+      "explain": "n 个点，m 条边。"
+    },
+    {
+      "id": "v10",
+      "type": "single",
+      "q": "有向图邻接表中，边 u→v 只存？",
+      "options": [
+        "在 u 的链表中存 v",
+        "在 v 的链表中存 u",
+        "两边都存",
+        "不存"
+      ],
+      "answer": 0,
+      "explain": "有向边只存一次。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "链式前向星加边的顺序是？",
+      "options": [
+        "头插法",
+        "尾插法",
+        "随机",
+        "排序"
+      ],
+      "answer": 0,
+      "explain": "新边插在链表头。"
+    },
+    {
+      "id": "h02",
+      "type": "judge",
+      "q": "DFS 遍历图可以判断图是否连通。",
+      "answer": true,
+      "explain": "从一点出发能否访问所有点。"
+    },
+    {
+      "id": "h03",
+      "type": "single",
+      "q": "邻接矩阵判断 u,v 是否有边的时间复杂度是？",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(m)",
+        "O(log n)"
+      ],
+      "answer": 0,
+      "explain": "直接查矩阵。"
+    },
+    {
+      "id": "h04",
+      "type": "single",
+      "q": "链式前向星遍历 u 的所有出边的写法是？",
+      "options": [
+        "for (int i=head[u]; i; i=nxt[i])",
+        "for (int i=0; i<n; i++)",
+        "for (int i=1; i<=m; i++)",
+        "while (queue)"
+      ],
+      "answer": 0,
+      "explain": "沿边链表走。"
+    },
+    {
+      "id": "h05",
+      "type": "judge",
+      "q": "邻接表比邻接矩阵更适合点数大、边数少的图。",
+      "answer": true,
+      "explain": "空间更省。"
+    }
+  ]
+}

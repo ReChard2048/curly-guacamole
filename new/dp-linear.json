@@ -1,0 +1,168 @@
+{
+  "id": "dp-linear",
+  "name": "线性 DP",
+  "visible": [
+    {
+      "id": "dl-01",
+      "type": "single",
+      "q": "最长上升子序列 LIS 的 O(n²) 做法中，dp[i] 表示？",
+      "options": [
+        "以 i 结尾的最长上升子序列长度",
+        "前 i 个元素的最长上升子序列长度",
+        "第 i 个元素的值",
+        "i 之前比它小的个数"
+      ],
+      "answer": 0,
+      "explain": "以 i 结尾定义。"
+    },
+    {
+      "id": "dl-02",
+      "type": "judge",
+      "q": "LIS 可以用二分 + 贪心优化到 O(n log n)。",
+      "answer": true,
+      "explain": "维护一个递增的辅助数组。"
+    },
+    {
+      "id": "dl-03",
+      "type": "single",
+      "q": "最长公共子序列 LCS 中，dp[i][j] 表示？",
+      "options": [
+        "A 前 i 个和 B 前 j 个的 LCS 长度",
+        "A[i] 和 B[j] 的 LCS",
+        "A 和 B 的长度",
+        "A[i] 与 B[j] 是否相等"
+      ],
+      "answer": 0,
+      "explain": "经典二维 DP。"
+    },
+    {
+      "id": "dl-04",
+      "type": "single",
+      "q": "LCS 中若 A[i] == B[j]，则 dp[i][j] = ？",
+      "options": [
+        "dp[i-1][j-1] + 1",
+        "dp[i-1][j]",
+        "dp[i][j-1]",
+        "max(dp[i-1][j], dp[i][j-1])"
+      ],
+      "answer": 0,
+      "explain": "匹配后长度加一。"
+    },
+    {
+      "id": "dl-05",
+      "type": "judge",
+      "q": "数字三角形从顶到底的最大路径和是经典线性 DP。",
+      "answer": true,
+      "explain": "逐层转移。"
+    },
+    {
+      "id": "dl-06",
+      "type": "single",
+      "q": "LIS 的 O(n²) 转移方程是？",
+      "options": [
+        "dp[i] = max(dp[j]) + 1 (j<i 且 a[j]<a[i])",
+        "dp[i] = dp[i-1] + 1",
+        "dp[i] = max(dp[i-1], dp[i-2])",
+        "dp[i] = a[i]"
+      ],
+      "answer": 0,
+      "explain": "枚举前驱。"
+    },
+    {
+      "id": "dl-07",
+      "type": "single",
+      "q": "线性 DP 的特点是？",
+      "options": [
+        "状态按线性顺序转移",
+        "状态是二维的",
+        "状态是树形的",
+        "状态是环形的"
+      ],
+      "answer": 0,
+      "explain": "按序列顺序推进。"
+    },
+    {
+      "id": "dl-08",
+      "type": "judge",
+      "q": "LCS 的空间可以优化到 O(min(n,m))。",
+      "answer": true,
+      "explain": "滚动数组。"
+    },
+    {
+      "id": "dl-09",
+      "type": "single",
+      "q": "最大子段和可以用什么 DP 求？",
+      "options": [
+        "dp[i] = max(a[i], dp[i-1] + a[i])",
+        "dp[i] = dp[i-1] + a[i]",
+        "dp[i] = max(dp[i-1], a[i])",
+        "dp[i] = a[i]"
+      ],
+      "answer": 0,
+      "explain": "Kadane 算法。"
+    },
+    {
+      "id": "dl-10",
+      "type": "single",
+      "q": "线性 DP 的初始化通常？",
+      "options": [
+        "dp[0] 设为边界值",
+        "全为 0",
+        "全为 1",
+        "全为 -1"
+      ],
+      "answer": 0,
+      "explain": "根据题意设边界。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "dl-h1",
+      "type": "single",
+      "q": "LIS 的 O(n log n) 做法中，辅助数组 d 的含义是？",
+      "options": [
+        "长度为 i 的上升子序列的最小结尾",
+        "长度为 i 的上升子序列的个数",
+        "第 i 个元素",
+        "前 i 个元素"
+      ],
+      "answer": 0,
+      "explain": "贪心 + 二分维护。"
+    },
+    {
+      "id": "dl-h2",
+      "type": "judge",
+      "q": "LCS 可以用于求两个字符串的编辑距离（只允许删除）。",
+      "answer": true,
+      "explain": "编辑距离的一种特例。"
+    },
+    {
+      "id": "dl-h3",
+      "type": "single",
+      "q": "最大子段和的 Kadane 算法时间复杂度是？",
+      "options": ["O(n)", "O(n log n)", "O(n²)", "O(n³)"],
+      "answer": 0,
+      "explain": "一遍扫描。"
+    },
+    {
+      "id": "dl-h4",
+      "type": "single",
+      "q": "编辑距离 DP 中，dp[i][j] 表示？",
+      "options": [
+        "A 前 i 个变成 B 前 j 个的最少操作数",
+        "A[i] 到 B[j] 的距离",
+        "A 和 B 的长度差",
+        "A[i] 与 B[j] 是否相等"
+      ],
+      "answer": 0,
+      "explain": "经典定义。"
+    },
+    {
+      "id": "dl-h5",
+      "type": "judge",
+      "q": "线性 DP 的状态转移只依赖前一个或前几个状态。",
+      "answer": true,
+      "explain": "线性顺序。"
+    }
+  ]
+}

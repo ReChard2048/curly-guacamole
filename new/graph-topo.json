@@ -1,0 +1,153 @@
+{
+  "id": "graph-topo",
+  "name": "拓扑排序与 DAG",
+  "visible": [
+    {
+      "id": "gp-01",
+      "type": "single",
+      "q": "拓扑排序适用于？",
+      "options": [
+        "有向无环图 DAG",
+        "无向图",
+        "有环图",
+        "树"
+      ],
+      "answer": 0,
+      "explain": "有环无法拓扑排序。"
+    },
+    {
+      "id": "gp-02",
+      "type": "judge",
+      "q": "拓扑排序的结果可能不唯一。",
+      "answer": true,
+      "explain": "多个入度为 0 的点顺序任意。"
+    },
+    {
+      "id": "gp-03",
+      "type": "single",
+      "q": "拓扑排序常用什么实现？",
+      "options": [
+        "队列 + 入度统计",
+        "栈 + 出度",
+        "堆",
+        "并查集"
+      ],
+      "answer": 0,
+      "explain": "Kahn 算法。"
+    },
+    {
+      "id": "gp-04",
+      "type": "single",
+      "q": "Kahn 算法中，初始入队的是？",
+      "options": ["入度为 0 的点", "出度为 0 的点", "任意点", "所有点"],
+      "answer": 0,
+      "explain": "没有前驱。"
+    },
+    {
+      "id": "gp-05",
+      "type": "judge",
+      "q": "若拓扑排序输出的点数小于总点数，说明有环。",
+      "answer": true,
+      "explain": "环上点入度永远不为 0。"
+    },
+    {
+      "id": "gp-06",
+      "type": "single",
+      "q": "DAG 上的 DP 通常按什么顺序？",
+      "options": [
+        "拓扑序",
+        "逆拓扑序",
+        "任意",
+        "字典序"
+      ],
+      "answer": 0,
+      "explain": "保证前驱先算。"
+    },
+    {
+      "id": "gp-07",
+      "type": "single",
+      "q": "拓扑排序的时间复杂度是？",
+      "options": ["O(n+m)", "O(n log n)", "O(n²)", "O(m log n)"],
+      "answer": 0,
+      "explain": "每个点每条边一次。"
+    },
+    {
+      "id": "gp-08",
+      "type": "judge",
+      "q": "DFS 也可以实现拓扑排序（后序逆序）。",
+      "answer": true,
+      "explain": "后序遍历逆序即拓扑序。"
+    },
+    {
+      "id": "gp-09",
+      "type": "single",
+      "q": "DAG 最长路可以用什么求？",
+      "options": [
+        "拓扑排序 + DP",
+        "Dijkstra",
+        "Floyd",
+        "并查集"
+      ],
+      "answer": 0,
+      "explain": "拓扑序上转移。"
+    },
+    {
+      "id": "gp-10",
+      "type": "single",
+      "q": "拓扑排序中，删除一个点后要？",
+      "options": [
+        "将其所有后继入度减一",
+        "将所有点入度减一",
+        "重新排序",
+        "不操作"
+      ],
+      "answer": 0,
+      "explain": "维护入度。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "gp-h1",
+      "type": "single",
+      "q": "DAG 上 DP 求最长路，若 dp[v] = max(dp[u] + w)，u 是 v 的？",
+      "options": ["前驱", "后继", "兄弟", "任意"],
+      "answer": 0,
+      "explain": "从入边转移。"
+    },
+    {
+      "id": "gp-h2",
+      "type": "judge",
+      "q": "拓扑排序可以用于检测有向图是否有环。",
+      "answer": true,
+      "explain": "输出点数不足即有环。"
+    },
+    {
+      "id": "gp-h3",
+      "type": "single",
+      "q": "求字典序最小的拓扑序，应把队列换成？",
+      "options": ["优先队列", "栈", "双端队列", "链表"],
+      "answer": 0,
+      "explain": "每次取最小。"
+    },
+    {
+      "id": "gp-h4",
+      "type": "single",
+      "q": "DAG 上方案计数 DP，通常 dp[v] = ？",
+      "options": [
+        "所有前驱 dp 之和",
+        "所有后继 dp 之和",
+        "dp 最大值",
+        "dp 最小值"
+      ],
+      "answer": 0,
+      "explain": "加法原理。"
+    },
+    {
+      "id": "gp-h5",
+      "type": "judge",
+      "q": "任何 DAG 都至少有一个入度为 0 的点。",
+      "answer": true,
+      "explain": "否则沿入边回溯必成环。"
+    }
+  ]
+}

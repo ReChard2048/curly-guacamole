@@ -1,0 +1,153 @@
+{
+  "id": "graph-mst",
+  "name": "最小生成树",
+  "visible": [
+    {
+      "id": "mt-01",
+      "type": "single",
+      "q": "最小生成树是？",
+      "options": [
+        "连接所有点且边权和最小的树",
+        "最短路径",
+        "最大权值和",
+        "任意生成树"
+      ],
+      "answer": 0,
+      "explain": "n 个点，n-1 条边，边权和最小。"
+    },
+    {
+      "id": "mt-02",
+      "type": "judge",
+      "q": "Kruskal 算法基于贪心，按边权从小到大选边。",
+      "answer": true,
+      "explain": "加边不成环。"
+    },
+    {
+      "id": "mt-03",
+      "type": "single",
+      "q": "Kruskal 中判断加边是否成环用什么？",
+      "options": ["并查集", "栈", "队列", "堆"],
+      "answer": 0,
+      "explain": "两端点是否已连通。"
+    },
+    {
+      "id": "mt-04",
+      "type": "single",
+      "q": "Kruskal 的时间复杂度主要取决于？",
+      "options": [
+        "排序 O(m log m)",
+        "并查集",
+        "枚举",
+        "递归"
+      ],
+      "answer": 0,
+      "explain": "排序是瓶颈。"
+    },
+    {
+      "id": "mt-05",
+      "type": "judge",
+      "q": "Prim 算法适合稠密图。",
+      "answer": true,
+      "explain": "O(n²) 不依赖边数。"
+    },
+    {
+      "id": "mt-06",
+      "type": "single",
+      "q": "Prim 算法从一个点开始，每次？",
+      "options": [
+        "选连接已选集合和未选集合的最小边",
+        "选任意边",
+        "选最大边",
+        "选最短路径"
+      ],
+      "answer": 0,
+      "explain": "贪心扩展。"
+    },
+    {
+      "id": "mt-07",
+      "type": "single",
+      "q": "堆优化 Prim 的时间复杂度是？",
+      "options": [
+        "O((n+m) log n)",
+        "O(n²)",
+        "O(m log m)",
+        "O(n³)"
+      ],
+      "answer": 0,
+      "explain": "优先队列优化。"
+    },
+    {
+      "id": "mt-08",
+      "type": "judge",
+      "q": "最小生成树可能不唯一。",
+      "answer": true,
+      "explain": "边权相等时可选不同边。"
+    },
+    {
+      "id": "mt-09",
+      "type": "single",
+      "q": "n 个点的生成树有几条边？",
+      "options": ["n-1", "n", "n+1", "2n"],
+      "answer": 0,
+      "explain": "树的性质。"
+    },
+    {
+      "id": "mt-10",
+      "type": "single",
+      "q": "Kruskal 中若已选 n-1 条边，应？",
+      "options": ["提前结束", "继续", "报错", "重置"],
+      "answer": 0,
+      "explain": "生成树已完成。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "mt-h1",
+      "type": "single",
+      "q": "Kruskal 重构树可以用于？",
+      "options": [
+        "处理带限制的连通性问题",
+        "排序",
+        "最短路",
+        "哈希"
+      ],
+      "answer": 0,
+      "explain": "如只走边权 ≤ x 的边能到哪里。"
+    },
+    {
+      "id": "mt-h2",
+      "type": "judge",
+      "q": "最小生成树是唯一的，当且仅当所有边权互不相同。",
+      "answer": true,
+      "explain": "边权相同可能产生多种 MST。"
+    },
+    {
+      "id": "mt-h3",
+      "type": "single",
+      "q": "Prim 朴素实现的时间复杂度是？",
+      "options": ["O(n²)", "O(m log n)", "O(n log n)", "O(m)"],
+      "answer": 0,
+      "explain": "每次找最小 O(n)。"
+    },
+    {
+      "id": "mt-h4",
+      "type": "single",
+      "q": "若图不连通，最小生成树？",
+      "options": [
+        "不存在，得到最小生成森林",
+        "仍然存在",
+        "变成最短路",
+        "报错"
+      ],
+      "answer": 0,
+      "explain": "每个连通块一棵树。"
+    },
+    {
+      "id": "mt-h5",
+      "type": "judge",
+      "q": "Kruskal 中排序后按边权从小到大依次考虑。",
+      "answer": true,
+      "explain": "贪心策略。"
+    }
+  ]
+}

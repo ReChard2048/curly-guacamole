@@ -1,0 +1,174 @@
+{
+  "id": "ds-hash",
+  "name": "哈希表",
+  "desc": "",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "哈希表的核心思想是？",
+      "options": [
+        "通过哈希函数把键映射到存储位置",
+        "排序后二分",
+        "递归分解",
+        "贪心选择"
+      ],
+      "answer": 0,
+      "explain": "用哈希函数建立键到位置的映射。"
+    },
+    {
+      "id": "v02",
+      "type": "judge",
+      "q": "哈希表的平均查找时间是 O(1)。",
+      "answer": true,
+      "explain": "理想情况下常数时间。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "哈希冲突是指？",
+      "options": [
+        "不同键映射到同一位置",
+        "键不存在",
+        "表满了",
+        "哈希函数太快"
+      ],
+      "answer": 0,
+      "explain": "需要冲突处理策略。"
+    },
+    {
+      "id": "v04",
+      "type": "single",
+      "q": "常见的哈希冲突处理方法有？",
+      "options": [
+        "开放寻址法和链地址法",
+        "排序和二分",
+        "递归和迭代",
+        "贪心和 DP"
+      ],
+      "answer": 0,
+      "explain": "两种主流方法。"
+    },
+    {
+      "id": "v05",
+      "type": "judge",
+      "q": "C++ 中 unordered_map 的底层是哈希表。",
+      "answer": true,
+      "explain": "标准库哈希表实现。"
+    },
+    {
+      "id": "v06",
+      "type": "single",
+      "q": "unordered_map 与 map 的主要区别是？",
+      "options": [
+        "unordered_map 无序但平均 O(1)，map 有序 O(log n)",
+        "没有区别",
+        "map 更快",
+        "unordered_map 有序"
+      ],
+      "answer": 0,
+      "explain": "前者哈希，后者红黑树。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "哈希表最坏情况下的查找时间是？",
+      "options": [
+        "O(1)",
+        "O(log n)",
+        "O(n)",
+        "O(n²)"
+      ],
+      "answer": 2,
+      "explain": "所有键冲突时退化为链表。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "哈希表可以用于去重。",
+      "answer": true,
+      "explain": "判断元素是否出现过。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "在 CSP 中，unordered_map 可能被什么卡？",
+      "options": [
+        "精心构造的哈希冲突数据",
+        "内存",
+        "编译器",
+        "操作系统"
+      ],
+      "answer": 0,
+      "explain": "出题人可以构造冲突数据使其退化。"
+    },
+    {
+      "id": "v10",
+      "type": "single",
+      "q": "字符串哈希常用于？",
+      "options": [
+        "快速判断子串是否相等",
+        "排序",
+        "最短路",
+        "背包"
+      ],
+      "answer": 0,
+      "explain": "预处理前缀哈希，O(1) 比较。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "字符串哈希中，为避免冲突通常采用？",
+      "options": [
+        "双哈希（两个模数）",
+        "单哈希",
+        "不哈希",
+        "随机"
+      ],
+      "answer": 0,
+      "explain": "双哈希大幅降低冲突概率。"
+    },
+    {
+      "id": "h02",
+      "type": "judge",
+      "q": "链地址法在冲突时把元素挂到同一个桶的链表上。",
+      "answer": true,
+      "explain": "经典冲突处理。"
+    },
+    {
+      "id": "h03",
+      "type": "single",
+      "q": "哈希表装载因子过高时通常？",
+      "options": [
+        "扩容并重新哈希",
+        "缩小",
+        "不变",
+        "删除元素"
+      ],
+      "answer": 0,
+      "explain": "保持操作效率。"
+    },
+    {
+      "id": "h04",
+      "type": "single",
+      "q": "为防 unordered_map 被卡，常用技巧是？",
+      "options": [
+        "自定义随机哈希函数",
+        "不用哈希",
+        "改用数组",
+        "改用栈"
+      ],
+      "answer": 0,
+      "explain": "加随机种子防构造冲突。"
+    },
+    {
+      "id": "h05",
+      "type": "judge",
+      "q": "哈希表可以支持范围查询（如所有键在 [l,r] 内）。",
+      "answer": false,
+      "explain": "哈希表无序，范围查询需有序结构。"
+    }
+  ]
+}

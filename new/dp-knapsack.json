@@ -1,0 +1,153 @@
+{
+  "id": "dp-knapsack",
+  "name": "背包问题",
+  "visible": [
+    {
+      "id": "kp-01",
+      "type": "single",
+      "q": "01 背包中每个物品可以取几次？",
+      "options": ["0 次或 1 次", "任意次", "2 次", "无限次"],
+      "answer": 0,
+      "explain": "选或不选。"
+    },
+    {
+      "id": "kp-02",
+      "type": "judge",
+      "q": "01 背包的一维写法中，容量要倒序遍历。",
+      "answer": true,
+      "explain": "防止同一物品被重复选。"
+    },
+    {
+      "id": "kp-03",
+      "type": "single",
+      "q": "完全背包中每个物品可以取几次？",
+      "options": ["无限次", "1 次", "2 次", "0 次"],
+      "answer": 0,
+      "explain": "可以取任意多次。"
+    },
+    {
+      "id": "kp-04",
+      "type": "single",
+      "q": "完全背包一维写法中，容量应？",
+      "options": [
+        "正序遍历",
+        "倒序遍历",
+        "随机",
+        "不遍历"
+      ],
+      "answer": 0,
+      "explain": "允许同一物品重复选。"
+    },
+    {
+      "id": "kp-05",
+      "type": "judge",
+      "q": "多重背包中每种物品有数量限制。",
+      "answer": true,
+      "explain": "介于 01 和完全之间。"
+    },
+    {
+      "id": "kp-06",
+      "type": "single",
+      "q": "01 背包的 DP 状态 dp[j] 通常表示？",
+      "options": [
+        "容量为 j 时的最大价值",
+        "前 j 个物品的最大价值",
+        "第 j 个物品的价值",
+        "容量 j 的最小价值"
+      ],
+      "answer": 0,
+      "explain": "经典定义。"
+    },
+    {
+      "id": "kp-07",
+      "type": "single",
+      "q": "01 背包的转移方程是？",
+      "options": [
+        "dp[j] = max(dp[j], dp[j-w] + v)",
+        "dp[j] = dp[j-1] + v",
+        "dp[j] = min(dp[j], dp[j-w] + v)",
+        "dp[j] = dp[j] * v"
+      ],
+      "answer": 0,
+      "explain": "选或不选取较大。"
+    },
+    {
+      "id": "kp-08",
+      "type": "judge",
+      "q": "背包问题可以用贪心求解。",
+      "answer": false,
+      "explain": "01 背包不能用贪心，需 DP。"
+    },
+    {
+      "id": "kp-09",
+      "type": "single",
+      "q": "多重背包用二进制拆分后，每种物品变成几个 01 物品？",
+      "options": ["O(log count)", "count", "1", "count²"],
+      "answer": 0,
+      "explain": "按 2 的幂拆分。"
+    },
+    {
+      "id": "kp-10",
+      "type": "single",
+      "q": "背包问题的时间复杂度通常是？",
+      "options": [
+        "O(nW)",
+        "O(n)",
+        "O(n²)",
+        "O(W²)"
+      ],
+      "answer": 0,
+      "explain": "n 个物品，容量 W。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "kp-h1",
+      "type": "single",
+      "q": "完全背包一维写法正序遍历的原因是？",
+      "options": [
+        "允许同一物品被多次选择",
+        "防止重复",
+        "节省空间",
+        "没有原因"
+      ],
+      "answer": 0,
+      "explain": "dp[j-w] 可能已包含当前物品。"
+    },
+    {
+      "id": "kp-h2",
+      "type": "judge",
+      "q": "多重背包可以用单调队列优化到 O(nW)。",
+      "answer": true,
+      "explain": "按余数分组。"
+    },
+    {
+      "id": "kp-h3",
+      "type": "single",
+      "q": "分组背包中每组最多选几个？",
+      "options": ["1 个", "2 个", "无限个", "0 个"],
+      "answer": 0,
+      "explain": "每组互斥。"
+    },
+    {
+      "id": "kp-h4",
+      "type": "single",
+      "q": "若要求恰好装满容量 W，dp 数组初始化应？",
+      "options": [
+        "dp[0]=0，其余为 -inf",
+        "全为 0",
+        "全为 inf",
+        "全为 1"
+      ],
+      "answer": 0,
+      "explain": "只有容量 0 初始可行。"
+    },
+    {
+      "id": "kp-h5",
+      "type": "judge",
+      "q": "01 背包一维写法倒序遍历是为了保证每个物品只被选一次。",
+      "answer": true,
+      "explain": "dp[j-w] 是上一轮的值。"
+    }
+  ]
+}

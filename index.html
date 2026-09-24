@@ -286,7 +286,7 @@ async function loadTree(force) {
   if (force) { bankCache = new Map(); bankFails = new Map(); }
 }
 
-// 并发扫题库。原来是 for + await 串行打 81 个请求，慢到树先渲染出一份错的。
+// 并发扫题库。原来是 for + await 串行打 93 个请求，慢到树先渲染出一份错的。
 async function scanBanks(onProgress) {
   BANKS_READY = false;
   const queue = FLAT.slice();

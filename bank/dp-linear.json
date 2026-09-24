@@ -1,0 +1,281 @@
+{
+  "id": "dp-linear",
+  "name": "线性 DP",
+  "desc": "最长上升子序列、最大子段和、数字三角形。",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "最长上升子序列 LIS 的 O(n²) 做法中，dp[i] 表示？",
+      "options": [
+        "以 i 结尾的最长上升子序列长度",
+        "前 i 个元素的最长上升子序列长度",
+        "第 i 个元素的值",
+        "i 之前比它小的个数"
+      ],
+      "answer": 0,
+      "explain": "以 i 结尾定义。"
+    },
+    {
+      "id": "v02",
+      "type": "judge",
+      "q": "LIS 可以用二分 + 贪心优化到 O(n log n)。",
+      "answer": true,
+      "explain": "维护一个递增的辅助数组。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "最长公共子序列 LCS 中，dp[i][j] 表示？",
+      "options": [
+        "A 前 i 个和 B 前 j 个的 LCS 长度",
+        "A[i] 和 B[j] 的 LCS",
+        "A 和 B 的长度",
+        "A[i] 与 B[j] 是否相等"
+      ],
+      "answer": 0,
+      "explain": "经典二维 DP。"
+    },
+    {
+      "id": "v04",
+      "type": "single",
+      "q": "LCS 中若 A[i] == B[j]，则 dp[i][j] = ？",
+      "options": [
+        "dp[i-1][j-1] + 1",
+        "dp[i-1][j]",
+        "dp[i][j-1]",
+        "max(dp[i-1][j], dp[i][j-1])"
+      ],
+      "answer": 0,
+      "explain": "匹配后长度加一。"
+    },
+    {
+      "id": "v05",
+      "type": "judge",
+      "q": "数字三角形从顶到底的最大路径和是经典线性 DP。",
+      "answer": true,
+      "explain": "逐层转移。"
+    },
+    {
+      "id": "v06",
+      "type": "single",
+      "q": "LIS 的 O(n²) 转移方程是？",
+      "options": [
+        "dp[i] = max(dp[j]) + 1 (j<i 且 a[j]<a[i])",
+        "dp[i] = dp[i-1] + 1",
+        "dp[i] = max(dp[i-1], dp[i-2])",
+        "dp[i] = a[i]"
+      ],
+      "answer": 0,
+      "explain": "枚举前驱。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "线性 DP 的特点是？",
+      "options": [
+        "状态按线性顺序转移",
+        "状态是二维的",
+        "状态是树形的",
+        "状态是环形的"
+      ],
+      "answer": 0,
+      "explain": "按序列顺序推进。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "LCS 的空间可以优化到 O(min(n,m))。",
+      "answer": true,
+      "explain": "滚动数组。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "最大子段和可以用什么 DP 求？",
+      "options": [
+        "dp[i] = max(a[i], dp[i-1] + a[i])",
+        "dp[i] = dp[i-1] + a[i]",
+        "dp[i] = max(dp[i-1], a[i])",
+        "dp[i] = a[i]"
+      ],
+      "answer": 0,
+      "explain": "Kadane 算法。"
+    },
+    {
+      "id": "v10",
+      "type": "single",
+      "q": "线性 DP 的初始化通常？",
+      "options": [
+        "dp[0] 设为边界值",
+        "全为 0",
+        "全为 1",
+        "全为 -1"
+      ],
+      "answer": 0,
+      "explain": "根据题意设边界。"
+    },
+    {
+      "id": "v11",
+      "type": "judge",
+      "q": "数字三角形可以从下往上 DP。",
+      "answer": true,
+      "explain": "从底层向上合并。"
+    },
+    {
+      "id": "v12",
+      "type": "single",
+      "q": "LIS 的 O(n log n) 做法通常维护？",
+      "options": [
+        "一个递增的辅助数组",
+        "并查集",
+        "最短路",
+        "哈希表"
+      ],
+      "answer": 0,
+      "explain": "用二分更新。"
+    },
+    {
+      "id": "v13",
+      "type": "judge",
+      "q": "线性 DP 的状态通常按位置线性推进。",
+      "answer": true,
+      "explain": "如 dp[i] 从前 i 个转移。"
+    },
+    {
+      "id": "v14",
+      "type": "single",
+      "q": "数字三角形求最大路径和，每一步通常？",
+      "options": [
+        "只能向下或向右下",
+        "任意走",
+        "只能向上",
+        "只能向左"
+      ],
+      "answer": 0,
+      "explain": "按题意通常两种走法。"
+    },
+    {
+      "id": "v15",
+      "type": "judge",
+      "q": "最大子段和允许子段为空。",
+      "answer": false,
+      "explain": "通常至少选一个数，若允许空则答案非负。"
+    },
+    {
+      "id": "v16",
+      "type": "single",
+      "q": "LIS 中，若要求非严格递增，则二分时？",
+      "options": [
+        "找第一个大于等于的位置",
+        "找第一个大于的位置",
+        "找最后一个位置",
+        "不二分"
+      ],
+      "answer": 1,
+      "explain": "严格递增用 lower_bound（找第一个大于等于的）；非严格递增（不下降）用 upper_bound（找第一个大于的）。这样相等的元素不会把彼此顶掉。"
+    },
+    {
+      "id": "v17",
+      "type": "judge",
+      "q": "线性 DP 可以优化空间到 O(1) 或 O(n)。",
+      "answer": true,
+      "explain": "如最大子段和只需前一个状态。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "LIS 的 O(n log n) 做法中，辅助数组 d 的含义是？",
+      "options": [
+        "长度为 i 的上升子序列的最小结尾",
+        "长度为 i 的上升子序列的个数",
+        "第 i 个元素",
+        "前 i 个元素"
+      ],
+      "answer": 0,
+      "explain": "贪心 + 二分维护。"
+    },
+    {
+      "id": "h02",
+      "type": "judge",
+      "q": "LCS 可以用于求两个字符串的编辑距离（只允许删除）。",
+      "answer": true,
+      "explain": "编辑距离的一种特例。"
+    },
+    {
+      "id": "h03",
+      "type": "single",
+      "q": "最大子段和的 Kadane 算法时间复杂度是？",
+      "options": [
+        "O(n)",
+        "O(n log n)",
+        "O(n²)",
+        "O(n³)"
+      ],
+      "answer": 0,
+      "explain": "一遍扫描。"
+    },
+    {
+      "id": "h04",
+      "type": "single",
+      "q": "编辑距离 DP 中，dp[i][j] 表示？",
+      "options": [
+        "A 前 i 个变成 B 前 j 个的最少操作数",
+        "A[i] 到 B[j] 的距离",
+        "A 和 B 的长度差",
+        "A[i] 与 B[j] 是否相等"
+      ],
+      "answer": 0,
+      "explain": "经典定义。"
+    },
+    {
+      "id": "h05",
+      "type": "judge",
+      "q": "线性 DP 的状态转移只依赖前一个或前几个状态。",
+      "answer": true,
+      "explain": "线性顺序。"
+    },
+    {
+      "id": "h06",
+      "type": "judge",
+      "q": "最大子段和可以处理全负数数组。",
+      "answer": true,
+      "explain": "答案是最大的那个负数。"
+    },
+    {
+      "id": "h07",
+      "type": "single",
+      "q": "数字三角形若从上往下 DP，通常需要？",
+      "options": [
+        "处理边界",
+        "排序",
+        "哈希",
+        "并查集"
+      ],
+      "answer": 0,
+      "explain": "左右边界只能从一侧转移。"
+    },
+    {
+      "id": "h08",
+      "type": "single",
+      "q": "线性 DP 的核心是？",
+      "options": [
+        "定义状态与转移",
+        "排序",
+        "建图",
+        "哈希"
+      ],
+      "answer": 0,
+      "explain": "状态和转移决定正确性。"
+    },
+    {
+      "id": "h09",
+      "type": "judge",
+      "q": "LIS 的 O(n log n) 做法不能还原具体序列。",
+      "answer": false,
+      "explain": "可以通过记录前驱还原。"
+    }
+  ]
+}

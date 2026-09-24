@@ -1,0 +1,158 @@
+{
+  "id": "graph-dijkstra",
+  "name": "最短路 Dijkstra",
+  "visible": [
+    {
+      "id": "dj-01",
+      "type": "single",
+      "q": "Dijkstra 算法不能处理什么边？",
+      "options": ["负权边", "正权边", "零权边", "无向边"],
+      "answer": 0,
+      "explain": "贪心前提被破坏。"
+    },
+    {
+      "id": "dj-02",
+      "type": "judge",
+      "q": "Dijkstra 是单源最短路算法。",
+      "answer": true,
+      "explain": "求一个起点到所有点的距离。"
+    },
+    {
+      "id": "dj-03",
+      "type": "single",
+      "q": "堆优化 Dijkstra 的时间复杂度是？",
+      "options": [
+        "O((n+m) log n)",
+        "O(n²)",
+        "O(nm)",
+        "O(n³)"
+      ],
+      "answer": 0,
+      "explain": "优先队列优化。"
+    },
+    {
+      "id": "dj-04",
+      "type": "single",
+      "q": "朴素 Dijkstra 的时间复杂度是？",
+      "options": ["O(n²)", "O(n log n)", "O(n+m)", "O(m log n)"],
+      "answer": 0,
+      "explain": "每次找最小值 O(n)。"
+    },
+    {
+      "id": "dj-05",
+      "type": "judge",
+      "q": "Dijkstra 每次取出当前距离最小的未确定节点。",
+      "answer": true,
+      "explain": "贪心策略。"
+    },
+    {
+      "id": "dj-06",
+      "type": "single",
+      "q": "松弛操作是指？",
+      "options": [
+        "若 dist[u] + w < dist[v] 则更新 dist[v]",
+        "删除边",
+        "增加边",
+        "排序"
+      ],
+      "answer": 0,
+      "explain": "经典松弛。"
+    },
+    {
+      "id": "dj-07",
+      "type": "single",
+      "q": "Dijkstra 中，一个节点被确定最短路后？",
+      "options": [
+        "不会再被更新",
+        "还会被更新",
+        "被删除",
+        "被标记"
+      ],
+      "answer": 0,
+      "explain": "贪心保证。"
+    },
+    {
+      "id": "dj-08",
+      "type": "judge",
+      "q": "Dijkstra 可以求带负权图的最短路，只要没有负环。",
+      "answer": false,
+      "explain": "有负权就会出错。"
+    },
+    {
+      "id": "dj-09",
+      "type": "single",
+      "q": "堆优化 Dijkstra 中，优先队列存什么？",
+      "options": [
+        "(距离, 节点)",
+        "(节点, 距离)",
+        "只存节点",
+        "只存距离"
+      ],
+      "answer": 0,
+      "explain": "按距离排序。"
+    },
+    {
+      "id": "dj-10",
+      "type": "single",
+      "q": "Dijkstra 与 BFS 的关系是？",
+      "options": [
+        "边权全为 1 时 Dijkstra 退化为 BFS",
+        "没有关系",
+        "BFS 更慢",
+        "Dijkstra 是 BFS 的特例"
+      ],
+      "answer": 0,
+      "explain": "BFS 是特殊 Dijkstra。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "dj-h1",
+      "type": "single",
+      "q": "Dijkstra 为什么不能处理负权边？",
+      "options": [
+        "已确定最短路的节点可能被负权边更新更短",
+        "内存不够",
+        "时间太慢",
+        "没有原因"
+      ],
+      "answer": 0,
+      "explain": "贪心前提被破坏。"
+    },
+    {
+      "id": "dj-h2",
+      "type": "judge",
+      "q": "Dijkstra 可以判断图中是否有负环。",
+      "answer": false,
+      "explain": "需要 SPFA 或 Bellman-Ford。"
+    },
+    {
+      "id": "dj-h3",
+      "type": "single",
+      "q": "堆优化 Dijkstra 中，若取出的距离大于当前 dist，应？",
+      "options": ["跳过", "更新", "报错", "重置"],
+      "answer": 0,
+      "explain": "过期元素直接跳过。"
+    },
+    {
+      "id": "dj-h4",
+      "type": "single",
+      "q": "Dijkstra 求最短路路径时，通常记录？",
+      "options": [
+        "每个节点的前驱",
+        "每个节点的后继",
+        "边的编号",
+        "节点度数"
+      ],
+      "answer": 0,
+      "explain": "回溯输出路径。"
+    },
+    {
+      "id": "dj-h5",
+      "type": "judge",
+      "q": "Dijkstra 可以用斐波那契堆优化到 O(m + n log n)。",
+      "answer": true,
+      "explain": "理论最优。"
+    }
+  ]
+}

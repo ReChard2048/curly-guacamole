@@ -1,0 +1,148 @@
+{
+  "id": "math-number-sieve",
+  "name": "线性筛与积性函数",
+  "visible": [
+    {
+      "id": "sv-01",
+      "type": "single",
+      "q": "线性筛（欧拉筛）的时间复杂度是？",
+      "options": ["O(n log n)", "O(n)", "O(n√n)", "O(n²)"],
+      "answer": 1,
+      "explain": "每个合数只被其最小质因子筛一次。"
+    },
+    {
+      "id": "sv-02",
+      "type": "judge",
+      "q": "埃氏筛的时间复杂度是 O(n log log n)。",
+      "answer": true,
+      "explain": "每个质数筛掉其倍数，总复杂度约 n log log n。"
+    },
+    {
+      "id": "sv-03",
+      "type": "single",
+      "q": "线性筛中，每个合数被谁筛掉？",
+      "options": [
+        "它的最大质因子",
+        "它的最小质因子",
+        "任意质因子",
+        "它的平方根"
+      ],
+      "answer": 1,
+      "explain": "保证每个合数只被最小质因子筛一次。"
+    },
+    {
+      "id": "sv-04",
+      "type": "single",
+      "q": "积性函数 f 满足什么条件？",
+      "options": [
+        "f(ab) = f(a) + f(b)",
+        "gcd(a,b)=1 时 f(ab) = f(a)f(b)",
+        "f(a) = a",
+        "f 是常数"
+      ],
+      "answer": 1,
+      "explain": "互质时乘积的函数值等于函数值乘积。"
+    },
+    {
+      "id": "sv-05",
+      "type": "judge",
+      "q": "欧拉函数 φ(n) 是积性函数。",
+      "answer": true,
+      "explain": "互质时 φ(ab)=φ(a)φ(b)。"
+    },
+    {
+      "id": "sv-06",
+      "type": "single",
+      "q": "线性筛中，当 `i % prime[j] == 0` 时应？",
+      "options": ["继续循环", "break", "跳过", "重置"],
+      "answer": 1,
+      "explain": "保证每个合数只被最小质因子筛一次。"
+    },
+    {
+      "id": "sv-07",
+      "type": "single",
+      "q": "欧拉函数 φ(n) 表示？",
+      "options": [
+        "n 的约数个数",
+        "1 到 n 中与 n 互质的数的个数",
+        "n 的质因子个数",
+        "n 的位数"
+      ],
+      "answer": 1,
+      "explain": "φ(n) 是小于等于 n 且与 n 互质的正整数个数。"
+    },
+    {
+      "id": "sv-08",
+      "type": "judge",
+      "q": "线性筛可以同时求欧拉函数。",
+      "answer": true,
+      "explain": "利用积性和最小质因子递推。"
+    },
+    {
+      "id": "sv-09",
+      "type": "single",
+      "q": "若 n = p^k（p 为质数），φ(n) = ？",
+      "options": ["p^k", "p^k - p^(k-1)", "p - 1", "k"],
+      "answer": 1,
+      "explain": "φ(p^k) = p^k - p^(k-1)。"
+    },
+    {
+      "id": "sv-10",
+      "type": "single",
+      "q": "埃氏筛中，筛到质数 p 时从哪个数开始筛？",
+      "options": ["2p", "p", "p²", "p+1"],
+      "answer": 2,
+      "explain": "小于 p² 的合数已被更小质数筛过，从 p² 开始。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "sv-h1",
+      "type": "single",
+      "q": "线性筛求欧拉函数时，若 `i % prime[j] == 0`，则 φ(i * prime[j]) = ？",
+      "options": [
+        "φ(i) * prime[j]",
+        "φ(i) * (prime[j] - 1)",
+        "φ(i) + prime[j]",
+        "φ(i)"
+      ],
+      "answer": 0,
+      "explain": "prime[j] 已是 i 的质因子，φ 乘以 p。"
+    },
+    {
+      "id": "sv-h2",
+      "type": "judge",
+      "q": "线性筛中每个数只会被访问一次。",
+      "answer": false,
+      "explain": "每个数可能作为 i 被访问，合数被筛一次，但整体是 O(n)。"
+    },
+    {
+      "id": "sv-h3",
+      "type": "single",
+      "q": "积性函数 f 若还满足 f(ab)=f(a)f(b) 对任意 a,b 成立，称为？",
+      "options": ["加性函数", "完全积性函数", "单调函数", "周期函数"],
+      "answer": 1,
+      "explain": "完全积性不要求互质。"
+    },
+    {
+      "id": "sv-h4",
+      "type": "single",
+      "q": "线性筛中，若 `i % prime[j] != 0`，则 φ(i * prime[j]) = ？",
+      "options": [
+        "φ(i) * prime[j]",
+        "φ(i) * (prime[j] - 1)",
+        "φ(i) + prime[j]",
+        "φ(i)"
+      ],
+      "answer": 1,
+      "explain": "互质，积性，φ(p)=p-1。"
+    },
+    {
+      "id": "sv-h5",
+      "type": "judge",
+      "q": "埃氏筛的空间复杂度是 O(n)。",
+      "answer": true,
+      "explain": "需要一个长度为 n+1 的标记数组。"
+    }
+  ]
+}

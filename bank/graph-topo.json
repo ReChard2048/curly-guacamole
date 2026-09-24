@@ -1,0 +1,287 @@
+{
+  "id": "graph-topo",
+  "name": "拓扑排序与 DAG",
+  "desc": "DAG 上的顺序、入度统计、判环。",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "拓扑排序适用于？",
+      "options": [
+        "有向无环图 DAG",
+        "无向图",
+        "有环图",
+        "树"
+      ],
+      "answer": 0,
+      "explain": "有环无法拓扑排序。"
+    },
+    {
+      "id": "v02",
+      "type": "judge",
+      "q": "拓扑排序的结果可能不唯一。",
+      "answer": true,
+      "explain": "多个入度为 0 的点顺序任意。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "拓扑排序常用什么实现？",
+      "options": [
+        "队列 + 入度统计",
+        "栈 + 出度",
+        "堆",
+        "并查集"
+      ],
+      "answer": 0,
+      "explain": "Kahn 算法。"
+    },
+    {
+      "id": "v04",
+      "type": "single",
+      "q": "Kahn 算法中，初始入队的是？",
+      "options": [
+        "入度为 0 的点",
+        "出度为 0 的点",
+        "任意点",
+        "所有点"
+      ],
+      "answer": 0,
+      "explain": "没有前驱。"
+    },
+    {
+      "id": "v05",
+      "type": "judge",
+      "q": "若拓扑排序输出的点数小于总点数，说明有环。",
+      "answer": true,
+      "explain": "环上点入度永远不为 0。"
+    },
+    {
+      "id": "v06",
+      "type": "single",
+      "q": "DAG 上的 DP 通常按什么顺序？",
+      "options": [
+        "拓扑序",
+        "逆拓扑序",
+        "任意",
+        "字典序"
+      ],
+      "answer": 0,
+      "explain": "保证前驱先算。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "拓扑排序的时间复杂度是？",
+      "options": [
+        "O(n+m)",
+        "O(n log n)",
+        "O(n²)",
+        "O(m log n)"
+      ],
+      "answer": 0,
+      "explain": "每个点每条边一次。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "DFS 也可以实现拓扑排序（后序逆序）。",
+      "answer": true,
+      "explain": "后序遍历逆序即拓扑序。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "DAG 最长路可以用什么求？",
+      "options": [
+        "拓扑排序 + DP",
+        "Dijkstra",
+        "Floyd",
+        "并查集"
+      ],
+      "answer": 0,
+      "explain": "拓扑序上转移。"
+    },
+    {
+      "id": "v10",
+      "type": "single",
+      "q": "拓扑排序中，删除一个点后要？",
+      "options": [
+        "将其所有后继入度减一",
+        "将所有点入度减一",
+        "重新排序",
+        "不操作"
+      ],
+      "answer": 0,
+      "explain": "维护入度。"
+    },
+    {
+      "id": "v11",
+      "type": "single",
+      "q": "Kahn 算法拓扑排序时，首先将哪些节点入队？",
+      "options": [
+        "入度为 0 的节点",
+        "出度为 0 的节点",
+        "任意节点",
+        "入度为 1 的节点"
+      ],
+      "answer": 0,
+      "explain": "没有前驱的节点可以先输出。"
+    },
+    {
+      "id": "v12",
+      "type": "judge",
+      "q": "拓扑序一定唯一。",
+      "answer": false,
+      "explain": "多个入度 0 节点时顺序可能不同。"
+    },
+    {
+      "id": "v13",
+      "type": "single",
+      "q": "Kahn 算法中，删除一个节点后需要？",
+      "options": [
+        "将其邻接点入度减 1",
+        "将其邻接点入度加 1",
+        "删除所有边",
+        "重新建图"
+      ],
+      "answer": 0,
+      "explain": "若邻接点入度变为 0，则入队。"
+    },
+    {
+      "id": "v14",
+      "type": "judge",
+      "q": "拓扑排序可以用于任务调度。",
+      "answer": true,
+      "explain": "依赖关系可建模为 DAG。"
+    },
+    {
+      "id": "v15",
+      "type": "single",
+      "q": "拓扑排序中，入度的定义是？",
+      "options": [
+        "指向该节点的边数",
+        "从该节点出发的边数",
+        "总边数",
+        "节点度数"
+      ],
+      "answer": 0,
+      "explain": "入度表示前驱数量。"
+    },
+    {
+      "id": "v16",
+      "type": "judge",
+      "q": "拓扑排序可以处理带权图。",
+      "answer": true,
+      "explain": "拓扑排序只关心方向，边权不影响。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "DAG 上 DP 求最长路，若 dp[v] = max(dp[u] + w)，u 是 v 的？",
+      "options": [
+        "前驱",
+        "后继",
+        "兄弟",
+        "任意"
+      ],
+      "answer": 0,
+      "explain": "从入边转移。"
+    },
+    {
+      "id": "h02",
+      "type": "judge",
+      "q": "拓扑排序可以用于检测有向图是否有环。",
+      "answer": true,
+      "explain": "输出点数不足即有环。"
+    },
+    {
+      "id": "h03",
+      "type": "single",
+      "q": "求字典序最小的拓扑序，应把队列换成？",
+      "options": [
+        "优先队列",
+        "栈",
+        "双端队列",
+        "链表"
+      ],
+      "answer": 0,
+      "explain": "每次取最小。"
+    },
+    {
+      "id": "h04",
+      "type": "single",
+      "q": "DAG 上方案计数 DP，通常 dp[v] = ？",
+      "options": [
+        "所有前驱 dp 之和",
+        "所有后继 dp 之和",
+        "dp 最大值",
+        "dp 最小值"
+      ],
+      "answer": 0,
+      "explain": "加法原理。"
+    },
+    {
+      "id": "h05",
+      "type": "judge",
+      "q": "任何 DAG 都至少有一个入度为 0 的点。",
+      "answer": true,
+      "explain": "否则沿入边回溯必成环。"
+    },
+    {
+      "id": "h06",
+      "type": "single",
+      "q": "Kahn 算法拓扑排序的时间复杂度是？",
+      "options": [
+        "O(V + E)",
+        "O(V^2)",
+        "O(E log V)",
+        "O(V log V)"
+      ],
+      "answer": 0,
+      "explain": "每个点和边处理一次。"
+    },
+    {
+      "id": "h07",
+      "type": "judge",
+      "q": "若 DAG 中存在多个入度为 0 的节点，拓扑序不唯一。",
+      "answer": true,
+      "explain": "这些节点可以任意先后。"
+    },
+    {
+      "id": "h08",
+      "type": "single",
+      "q": "拓扑排序常用于解决？",
+      "options": [
+        "依赖关系排序",
+        "最短路",
+        "最小生成树",
+        "二分图匹配"
+      ],
+      "answer": 0,
+      "explain": "课程安排、编译依赖等。"
+    },
+    {
+      "id": "h09",
+      "type": "single",
+      "q": "若图中存在自环，拓扑排序会？",
+      "options": [
+        "无法完成",
+        "正常完成",
+        "忽略自环",
+        "输出自环节点"
+      ],
+      "answer": 0,
+      "explain": "自环导致入度无法降到 0。"
+    },
+    {
+      "id": "h10",
+      "type": "judge",
+      "q": "拓扑排序可用于判断 DAG 中是否存在唯一拓扑序。",
+      "answer": true,
+      "explain": "若队列始终只有一个节点，则拓扑序唯一。"
+    }
+  ]
+}

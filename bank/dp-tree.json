@@ -1,5 +1,5 @@
 {
-  "id": "tree-dp",
+  "id": "dp-tree",
   "name": "树形 DP 入门",
   "desc": "树上背包、树的直径与重心、换根 DP 入门。",
   "visible": [

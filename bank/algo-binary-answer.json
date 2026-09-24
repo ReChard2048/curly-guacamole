@@ -1,0 +1,174 @@
+{
+  "id": "algo-binary-answer",
+  "name": "二分答案",
+  "desc": "",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "二分答案适用的前提是答案具有什么性质？",
+      "options": [
+        "随机性",
+        "单调性",
+        "周期性",
+        "对称性"
+      ],
+      "answer": 1,
+      "explain": "答案空间必须能按某个方向单调判定，才能二分。"
+    },
+    {
+      "id": "v02",
+      "type": "judge",
+      "q": "二分答案的本质是把「求最优值」转化为「判定某个值是否可行」。",
+      "answer": true,
+      "explain": "对候选答案做 check(mid)，根据真假收缩区间。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "二分答案的复杂度主要由什么决定？",
+      "options": [
+        "答案范围大小",
+        "check 函数复杂度 × log(答案范围)",
+        "数据个数",
+        "排序复杂度"
+      ],
+      "answer": 1,
+      "explain": "每次二分调用一次 check，共 log 次。"
+    },
+    {
+      "id": "v04",
+      "type": "single",
+      "q": "整数二分中，循环条件通常写 `while (l < r)`，此时 mid 一般取？",
+      "options": [
+        "mid = l",
+        "mid = (l + r) / 2",
+        "mid = r",
+        "mid = l + r"
+      ],
+      "answer": 1,
+      "explain": "取中点收缩区间，注意上下取整避免死循环。"
+    },
+    {
+      "id": "v05",
+      "type": "judge",
+      "q": "二分答案要求原问题的答案必须是整数。",
+      "answer": false,
+      "explain": "实数也可以二分，只是终止条件改成精度控制。"
+    },
+    {
+      "id": "v06",
+      "type": "single",
+      "q": "「最小的最大值」这类问题常用什么方法？",
+      "options": [
+        "贪心",
+        "二分答案",
+        "DFS",
+        "并查集"
+      ],
+      "answer": 1,
+      "explain": "把「最大不超过 x」当作判定条件，二分 x。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "二分答案中，若 check(mid) 为真表示 mid 可行，要求最小可行值，应如何收缩？",
+      "options": [
+        "l = mid + 1",
+        "r = mid",
+        "r = mid - 1",
+        "l = mid"
+      ],
+      "answer": 1,
+      "explain": "mid 可行，答案 ≤ mid，收缩右边界到 mid。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "二分答案的 check 函数必须是 O(1) 的。",
+      "answer": false,
+      "explain": "check 可以 O(n) 甚至更复杂，只要总复杂度可接受。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "实数二分通常用什么作为终止条件？",
+      "options": [
+        "l == r",
+        "r - l < eps",
+        "mid == 0",
+        "循环固定 10 次"
+      ],
+      "answer": 1,
+      "explain": "当区间长度小于精度 eps 时停止。"
+    },
+    {
+      "id": "v10",
+      "type": "single",
+      "q": "二分答案与普通二分的区别在于？",
+      "options": [
+        "一个在数组上，一个在答案空间上",
+        "一个用 while，一个用 for",
+        "一个必须有序，一个不用",
+        "没有区别"
+      ],
+      "answer": 0,
+      "explain": "普通二分查找下标，二分答案在答案取值范围内搜。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "若 check 函数满足「真值区间在右侧」，求最大可行值，正确的二分写法是？",
+      "options": [
+        "while (l < r) { mid = (l+r+1)/2; if (check(mid)) l = mid; else r = mid-1; }",
+        "while (l < r) { mid = (l+r)/2; if (check(mid)) l = mid+1; else r = mid; }",
+        "while (l <= r) { mid = (l+r)/2; if (check(mid)) l = mid; else r = mid; }",
+        "for (int i=0;i<100;i++) l = (l+r)/2;"
+      ],
+      "answer": 0,
+      "explain": "求最大可行值要向上取整，避免死循环。"
+    },
+    {
+      "id": "h02",
+      "type": "judge",
+      "q": "二分答案的答案范围必须一开始就精确知道上下界。",
+      "answer": true,
+      "explain": "必须确定一个包含答案的初始区间 [l, r]，否则无法二分。"
+    },
+    {
+      "id": "h03",
+      "type": "single",
+      "q": "「在 n 个数中找第 k 大」若用二分答案，check(mid) 通常统计什么？",
+      "options": [
+        "≥ mid 的数的个数",
+        "= mid 的数的个数",
+        "≤ mid 的数的个数",
+        "数的总和"
+      ],
+      "answer": 0,
+      "explain": "统计 ≥ mid 的个数，与 k 比较决定收缩方向。"
+    },
+    {
+      "id": "h04",
+      "type": "single",
+      "q": "二分答案时若 check 函数写错导致单调性被破坏，会怎样？",
+      "options": [
+        "程序崩溃",
+        "答案可能错误",
+        "复杂度变高",
+        "自动修正"
+      ],
+      "answer": 1,
+      "explain": "二分依赖单调性，破坏后收缩方向不可靠，结果错误。"
+    },
+    {
+      "id": "h05",
+      "type": "judge",
+      "q": "二分答案一定能得到全局最优解。",
+      "answer": false,
+      "explain": "只有在答案空间单调、check 正确时才成立，否则不保证。"
+    }
+  ]
+}

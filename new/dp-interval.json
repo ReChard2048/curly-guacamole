@@ -1,0 +1,158 @@
+{
+  "id": "dp-interval",
+  "name": "区间 DP",
+  "visible": [
+    {
+      "id": "di-01",
+      "type": "single",
+      "q": "区间 DP 的枚举顺序通常是？",
+      "options": [
+        "先枚举区间长度，再枚举左端点",
+        "先枚举左端点，再枚举长度",
+        "随机",
+        "从大到小"
+      ],
+      "answer": 0,
+      "explain": "保证子区间先被计算。"
+    },
+    {
+      "id": "di-02",
+      "type": "judge",
+      "q": "区间 DP 的状态通常形如 dp[l][r]。",
+      "answer": true,
+      "explain": "表示区间 [l,r] 的最优值。"
+    },
+    {
+      "id": "di-03",
+      "type": "single",
+      "q": "石子合并问题中，dp[l][r] 表示？",
+      "options": [
+        "合并区间 [l,r] 内石子的最小代价",
+        "第 l 到 r 个石子的和",
+        "石子个数",
+        "最大值"
+      ],
+      "answer": 0,
+      "explain": "经典区间 DP。"
+    },
+    {
+      "id": "di-04",
+      "type": "single",
+      "q": "石子合并的转移方程是？",
+      "options": [
+        "dp[l][r] = min(dp[l][k] + dp[k+1][r]) + sum(l,r)",
+        "dp[l][r] = dp[l][r-1] + a[r]",
+        "dp[l][r] = max(dp[l][r-1], dp[l+1][r])",
+        "dp[l][r] = a[l] + a[r]"
+      ],
+      "answer": 0,
+      "explain": "枚举分界点 k。"
+    },
+    {
+      "id": "di-05",
+      "type": "judge",
+      "q": "区间 DP 的时间复杂度通常是 O(n³)。",
+      "answer": true,
+      "explain": "枚举长度、左端点、分界点。"
+    },
+    {
+      "id": "di-06",
+      "type": "single",
+      "q": "区间 DP 的边界通常是？",
+      "options": [
+        "长度为 1 的区间",
+        "长度为 0 的区间",
+        "整个区间",
+        "任意区间"
+      ],
+      "answer": 0,
+      "explain": "单元素区间是基础。"
+    },
+    {
+      "id": "di-07",
+      "type": "single",
+      "q": "括号匹配问题可以用什么 DP 解决？",
+      "options": ["区间 DP", "背包", "最短路", "并查集"],
+      "answer": 0,
+      "explain": "区间 [l,r] 是否能匹配。"
+    },
+    {
+      "id": "di-08",
+      "type": "judge",
+      "q": "区间 DP 可以处理环形问题（断环成链）。",
+      "answer": true,
+      "explain": "复制一份接在后面。"
+    },
+    {
+      "id": "di-09",
+      "type": "single",
+      "q": "区间 DP 中，sum(l,r) 通常用什么快速求？",
+      "options": ["前缀和", "排序", "二分", "哈希"],
+      "answer": 0,
+      "explain": "O(1) 求区间和。"
+    },
+    {
+      "id": "di-10",
+      "type": "single",
+      "q": "区间 DP 与线性 DP 的主要区别是？",
+      "options": [
+        "区间 DP 状态是区间，线性 DP 状态是位置",
+        "没有区别",
+        "区间 DP 更慢",
+        "线性 DP 更复杂"
+      ],
+      "answer": 0,
+      "explain": "状态定义不同。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "di-h1",
+      "type": "single",
+      "q": "石子合并的四边形不等式优化可以把复杂度降到？",
+      "options": ["O(n²)", "O(n³)", "O(n log n)", "O(n)"],
+      "answer": 0,
+      "explain": "决策单调性优化。"
+    },
+    {
+      "id": "di-h2",
+      "type": "judge",
+      "q": "区间 DP 中，dp[l][r] 的转移一定只依赖长度更小的区间。",
+      "answer": true,
+      "explain": "保证计算顺序。"
+    },
+    {
+      "id": "di-h3",
+      "type": "single",
+      "q": "环形石子合并的做法是？",
+      "options": [
+        "断环成链，复制一份数组",
+        "直接做",
+        "排序",
+        "二分"
+      ],
+      "answer": 0,
+      "explain": "长度 2n 上做区间 DP。"
+    },
+    {
+      "id": "di-h4",
+      "type": "single",
+      "q": "区间 DP 中，若转移为 dp[l][r] = min(dp[l][k] + dp[k+1][r])，k 的范围是？",
+      "options": [
+        "l ≤ k < r",
+        "l < k < r",
+        "l ≤ k ≤ r",
+        "1 ≤ k ≤ n"
+      ],
+      "answer": 0,
+      "explain": "分界点在区间内。"
+    },
+    {
+      "id": "di-h5",
+      "type": "judge",
+      "q": "区间 DP 可以处理字符串回文分割问题。",
+      "answer": true,
+      "explain": "预处理回文，再做区间 DP。"
+    }
+  ]
+}

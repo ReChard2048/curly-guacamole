@@ -1,5 +1,5 @@
 {
-  "id": "binary-lifting",
+  "id": "ds-tree-binary-lifting",
   "name": "倍增",
   "desc": "倍增思想，ST 表求 RMQ，快速幂的倍增视角。",
   "visible": [

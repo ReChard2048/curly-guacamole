@@ -1,0 +1,168 @@
+{
+  "id": "stl-iterator",
+  "name": "迭代器与范围 for",
+  "visible": [
+    {
+      "id": "it-01",
+      "type": "single",
+      "q": "迭代器的作用是？",
+      "options": [
+        "统一遍历容器的方式",
+        "排序",
+        "查找",
+        "哈希"
+      ],
+      "answer": 0,
+      "explain": "像指针一样遍历容器。"
+    },
+    {
+      "id": "it-02",
+      "type": "judge",
+      "q": "vector 的 begin() 返回指向第一个元素的迭代器。",
+      "answer": true,
+      "explain": "end() 指向最后一个元素之后。"
+    },
+    {
+      "id": "it-03",
+      "type": "single",
+      "q": "范围 for 循环 `for (auto x : v)` 中 x 是？",
+      "options": ["引用", "拷贝", "指针", "迭代器"],
+      "answer": 1,
+      "explain": "auto x 是拷贝，改 x 不影响容器。"
+    },
+    {
+      "id": "it-04",
+      "type": "single",
+      "q": "要修改范围 for 中的元素，应写？",
+      "options": [
+        "for (auto &x : v)",
+        "for (auto x : v)",
+        "for (auto *x : v)",
+        "for (auto x & : v)"
+      ],
+      "answer": 0,
+      "explain": "加引用。"
+    },
+    {
+      "id": "it-05",
+      "type": "judge",
+      "q": "迭代器可以像指针一样解引用和自增。",
+      "answer": true,
+      "explain": "*it 取值，++it 前进。"
+    },
+    {
+      "id": "it-06",
+      "type": "single",
+      "q": "vector 的迭代器属于哪一类？",
+      "options": [
+        "随机访问迭代器",
+        "双向迭代器",
+        "前向迭代器",
+        "输入迭代器"
+      ],
+      "answer": 0,
+      "explain": "支持 it + n。"
+    },
+    {
+      "id": "it-07",
+      "type": "single",
+      "q": "map 的迭代器属于哪一类？",
+      "options": [
+        "双向迭代器",
+        "随机访问迭代器",
+        "输入迭代器",
+        "输出迭代器"
+      ],
+      "answer": 0,
+      "explain": "只能 ++/--，不能 +n。"
+    },
+    {
+      "id": "it-08",
+      "type": "judge",
+      "q": "范围 for 底层展开为使用 begin() 和 end() 的循环。",
+      "answer": true,
+      "explain": "编译器自动展开。"
+    },
+    {
+      "id": "it-09",
+      "type": "single",
+      "q": "遍历 map 时，it->first 和 it->second 分别表示？",
+      "options": [
+        "键和值",
+        "值和键",
+        "两个值",
+        "两个键"
+      ],
+      "answer": 0,
+      "explain": "pair 的 first 是键。"
+    },
+    {
+      "id": "it-10",
+      "type": "single",
+      "q": "在范围 for 中删除 vector 元素会导致？",
+      "options": [
+        "迭代器失效，可能出错",
+        "自动跳过",
+        "自动修正",
+        "没有影响"
+      ],
+      "answer": 0,
+      "explain": "遍历时不能修改容器大小。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "it-h1",
+      "type": "single",
+      "q": "要在遍历 map 时删除元素，正确做法是？",
+      "options": [
+        "it = m.erase(it)",
+        "m.erase(it); it++",
+        "for (auto x : m) m.erase(x.first)",
+        "不能删除"
+      ],
+      "answer": 0,
+      "explain": "erase 返回下一个有效迭代器。"
+    },
+    {
+      "id": "it-h2",
+      "type": "judge",
+      "q": "范围 for 中 auto 不加引用时，修改 x 不会影响容器。",
+      "answer": true,
+      "explain": "是拷贝。"
+    },
+    {
+      "id": "it-h3",
+      "type": "single",
+      "q": "set 的迭代器解引用得到的是？",
+      "options": [
+        "元素本身（const）",
+        "pair",
+        "指针",
+        "下标"
+      ],
+      "answer": 0,
+      "explain": "set 元素不可修改。"
+    },
+    {
+      "id": "it-h4",
+      "type": "single",
+      "q": "vector 插入元素后，原有迭代器可能？",
+      "options": [
+        "失效",
+        "不变",
+        "自动更新",
+        "变成 end"
+      ],
+      "answer": 0,
+      "explain": "扩容会导致迭代器失效。"
+    },
+    {
+      "id": "it-h5",
+      "type": "judge",
+      "q": "迭代器失效后继续使用是未定义行为。",
+      "answer": true,
+      "explain": "可能崩溃或结果错误。"
+    }
+  ]
+}

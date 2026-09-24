@@ -1,0 +1,174 @@
+{
+  "id": "graph-floyd",
+  "name": "最短路 Floyd",
+  "desc": "",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "Floyd 算法求的是？",
+      "options": [
+        "多源最短路",
+        "单源最短路",
+        "最小生成树",
+        "拓扑排序"
+      ],
+      "answer": 0,
+      "explain": "任意两点间最短路。"
+    },
+    {
+      "id": "v02",
+      "type": "judge",
+      "q": "Floyd 的时间复杂度是 O(n³)。",
+      "answer": true,
+      "explain": "三重循环。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "Floyd 的三重循环中，最外层枚举的是？",
+      "options": [
+        "中间点 k",
+        "起点 i",
+        "终点 j",
+        "边"
+      ],
+      "answer": 0,
+      "explain": "k 必须在最外层。"
+    },
+    {
+      "id": "v04",
+      "type": "single",
+      "q": "Floyd 的转移方程是？",
+      "options": [
+        "d[i][j] = min(d[i][j], d[i][k] + d[k][j])",
+        "d[i][j] = d[i][k] + d[k][j]",
+        "d[i][j] = max(d[i][j], d[i][k] + d[k][j])",
+        "d[i][j] = d[i][j] + d[k][j]"
+      ],
+      "answer": 0,
+      "explain": "经典转移。"
+    },
+    {
+      "id": "v05",
+      "type": "judge",
+      "q": "Floyd 可以处理负权边。",
+      "answer": true,
+      "explain": "只要没有负环。"
+    },
+    {
+      "id": "v06",
+      "type": "single",
+      "q": "Floyd 初始化时，d[i][i] 应为？",
+      "options": [
+        "0",
+        "inf",
+        "1",
+        "-1"
+      ],
+      "answer": 0,
+      "explain": "自己到自己距离 0。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "Floyd 中，若 d[i][i] < 0 说明？",
+      "options": [
+        "存在负环",
+        "没有最短路",
+        "距离为 0",
+        "没有边"
+      ],
+      "answer": 0,
+      "explain": "自己到自己为负即负环。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "Floyd 适合点数较少（如 n ≤ 500）的图。",
+      "answer": true,
+      "explain": "O(n³) 限制。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "Floyd 中，k 必须在最外层的原因是？",
+      "options": [
+        "保证 d[i][k] 和 d[k][j] 已考虑前 k-1 个中间点",
+        "没有原因",
+        "节省空间",
+        "更快"
+      ],
+      "answer": 0,
+      "explain": "DP 阶段顺序。"
+    },
+    {
+      "id": "v10",
+      "type": "single",
+      "q": "Floyd 与 Dijkstra 的主要区别是？",
+      "options": [
+        "Floyd 多源、O(n³)，Dijkstra 单源、更快",
+        "没有区别",
+        "Floyd 更快",
+        "Dijkstra 多源"
+      ],
+      "answer": 0,
+      "explain": "适用场景不同。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "Floyd 可以求传递闭包（可达性），只需把转移改成？",
+      "options": [
+        "d[i][j] = d[i][j] || (d[i][k] && d[k][j])",
+        "d[i][j] = d[i][k] + d[k][j]",
+        "d[i][j] = max(...)",
+        "d[i][j] = min(...)"
+      ],
+      "answer": 0,
+      "explain": "布尔矩阵。"
+    },
+    {
+      "id": "h02",
+      "type": "judge",
+      "q": "Floyd 可以求最小环。",
+      "answer": true,
+      "explain": "在转移前用 d[i][j]+w 更新答案。"
+    },
+    {
+      "id": "h03",
+      "type": "single",
+      "q": "Floyd 中，若 d[i][k] 或 d[k][j] 为 inf，则？",
+      "options": [
+        "跳过该转移",
+        "仍然相加",
+        "报错",
+        "置 0"
+      ],
+      "answer": 0,
+      "explain": "不可达不参与。"
+    },
+    {
+      "id": "h04",
+      "type": "single",
+      "q": "Floyd 的空间复杂度是？",
+      "options": [
+        "O(n²)",
+        "O(n)",
+        "O(n+m)",
+        "O(m)"
+      ],
+      "answer": 0,
+      "explain": "二维距离矩阵。"
+    },
+    {
+      "id": "h05",
+      "type": "judge",
+      "q": "Floyd 的 k 循环若放在最内层，结果仍然正确。",
+      "answer": false,
+      "explain": "必须最外层，否则 DP 阶段错误。"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "id": "kmp",
+  "id": "string-kmp",
   "name": "KMP 算法",
   "desc": "前缀函数、失配指针、周期与 Border 性质。",
   "visible": [

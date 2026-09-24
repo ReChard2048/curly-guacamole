@@ -1,0 +1,173 @@
+{
+  "id": "search-bfs-0-1",
+  "name": "0-1 BFS 与双端队列",
+  "visible": [
+    {
+      "id": "bf-01",
+      "type": "single",
+      "q": "0-1 BFS 适用于什么样的图？",
+      "options": [
+        "边权只有 0 和 1",
+        "边权任意",
+        "无向图",
+        "有负权"
+      ],
+      "answer": 0,
+      "explain": "边权仅两种值时可用。"
+    },
+    {
+      "id": "bf-02",
+      "type": "judge",
+      "q": "0-1 BFS 用双端队列实现。",
+      "answer": true,
+      "explain": "0 边入队首，1 边入队尾。"
+    },
+    {
+      "id": "bf-03",
+      "type": "single",
+      "q": "0-1 BFS 中，边权为 0 的边扩展出的节点应？",
+      "options": [
+        "入队首",
+        "入队尾",
+        "不入队",
+        "入栈"
+      ],
+      "answer": 0,
+      "explain": "保持队列的单调性。"
+    },
+    {
+      "id": "bf-04",
+      "type": "single",
+      "q": "0-1 BFS 中，边权为 1 的边扩展出的节点应？",
+      "options": [
+        "入队尾",
+        "入队首",
+        "不入队",
+        "入栈"
+      ],
+      "answer": 0,
+      "explain": "相当于走了一步。"
+    },
+    {
+      "id": "bf-05",
+      "type": "judge",
+      "q": "0-1 BFS 的时间复杂度是 O(n + m)。",
+      "answer": true,
+      "explain": "每个节点最多入队两次。"
+    },
+    {
+      "id": "bf-06",
+      "type": "single",
+      "q": "0-1 BFS 与 Dijkstra 的关系是？",
+      "options": [
+        "0-1 BFS 是 Dijkstra 在边权 0/1 时的特例",
+        "没有关系",
+        "0-1 BFS 更慢",
+        "Dijkstra 是特例"
+      ],
+      "answer": 0,
+      "explain": "双端队列代替优先队列。"
+    },
+    {
+      "id": "bf-07",
+      "type": "single",
+      "q": "0-1 BFS 中，若节点已被访问且新距离更小，应？",
+      "options": [
+        "更新距离并重新入队",
+        "忽略",
+        "删除节点",
+        "报错"
+      ],
+      "answer": 0,
+      "explain": "允许重复入队，保证最短路。"
+    },
+    {
+      "id": "bf-08",
+      "type": "judge",
+      "q": "0-1 BFS 可以处理负权边。",
+      "answer": false,
+      "explain": "只适用于 0/1 边权。"
+    },
+    {
+      "id": "bf-09",
+      "type": "single",
+      "q": "双端队列支持哪两种操作？",
+      "options": [
+        "队首和队尾插入/删除",
+        "只能队首",
+        "只能队尾",
+        "只能中间"
+      ],
+      "answer": 0,
+      "explain": "deque 两端都可操作。"
+    },
+    {
+      "id": "bf-10",
+      "type": "single",
+      "q": "0-1 BFS 常用于哪类问题？",
+      "options": [
+        "边权为 0/1 的最短路",
+        "排序",
+        "背包",
+        "并查集"
+      ],
+      "answer": 0,
+      "explain": "典型应用。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "bf-h1",
+      "type": "single",
+      "q": "0-1 BFS 中，为什么 0 边入队首能保证正确性？",
+      "options": [
+        "保持队列按距离单调",
+        "节省空间",
+        "更快",
+        "没有原因"
+      ],
+      "answer": 0,
+      "explain": "类比 Dijkstra 的优先队列。"
+    },
+    {
+      "id": "bf-h2",
+      "type": "judge",
+      "q": "0-1 BFS 中每个节点可能被多次入队。",
+      "answer": true,
+      "explain": "被更短路径更新时重新入队。"
+    },
+    {
+      "id": "bf-h3",
+      "type": "single",
+      "q": "0-1 BFS 与普通 BFS 的区别是？",
+      "options": [
+        "普通 BFS 边权全为 1，0-1 BFS 边权为 0/1",
+        "没有区别",
+        "0-1 BFS 更慢",
+        "普通 BFS 用栈"
+      ],
+      "answer": 0,
+      "explain": "普通 BFS 是 0-1 BFS 的特例。"
+    },
+    {
+      "id": "bf-h4",
+      "type": "single",
+      "q": "0-1 BFS 的复杂度与什么相当？",
+      "options": [
+        "O(n+m)",
+        "O(n log n)",
+        "O(n²)",
+        "O(nm)"
+      ],
+      "answer": 0,
+      "explain": "线性。"
+    },
+    {
+      "id": "bf-h5",
+      "type": "judge",
+      "q": "0-1 BFS 可以用于求最小操作次数（每次操作代价 0 或 1）。",
+      "answer": true,
+      "explain": "经典应用场景。"
+    }
+  ]
+}

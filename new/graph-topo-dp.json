@@ -1,0 +1,163 @@
+{
+  "id": "graph-topo-dp",
+  "name": "DAG 上的 DP",
+  "visible": [
+    {
+      "id": "gd-01",
+      "type": "single",
+      "q": "DAG 上的 DP 依赖什么顺序？",
+      "options": ["拓扑序", "逆序", "任意", "字典序"],
+      "answer": 0,
+      "explain": "保证前驱已计算。"
+    },
+    {
+      "id": "gd-02",
+      "type": "judge",
+      "q": "DAG 上的 DP 可以求最长路。",
+      "answer": true,
+      "explain": "经典应用。"
+    },
+    {
+      "id": "gd-03",
+      "type": "single",
+      "q": "DAG 上求最长路，dp[v] 通常表示？",
+      "options": [
+        "从起点到 v 的最长路",
+        "从 v 到终点的最长路",
+        "v 的度数",
+        "v 的值"
+      ],
+      "answer": 0,
+      "explain": "按题意定义。"
+    },
+    {
+      "id": "gd-04",
+      "type": "single",
+      "q": "DAG 上方案计数，若有多条路径到达 v，dp[v] 应为？",
+      "options": [
+        "所有前驱方案数之和",
+        "最大值",
+        "最小值",
+        "乘积"
+      ],
+      "answer": 0,
+      "explain": "加法原理。"
+    },
+    {
+      "id": "gd-05",
+      "type": "judge",
+      "q": "DAG 上的 DP 可以用记忆化搜索实现。",
+      "answer": true,
+      "explain": "递归 + 记忆化。"
+    },
+    {
+      "id": "gd-06",
+      "type": "single",
+      "q": "DAG 上 DP 的初始化通常？",
+      "options": [
+        "起点的 dp 设为 0 或 1",
+        "全部设为 0",
+        "全部设为 inf",
+        "不初始化"
+      ],
+      "answer": 0,
+      "explain": "根据题意。"
+    },
+    {
+      "id": "gd-07",
+      "type": "single",
+      "q": "DAG 上 DP 的时间复杂度通常是？",
+      "options": ["O(n+m)", "O(n log n)", "O(n²)", "O(m log n)"],
+      "answer": 0,
+      "explain": "每个点每条边一次。"
+    },
+    {
+      "id": "gd-08",
+      "type": "judge",
+      "q": "DAG 上 DP 可以处理有环图，只要先缩点。",
+      "answer": true,
+      "explain": "Tarjan 缩点后变成 DAG。"
+    },
+    {
+      "id": "gd-09",
+      "type": "single",
+      "q": "缩点后 DAG 上 DP 常用于？",
+      "options": [
+        "求强连通分量内的最优值再合并",
+        "排序",
+        "最短路",
+        "哈希"
+      ],
+      "answer": 0,
+      "explain": "先分量内 DP，再 DAG 上 DP。"
+    },
+    {
+      "id": "gd-10",
+      "type": "single",
+      "q": "DAG 上 DP 与线性 DP 的关系是？",
+      "options": [
+        "DAG 上 DP 是更一般的线性 DP",
+        "没有关系",
+        "线性 DP 更一般",
+        "完全相同"
+      ],
+      "answer": 0,
+      "explain": "线性 DP 是链上的 DAG DP。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "gd-h1",
+      "type": "single",
+      "q": "DAG 上 DP 若用记忆化搜索，递归边界是？",
+      "options": [
+        "入度为 0 的点",
+        "出度为 0 的点",
+        "任意点",
+        "所有点"
+      ],
+      "answer": 0,
+      "explain": "没有前驱。"
+    },
+    {
+      "id": "gd-h2",
+      "type": "judge",
+      "q": "DAG 上 DP 可以求关键路径。",
+      "answer": true,
+      "explain": "最长路即关键路径。"
+    },
+    {
+      "id": "gd-h3",
+      "type": "single",
+      "q": "缩点后 DAG 上 DP，若要求最长路，dp[v] = ？",
+      "options": [
+        "max(dp[u] + w(u,v)) + val[v]",
+        "sum(dp[u])",
+        "min(dp[u])",
+        "dp[u]"
+      ],
+      "answer": 0,
+      "explain": "取最大。"
+    },
+    {
+      "id": "gd-h4",
+      "type": "single",
+      "q": "DAG 上 DP 的逆拓扑序常用于？",
+      "options": [
+        "从终点往起点转移",
+        "从起点往终点",
+        "没有用",
+        "排序"
+      ],
+      "answer": 0,
+      "explain": "两种方向都可。"
+    },
+    {
+      "id": "gd-h5",
+      "type": "judge",
+      "q": "DAG 上 DP 的状态转移必须满足无后效性。",
+      "answer": true,
+      "explain": "与一般 DP 相同。"
+    }
+  ]
+}

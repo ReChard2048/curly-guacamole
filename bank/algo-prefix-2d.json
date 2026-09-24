@@ -1,5 +1,5 @@
 {
-  "id": "prefix-diff-2d",
+  "id": "algo-prefix-2d",
   "name": "二维前缀和与差分",
   "desc": "二维前缀和公式、二维差分、树上差分入门。",
   "visible": [

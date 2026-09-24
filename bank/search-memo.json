@@ -1,5 +1,5 @@
 {
-  "id": "memo-search",
+  "id": "search-memo",
   "name": "记忆化搜索",
   "desc": "搜索与 DP 的桥接，状态定义与转移。",
   "visible": [

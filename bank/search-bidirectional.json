@@ -1,5 +1,5 @@
 {
-  "id": "bidirectional-search",
+  "id": "search-bidirectional",
   "name": "双向搜索",
   "desc": "Meet in the Middle、双向 BFS。",
   "visible": [

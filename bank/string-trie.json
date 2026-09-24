@@ -1,5 +1,5 @@
 {
-  "id": "trie",
+  "id": "string-trie",
   "name": "Trie 字典树",
   "desc": "字符串存储与查询、01 Trie 入门。",
   "visible": [

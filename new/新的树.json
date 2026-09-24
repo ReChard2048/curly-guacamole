@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 1,
   "title": "CSP-J 知识树",
   "examSize": 10,
   "passScore": 100,
@@ -117,31 +117,6 @@
                 "children": []
               }
             ]
-          }
-        ]
-      },
-      {
-        "id": "string",
-        "name": "字符串算法",
-        "desc": "字符串哈希、KMP、Trie —— 处理字符串的经典工具。",
-        "children": [
-          {
-            "id": "string-hash",
-            "name": "字符串哈希",
-            "desc": "滚动哈希、双模哈希、判等与子串匹配。",
-            "children": []
-          },
-          {
-            "id": "string-kmp",
-            "name": "KMP 算法",
-            "desc": "前缀函数、失配指针、周期与 Border 性质。",
-            "children": []
-          },
-          {
-            "id": "string-trie",
-            "name": "Trie 字典树",
-            "desc": "字符串存储与查询、01 Trie 入门。",
-            "children": []
           }
         ]
       },
@@ -397,12 +372,6 @@
                 "children": []
               },
               {
-                "id": "ds-tree-binary-lifting",
-                "name": "倍增",
-                "desc": "倍增思想与 2^k 级预处理：树上倍增求 LCA、ST 表求 RMQ、快速幂。",
-                "children": []
-              },
-              {
                 "id": "ds-tree-diameter",
                 "name": "树的直径与重心",
                 "desc": "两次 DFS 求直径、树形 DP 求直径，重心的性质。",
@@ -476,12 +445,6 @@
                 "name": "剪枝与可行性剪枝",
                 "desc": "最优性剪枝、可行性剪枝、记忆化搜索的引入。",
                 "children": []
-              },
-              {
-                "id": "search-memo",
-                "name": "记忆化搜索",
-                "desc": "搜索与 DP 的桥接：状态定义、记忆数组与转移。",
-                "children": []
               }
             ]
           },
@@ -497,12 +460,6 @@
                 "children": []
               }
             ]
-          },
-          {
-            "id": "search-bidirectional",
-            "name": "双向搜索",
-            "desc": "Meet in the Middle 与双向 BFS —— 把指数级枚举砍掉一半。",
-            "children": []
           },
           {
             "id": "dp-basic",
@@ -525,12 +482,6 @@
                 "id": "dp-interval",
                 "name": "区间 DP",
                 "desc": "以区间长度为阶段的 DP，石子合并、括号匹配等模型。",
-                "children": []
-              },
-              {
-                "id": "dp-tree",
-                "name": "树形 DP 入门",
-                "desc": "树上背包、树的直径与重心、换根 DP 入门。",
                 "children": []
               }
             ]

@@ -1,0 +1,172 @@
+{
+  "id": "graph-tarjan-scc",
+  "name": "强连通分量 SCC",
+  "desc": "",
+  "visible": [
+    {
+      "id": "v01",
+      "type": "single",
+      "q": "强连通分量是指？",
+      "options": [
+        "有向图中任意两点互相可达的极大子图",
+        "无向图连通块",
+        "最短路径",
+        "生成树"
+      ],
+      "answer": 0,
+      "explain": "互相可达。"
+    },
+    {
+      "id": "v02",
+      "type": "judge",
+      "q": "Tarjan 算法可以求有向图的强连通分量。",
+      "answer": true,
+      "explain": "基于 DFS。"
+    },
+    {
+      "id": "v03",
+      "type": "single",
+      "q": "Tarjan 中 dfn 数组表示？",
+      "options": [
+        "DFS 访问时间戳",
+        "入度",
+        "出度",
+        "距离"
+      ],
+      "answer": 0,
+      "explain": "第一次访问的次序。"
+    },
+    {
+      "id": "v04",
+      "type": "single",
+      "q": "Tarjan 中 low 数组表示？",
+      "options": [
+        "能回溯到的最早时间戳",
+        "最小值",
+        "入度",
+        "距离"
+      ],
+      "answer": 0,
+      "explain": "通过后向边能到达的最早节点。"
+    },
+    {
+      "id": "v05",
+      "type": "judge",
+      "q": "dfn[u] == low[u] 时，u 是一个 SCC 的根。",
+      "answer": true,
+      "explain": "弹栈得到该分量。"
+    },
+    {
+      "id": "v06",
+      "type": "single",
+      "q": "Tarjan 求 SCC 时用什么数据结构？",
+      "options": [
+        "栈",
+        "队列",
+        "堆",
+        "并查集"
+      ],
+      "answer": 0,
+      "explain": "保存当前 DFS 路径。"
+    },
+    {
+      "id": "v07",
+      "type": "single",
+      "q": "Tarjan 求 SCC 的时间复杂度是？",
+      "options": [
+        "O(n+m)",
+        "O(n log n)",
+        "O(n²)",
+        "O(m log n)"
+      ],
+      "answer": 0,
+      "explain": "每个点每条边一次。"
+    },
+    {
+      "id": "v08",
+      "type": "judge",
+      "q": "缩点后得到的是 DAG。",
+      "answer": true,
+      "explain": "SCC 缩成点后无环。"
+    },
+    {
+      "id": "v09",
+      "type": "single",
+      "q": "缩点后常在 DAG 上做什么？",
+      "options": [
+        "DP",
+        "排序",
+        "二分",
+        "哈希"
+      ],
+      "answer": 0,
+      "explain": "如最长路、方案计数。"
+    },
+    {
+      "id": "v10",
+      "type": "single",
+      "q": "Tarjan 中，若 v 已在栈中，low[u] = ？",
+      "options": [
+        "min(low[u], dfn[v])",
+        "min(low[u], low[v])",
+        "dfn[v]",
+        "low[v]"
+      ],
+      "answer": 0,
+      "explain": "用 dfn[v] 更新。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "h01",
+      "type": "single",
+      "q": "Tarjan 求 SCC 时，若 v 未访问，递归后 low[u] = ？",
+      "options": [
+        "min(low[u], low[v])",
+        "min(low[u], dfn[v])",
+        "dfn[v]",
+        "low[v]"
+      ],
+      "answer": 0,
+      "explain": "用子节点的 low 更新。"
+    },
+    {
+      "id": "h02",
+      "type": "judge",
+      "q": "缩点后 DAG 上 DP 可以求「最多经过多少个 SCC」。",
+      "answer": true,
+      "explain": "经典应用。"
+    },
+    {
+      "id": "h03",
+      "type": "single",
+      "q": "Tarjan 也可以求无向图的割点和桥。",
+      "options": [
+        "正确",
+        "错误"
+      ],
+      "answer": 0,
+      "explain": "同一套 dfs 框架。"
+    },
+    {
+      "id": "h04",
+      "type": "single",
+      "q": "若图中存在 SCC，则？",
+      "options": [
+        "存在环",
+        "不存在环",
+        "一定是 DAG",
+        "一定是树"
+      ],
+      "answer": 0,
+      "explain": "SCC 内部有环。"
+    },
+    {
+      "id": "h05",
+      "type": "judge",
+      "q": "缩点后 DAG 上求最长路可以用拓扑排序 + DP。",
+      "answer": true,
+      "explain": "标准做法。"
+    }
+  ]
+}

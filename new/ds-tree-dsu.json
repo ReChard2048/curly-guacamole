@@ -1,0 +1,158 @@
+{
+  "id": "ds-tree-dsu",
+  "name": "并查集",
+  "visible": [
+    {
+      "id": "du-01",
+      "type": "single",
+      "q": "并查集主要支持哪两种操作？",
+      "options": [
+        "查找与合并",
+        "插入与删除",
+        "排序与查找",
+        "入栈与出栈"
+      ],
+      "answer": 0,
+      "explain": "find 查根，union 合并。"
+    },
+    {
+      "id": "du-02",
+      "type": "judge",
+      "q": "并查集可以高效判断两个元素是否在同一集合。",
+      "answer": true,
+      "explain": "比较 find 的根是否相同。"
+    },
+    {
+      "id": "du-03",
+      "type": "single",
+      "q": "路径压缩的作用是？",
+      "options": [
+        "把路径上的节点直接连到根",
+        "删除节点",
+        "增加节点",
+        "排序"
+      ],
+      "answer": 0,
+      "explain": "降低树高，加速后续查找。"
+    },
+    {
+      "id": "du-04",
+      "type": "single",
+      "q": "按秩合并的作用是？",
+      "options": [
+        "把小树合并到大树上",
+        "把大树合并到小树上",
+        "随机合并",
+        "不合并"
+      ],
+      "answer": 0,
+      "explain": "保持树高较小。"
+    },
+    {
+      "id": "du-05",
+      "type": "judge",
+      "q": "路径压缩 + 按秩合并后，并查集单次操作近似 O(1)。",
+      "answer": true,
+      "explain": "反阿克曼函数，近似常数。"
+    },
+    {
+      "id": "du-06",
+      "type": "single",
+      "q": "并查集初始化时，每个元素的父节点是？",
+      "options": ["0", "自己", "-1", "n"],
+      "answer": 1,
+      "explain": "每个元素自成一个集合。"
+    },
+    {
+      "id": "du-07",
+      "type": "single",
+      "q": "find 操作的递归终止条件是？",
+      "options": [
+        "fa[x] == x",
+        "fa[x] == 0",
+        "x == 0",
+        "fa[x] == -1"
+      ],
+      "answer": 0,
+      "explain": "父节点是自己即为根。"
+    },
+    {
+      "id": "du-08",
+      "type": "judge",
+      "q": "并查集可以处理动态连通性问题。",
+      "answer": true,
+      "explain": "经典应用。"
+    },
+    {
+      "id": "du-09",
+      "type": "single",
+      "q": "Kruskal 算法中用什么判断加边是否成环？",
+      "options": ["并查集", "栈", "队列", "堆"],
+      "answer": 0,
+      "explain": "两端点已在同一集合则成环。"
+    },
+    {
+      "id": "du-10",
+      "type": "single",
+      "q": "并查集的空间复杂度是？",
+      "options": ["O(1)", "O(n)", "O(n²)", "O(log n)"],
+      "answer": 1,
+      "explain": "一个父节点数组。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "du-h1",
+      "type": "single",
+      "q": "带权并查集可以维护什么额外信息？",
+      "options": [
+        "节点到根的距离/关系",
+        "节点值",
+        "节点个数",
+        "节点颜色"
+      ],
+      "answer": 0,
+      "explain": "如食物链问题中维护与根的关系。"
+    },
+    {
+      "id": "du-h2",
+      "type": "judge",
+      "q": "并查集支持删除操作。",
+      "answer": false,
+      "explain": "普通并查集不支持删除，需要可持久化或特殊技巧。"
+    },
+    {
+      "id": "du-h3",
+      "type": "single",
+      "q": "路径压缩的递归写法 `find(x) { return fa[x]==x ? x : fa[x]=find(fa[x]); }` 中，赋值的作用是？",
+      "options": [
+        "路径压缩",
+        "删除节点",
+        "增加节点",
+        "排序"
+      ],
+      "answer": 0,
+      "explain": "回溯时把路径上节点直接连到根。"
+    },
+    {
+      "id": "du-h4",
+      "type": "single",
+      "q": "Kruskal 重构树中，并查集合并时新建节点的权值是？",
+      "options": [
+        "当前边的边权",
+        "两端点权值和",
+        "0",
+        "1"
+      ],
+      "answer": 0,
+      "explain": "重构树节点代表边权。"
+    },
+    {
+      "id": "du-h5",
+      "type": "judge",
+      "q": "并查集可以判断无向图是否有环。",
+      "answer": true,
+      "explain": "加边时两端点已连通则成环。"
+    }
+  ]
+}

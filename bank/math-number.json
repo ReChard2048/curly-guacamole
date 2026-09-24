@@ -1,6 +1,6 @@
 {
-  "id": "simple-math",
-  "name": "简单数学",
+  "id": "math-number",
+  "name": "数论基础",
   "desc": "快速幂、GCD / LCM、埃氏筛、简单组合计数。",
   "visible": [
     {
@@ -85,19 +85,6 @@
     },
     {
       "id": "v09",
-      "type": "single",
-      "q": "C(n, 0) 的值是？",
-      "options": [
-        "1",
-        "0",
-        "n",
-        "n!"
-      ],
-      "answer": 0,
-      "explain": "从 n 个里选 0 个，只有一种方案。"
-    },
-    {
-      "id": "v10",
       "type": "judge",
       "q": "gcd(a, b) 一定整除 lcm(a, b)。",
       "answer": true,

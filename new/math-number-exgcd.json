@@ -1,0 +1,148 @@
+{
+  "id": "math-number-exgcd",
+  "name": "扩展欧几里得与逆元",
+  "visible": [
+    {
+      "id": "ex-01",
+      "type": "single",
+      "q": "扩展欧几里得算法可以求解？",
+      "options": [
+        "ax + by = gcd(a,b) 的一组整数解",
+        "a + b",
+        "a * b",
+        "a / b"
+      ],
+      "answer": 0,
+      "explain": "exgcd 求裴蜀等式的一组解。"
+    },
+    {
+      "id": "ex-02",
+      "type": "judge",
+      "q": "裴蜀定理：ax + by = c 有整数解当且仅当 gcd(a,b) | c。",
+      "answer": true,
+      "explain": "这是丢番图方程有解的条件。"
+    },
+    {
+      "id": "ex-03",
+      "type": "single",
+      "q": "模 p 下 a 的乘法逆元 x 满足？",
+      "options": [
+        "a + x ≡ 1 (mod p)",
+        "a * x ≡ 1 (mod p)",
+        "a - x ≡ 1 (mod p)",
+        "a / x ≡ 1 (mod p)"
+      ],
+      "answer": 1,
+      "explain": "逆元是模意义下的乘法倒数。"
+    },
+    {
+      "id": "ex-04",
+      "type": "single",
+      "q": "当 p 为质数且 gcd(a,p)=1 时，a 的逆元可用什么定理求？",
+      "options": [
+        "费马小定理 a^(p-1) ≡ 1",
+        "欧拉定理 a^φ(p) ≡ 1",
+        "威尔逊定理",
+        "中国剩余定理"
+      ],
+      "answer": 0,
+      "explain": "逆元为 a^(p-2) mod p。"
+    },
+    {
+      "id": "ex-05",
+      "type": "judge",
+      "q": "exgcd 也可以用来求模逆元。",
+      "answer": true,
+      "explain": "解 ax + py = 1，x 即为逆元。"
+    },
+    {
+      "id": "ex-06",
+      "type": "single",
+      "q": "exgcd 的递归终止条件是？",
+      "options": ["b == 0", "a == 0", "a == b", "b == 1"],
+      "answer": 0,
+      "explain": "b=0 时 gcd=a，x=1, y=0。"
+    },
+    {
+      "id": "ex-07",
+      "type": "single",
+      "q": "exgcd 中回溯时 x, y 的更新公式是？",
+      "options": [
+        "x = y1, y = x1 - (a/b) * y1",
+        "x = x1, y = y1",
+        "x = y1, y = x1",
+        "x = x1 - y1, y = y1"
+      ],
+      "answer": 0,
+      "explain": "由 gcd(a,b)=gcd(b,a%b) 推导。"
+    },
+    {
+      "id": "ex-08",
+      "type": "judge",
+      "q": "若 gcd(a,p) ≠ 1，a 在模 p 下没有逆元。",
+      "answer": true,
+      "explain": "逆元存在的充要条件是互质。"
+    },
+    {
+      "id": "ex-09",
+      "type": "single",
+      "q": "费马小定理求逆元要求模数 p 是？",
+      "options": ["质数", "偶数", "合数", "任意"],
+      "answer": 0,
+      "explain": "p 为质数时 a^(p-1) ≡ 1 (mod p)。"
+    },
+    {
+      "id": "ex-10",
+      "type": "single",
+      "q": "exgcd 的时间复杂度与什么相同？",
+      "options": [
+        "普通欧几里得算法",
+        "快速幂",
+        "线性筛",
+        "排序"
+      ],
+      "answer": 0,
+      "explain": "都是 O(log min(a,b))。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "ex-h1",
+      "type": "single",
+      "q": "用 exgcd 求 3x ≡ 1 (mod 7) 的解，x = ？",
+      "options": ["2", "3", "5", "6"],
+      "answer": 2,
+      "explain": "3*5=15≡1 (mod 7)。"
+    },
+    {
+      "id": "ex-h2",
+      "type": "judge",
+      "q": "exgcd 求出的解是唯一的。",
+      "answer": false,
+      "explain": "通解为 x + k*(b/g)，有无穷多组。"
+    },
+    {
+      "id": "ex-h3",
+      "type": "single",
+      "q": "若 ax ≡ c (mod m) 且 gcd(a,m)=g，有解的条件是？",
+      "options": ["g | c", "g | a", "g | m", "c = 0"],
+      "answer": 0,
+      "explain": "线性同余方程有解当且仅当 g 整除 c。"
+    },
+    {
+      "id": "ex-h4",
+      "type": "single",
+      "q": "欧拉定理：若 gcd(a,m)=1，则 a^φ(m) ≡ ？",
+      "options": ["0", "1", "-1", "a"],
+      "answer": 1,
+      "explain": "a^φ(m) ≡ 1 (mod m)。"
+    },
+    {
+      "id": "ex-h5",
+      "type": "judge",
+      "q": "求逆元时若模数不是质数，只能用 exgcd，不能用费马小定理。",
+      "answer": true,
+      "explain": "费马小定理要求模数为质数。"
+    }
+  ]
+}

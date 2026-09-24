@@ -1,0 +1,127 @@
+{
+  "id": "math-combin",
+  "name": "组合数学初步",
+  "visible": [
+    {
+      "id": "cb-01",
+      "type": "single",
+      "q": "从 n 个不同元素中取 m 个的组合数记作？",
+      "options": ["A(n,m)", "C(n,m)", "P(n,m)", "n!"],
+      "answer": 1,
+      "explain": "C(n,m) = n! / (m!(n-m)!)。"
+    },
+    {
+      "id": "cb-02",
+      "type": "judge",
+      "q": "C(n,m) = C(n, n-m)。",
+      "answer": true,
+      "explain": "组合数的对称性。"
+    },
+    {
+      "id": "cb-03",
+      "type": "single",
+      "q": "杨辉三角第 n 行第 m 个数对应？",
+      "options": ["C(n,m)", "n^m", "n!", "m^n"],
+      "answer": 0,
+      "explain": "杨辉三角即组合数表。"
+    },
+    {
+      "id": "cb-04",
+      "type": "single",
+      "q": "C(n,m) = C(n-1,m-1) + ？",
+      "options": ["C(n-1,m)", "C(n,m-1)", "C(n-1,m+1)", "C(n+1,m)"],
+      "answer": 0,
+      "explain": "组合数的递推（帕斯卡公式）。"
+    },
+    {
+      "id": "cb-05",
+      "type": "judge",
+      "q": "加法原理：完成一件事有若干类互斥方法，总方法数等于各类之和。",
+      "answer": true,
+      "explain": "分类计数用加法。"
+    },
+    {
+      "id": "cb-06",
+      "type": "judge",
+      "q": "乘法原理：完成一件事需分若干步，总方法数等于各步之积。",
+      "answer": true,
+      "explain": "分步计数用乘法。"
+    },
+    {
+      "id": "cb-07",
+      "type": "single",
+      "q": "C(n,0) = ？",
+      "options": ["0", "1", "n", "n!"],
+      "answer": 1,
+      "explain": "空集只有一种。"
+    },
+    {
+      "id": "cb-08",
+      "type": "single",
+      "q": "C(n,1) = ？",
+      "options": ["1", "n", "n-1", "n!"],
+      "answer": 1,
+      "explain": "从 n 个中取 1 个有 n 种。"
+    },
+    {
+      "id": "cb-09",
+      "type": "single",
+      "q": "二项式定理 (a+b)^n 的展开式中，a^k b^(n-k) 的系数是？",
+      "options": ["C(n,k)", "C(n,n-k)", "两者相等", "n^k"],
+      "answer": 2,
+      "explain": "C(n,k) = C(n,n-k)，两者相等。"
+    },
+    {
+      "id": "cb-10",
+      "type": "judge",
+      "q": "容斥原理用于计算多个集合并集的大小。",
+      "answer": true,
+      "explain": "加加减减，去重。"
+    }
+  ],
+  "hidden": [
+    {
+      "id": "cb-h1",
+      "type": "single",
+      "q": "两个集合的容斥公式 |A∪B| = ？",
+      "options": [
+        "|A| + |B|",
+        "|A| + |B| - |A∩B|",
+        "|A| - |B|",
+        "|A∩B|"
+      ],
+      "answer": 1,
+      "explain": "减去重复计算的部分。"
+    },
+    {
+      "id": "cb-h2",
+      "type": "single",
+      "q": "三个集合的容斥公式中，两两交集前面符号是？",
+      "options": ["加", "减", "乘", "除"],
+      "answer": 1,
+      "explain": "奇加偶减，两两交集为减。"
+    },
+    {
+      "id": "cb-h3",
+      "type": "judge",
+      "q": "C(n,m) 在模质数 p 下可以用预处理阶乘和逆元 O(1) 计算。",
+      "answer": true,
+      "explain": "预处理 fac 和 invfac。"
+    },
+    {
+      "id": "cb-h4",
+      "type": "single",
+      "q": "n 个元素的排列数 A(n,n) = ？",
+      "options": ["n", "n²", "n!", "2^n"],
+      "answer": 2,
+      "explain": "全排列数为 n!。"
+    },
+    {
+      "id": "cb-h5",
+      "type": "judge",
+      "q": "可重组合（允许重复取）的公式是 C(n+m-1, m)。",
+      "answer": true,
+      "explain": "隔板法推导。"
+    }
+  ]
+}
